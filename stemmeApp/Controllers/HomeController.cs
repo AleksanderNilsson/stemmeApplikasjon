@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using stemmeApp.Models;
+using System.Data;
+using System.Configuration;
+using MySql.Data.MySqlClient;
+
 
 namespace stemmeApp.Controllers
 {
@@ -32,8 +36,9 @@ namespace stemmeApp.Controllers
         {
             ViewBag.Message = "Nominer en bruker.";
 
-            return View();
+            return View();   
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Nominer(NominerModel Model)
@@ -44,6 +49,39 @@ namespace stemmeApp.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult Test()
+        {
+            ViewBag.Message = "Test side.";
+            
+            List<test> eposter = new List<test>();
+            
+            string constr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            using (MySqlConnection con = new MySqlConnection(constr))
+
+            {
+                string query = "SELECT email FROM users";
+                using (MySqlCommand cmd = new MySqlCommand(query))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    using (MySqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            eposter.Add(new test
+                            {
+                                Epost = (sdr["email"].ToString())
+                                
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+
+            return View(eposter);
         }
     }
 }
