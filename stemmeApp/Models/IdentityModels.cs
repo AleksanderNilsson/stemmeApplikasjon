@@ -16,6 +16,7 @@ namespace stemmeApp.Models
             // Add custom user claims here
             return userIdentity;
         }
+        
     }
 
     public class ApplicationDbContext : MySQLDatabase

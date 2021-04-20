@@ -22,20 +22,31 @@ namespace AspNet.Identity.MySQL
         /// </summary>
         /// <param name="userName"></param>
         public IdentityUser(string userName)
+
             : this()
         {
             UserName = userName;
+            
         }
+
+        
 
         /// <summary>
         /// User ID
         /// </summary>
         public string Id { get; set; }
 
+        public string FirstName { get; set; }
+
         /// <summary>
-        /// User's name
+        /// User's firstname
         /// </summary>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// User's lastname
+        /// </summary>
+        public string LastName { get; set; }
 
         /// <summary>
         ///     Email
@@ -86,5 +97,6 @@ namespace AspNet.Identity.MySQL
         ///     Used to record failures for the purposes of lockout
         /// </summary>
         public virtual int AccessFailedCount { get; set; }
+        
     }
 }

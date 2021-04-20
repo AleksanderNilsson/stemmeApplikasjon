@@ -69,6 +69,15 @@ namespace stemmeApp.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Required]
+        [DataType(DataType.Text, ErrorMessage = "Firstname is required")]
+        [Display(Name = "Firstname")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [DataType(DataType.Text, ErrorMessage = "Lastname is required")]
+        [Display(Name = "Lastname")]
+        public string LastName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

@@ -481,8 +481,9 @@ namespace AspNet.Identity.MySQL
 
         }
 
+       
         /// <summary>
-        /// Get email from user
+        /// Get Firstname
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -490,6 +491,7 @@ namespace AspNet.Identity.MySQL
         {
             return Task.FromResult(user.Email);
         }
+
 
         /// <summary>
         /// Get if user email is confirmed
