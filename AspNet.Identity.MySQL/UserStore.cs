@@ -481,8 +481,16 @@ namespace AspNet.Identity.MySQL
 
         }
 
-       
-        
+
+        /// <summary>
+        /// Get email
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public Task<string> GetEmailAsync(TUser user)
+        {
+            return Task.FromResult(user.Email);
+        }
 
 
         /// <summary>
