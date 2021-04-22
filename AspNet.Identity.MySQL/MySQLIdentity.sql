@@ -18,7 +18,7 @@ CREATE TABLE `users` (
   `LockoutEndDateUtc` datetime DEFAULT NULL,
   `LockoutEnabled` tinyint(1) NOT NULL,
   `AccessFailedCount` int(11) NOT NULL,
-  `UserName` varchar(256) NOT NULL,
+  `UserName` varchar(256) NOT NULL UNIQUE,
   PRIMARY KEY (`Id`)
 );
 
@@ -52,13 +52,12 @@ CREATE TABLE `userroles` (
 ) ;
 
 CREATE TABLE candidate(
-Id VARCHAR(256),
 UserName VARCHAR(256) NOT NULL,
 Faculty VARCHAR(100),
 Institute VARCHAR(100),
 Info LONGTEXT,
 Picture INT UNIQUE,
-Primary key (Id),
+Primary key (username),
 foreign key (UserName) references users(UserName)
 );
 
