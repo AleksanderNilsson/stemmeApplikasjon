@@ -7,7 +7,8 @@ using stemmeApp.Models;
 using System.Data;
 using System.Configuration;
 using MySql.Data.MySqlClient;
-
+using stemmeApp.Data;
+using Microsoft.AspNet.Identity;
 
 namespace stemmeApp.Controllers
 {
@@ -32,7 +33,7 @@ namespace stemmeApp.Controllers
             return View();
         }
 
-        public ActionResult Nominer()
+        public ActionResult Candidate()
         {
             ViewBag.Message = "Nominer en bruker.";
 
@@ -41,10 +42,12 @@ namespace stemmeApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Nominer(NominerModel Model)
+        public ActionResult Candidate(CandidateModel Model)
         {
             if (ModelState.IsValid) 
             {
+                DbQuery db = new DbQuery();
+                db.InsertNewNominee(Model.Epost, Model.info);
                 return RedirectToAction("Index");
             }
 
@@ -54,34 +57,16 @@ namespace stemmeApp.Controllers
         public ActionResult Test()
         {
             ViewBag.Message = "Test side.";
-            
-            List<test> eposter = new List<test>();
-            
-            string constr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            using (MySqlConnection con = new MySqlConnection(constr))
 
-            {
-                string query = "SELECT email FROM users";
-                using (MySqlCommand cmd = new MySqlCommand(query))
-                {
-                    cmd.Connection = con;
-                    con.Open();
-                    using (MySqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        while (sdr.Read())
-                        {
-                            eposter.Add(new test
-                            {
-                                Epost = (sdr["email"].ToString())
-                                
-                            });
-                        }
-                    }
-                    con.Close();
-                }
-            }
 
-            return View(eposter);
+
+
+                string currentUser = User.Identity.GetUserName();
+                DbQuery db = new DbQuery();
+                ViewBag.fornavn = db.GetFirstName("123@test.no");
+                ViewBag.username = currentUser;
+
+            return View();
         }
     }
 }

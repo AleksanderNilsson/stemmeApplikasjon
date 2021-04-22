@@ -8,6 +8,8 @@ CREATE TABLE `users` (
   `Id` varchar(128) NOT NULL,
   `Email` varchar(256) DEFAULT NULL,
   `EmailConfirmed` tinyint(1) NOT NULL,
+  `Firstname` varchar(100) NOT NULL,
+  `Lastname` varchar(100) NOT NULL,
   `PasswordHash` longtext,
   `SecurityStamp` longtext,
   `PhoneNumber` longtext,

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace stemmeApp.Models
 {
-    public class NominerModel
+    public class CandidateModel
     {
         [DataType(DataType.EmailAddress)]
         public string Epost { get; set; }
