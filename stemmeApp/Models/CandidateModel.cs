@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace stemmeApp.Models
 {
     public class CandidateModel
     {
+        [Required(ErrorMessage = "The candidate needs to have a username")]
         [DataType(DataType.EmailAddress)]
-        public string Epost { get; set; }
-        [Required(ErrorMessage = "Kandidaten må ha ett fornavn")]
-        public string Fornavn { get; set; }
-        [Required(ErrorMessage = "Kandidaten må ha ett etternavn")]
-        public string Etternavn { get; set; }
-        [Display(Name = "Skriv litt om kandidaten")]
+        public string Username { get; set; }
+        [Required(ErrorMessage = "The faculty the candidate belongs to")]
+        public string Faculty { get; set; }
+        [Required(ErrorMessage = "The institite the candidate belongs to")]
+        public string Institute { get; set; }
+        [Display(Name = "Write about the candidate")]
         [Required(ErrorMessage = "Du må skrive litt om kandidaten")]
-        public string info { get; set; }
-        [DataType(DataType.Upload)]
-        public long bilde { get; set; }
-
+        public string Info { get; set; }
+        /*[DataType(DataType.Upload)]
+        [Display(Name = "Upload image")]
+        [Required(ErrorMessage = "Please choose image to upload.")]*/
+        
+        
 
     }
 }

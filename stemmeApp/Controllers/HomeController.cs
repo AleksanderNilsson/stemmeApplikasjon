@@ -9,6 +9,7 @@ using System.Configuration;
 using MySql.Data.MySqlClient;
 using stemmeApp.Data;
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace stemmeApp.Controllers
 {
@@ -42,12 +43,35 @@ namespace stemmeApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Candidate(CandidateModel Model)
+        public ActionResult Candidate(CandidateModel Model, HttpPostedFileBase file)
         {
-            if (ModelState.IsValid) 
+            DbQuery db = new DbQuery();
+
+            //Checks if username exists
+            if (!db.CheckIfUserExists(Model.Username))
             {
-                DbQuery db = new DbQuery();
-                db.InsertNewNominee(Model.Epost, Model.info);
+                ModelState.AddModelError("username", "Nobody with that username exists, the person you want to add as a candidate need to register as an user");
+            }
+
+
+            //Checks if file is an image
+            if (!file.ContentType.Contains("image"))
+            {             
+                ModelState.AddModelError("", "File is not an image, you can only upload images");
+            }
+
+
+            if (ModelState.IsValid) 
+            {                            
+                var extension = Path.GetExtension(file.FileName);               
+                var fileName = Model.Username + extension;
+                var path = Path.Combine(Server.MapPath("~/Pictures/"), fileName);
+                file.SaveAs(path);
+                int PictureId = db.CheckForAvailableImageId();
+                string dbPath = "Pictures/" + fileName;
+                db.InsertNewCandidate(Model.Username, Model.Faculty, Model.Institute, Model.Info, PictureId);
+                db.InsertNewImage(PictureId, dbPath, "test");
+
                 return RedirectToAction("Index");
             }
 
@@ -63,7 +87,7 @@ namespace stemmeApp.Controllers
 
                 string currentUser = User.Identity.GetUserName();
                 DbQuery db = new DbQuery();
-                ViewBag.fornavn = db.GetFirstName("123@test.no");
+                
                 ViewBag.username = currentUser;
 
             return View();
