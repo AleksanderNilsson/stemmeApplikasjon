@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -382,6 +383,13 @@ namespace stemmeApp.Controllers
             RemoveLoginSuccess,
             RemovePhoneSuccess,
             Error
+        }
+
+
+        public ActionResult ChangeCandidateInfo()
+        {
+            List<CandidateModel> listuser = new List<CandidateModel>(); 
+            return View();
         }
 
 #endregion

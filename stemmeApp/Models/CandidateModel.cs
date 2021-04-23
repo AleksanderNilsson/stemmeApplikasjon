@@ -11,13 +11,13 @@ namespace stemmeApp.Models
     {
         [Required(ErrorMessage = "The candidate needs to have a username")]
         [DataType(DataType.EmailAddress)]
-        public string Username { get; set; }
+        public string Email { get; set; }
         [Required(ErrorMessage = "The faculty the candidate belongs to")]
         public string Faculty { get; set; }
         [Required(ErrorMessage = "The institite the candidate belongs to")]
         public string Institute { get; set; }
         [Display(Name = "Write about the candidate")]
-        [Required(ErrorMessage = "Du må skrive litt om kandidaten")]
+        [Required(ErrorMessage = "You need to write about the candidate")]
         public string Info { get; set; }
         /*[DataType(DataType.Upload)]
         [Display(Name = "Upload image")]

@@ -47,10 +47,17 @@ namespace stemmeApp.Controllers
         {
             DbQuery db = new DbQuery();
 
-            //Checks if username exists
-            if (!db.CheckIfUserExists(Model.Username))
+            //Checks if the inserted username belongs to a user
+            if (!db.CheckIfUserExists(Model.Email))
             {
                 ModelState.AddModelError("username", "Nobody with that username exists, the person you want to add as a candidate need to register as an user");
+            }
+
+
+            //Checks if the inserted username already is a candidate
+            if (db.CheckIfCandidateExists(Model.Email))
+            {
+                ModelState.AddModelError("username", "The person you are trying to add as a candidate already exists");
             }
 
 
@@ -64,12 +71,12 @@ namespace stemmeApp.Controllers
             if (ModelState.IsValid) 
             {                            
                 var extension = Path.GetExtension(file.FileName);               
-                var fileName = Model.Username + extension;
-                var path = Path.Combine(Server.MapPath("~/Pictures/"), fileName);
+                var fileName = Model.Email + extension;
+                var path = Path.Combine(Server.MapPath("~/content/Pictures/"), fileName);
                 file.SaveAs(path);
                 int PictureId = db.CheckForAvailableImageId();
                 string dbPath = "Pictures/" + fileName;
-                db.InsertNewCandidate(Model.Username, Model.Faculty, Model.Institute, Model.Info, PictureId);
+                db.InsertNewCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info, PictureId);
                 db.InsertNewImage(PictureId, dbPath, "test");
 
                 return RedirectToAction("Index");

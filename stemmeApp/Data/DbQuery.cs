@@ -12,19 +12,39 @@ namespace stemmeApp.Data
         
 
         /// <summary>
-        /// Checks if a username exists in the database
+        /// Checks if a username exists in the users table
         /// </summary>
         public Boolean CheckIfUserExists(string Username)
         {
             Boolean UserExists;
             string commandText = "Select username from Users where username = @username";
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
-            String fornavn = _database.GetStrValue(commandText, parameters);
-            if (fornavn == null)
+            String ReturnValue = _database.GetStrValue(commandText, parameters);
+            if (ReturnValue == null)
             {
                 UserExists = false;
             }
             else {
+                UserExists = true;
+            }
+            return UserExists;
+        }
+
+        /// <summary>
+        /// Checks if a username exists in the candidate table
+        /// </summary>
+        public Boolean CheckIfCandidateExists(string Username)
+        {
+            Boolean UserExists;
+            string commandText = "Select username from candidate where username = @username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            String ReturnValue = _database.GetStrValue(commandText, parameters);
+            if (ReturnValue == null)
+            {
+                UserExists = false;
+            }
+            else
+            {
                 UserExists = true;
             }
             return UserExists;
@@ -82,6 +102,16 @@ namespace stemmeApp.Data
                 random = r.Next(1, 99999);
             }
             return random;
+        }
+
+        /// <summary>
+        /// Returns an entry from the candidate table
+        /// </summary>
+        public string GetCandidate(string username) {
+            string commandText = "Select username from candidate where username = @username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+            String ReturnValue = _database.GetStrValue(commandText, parameters);
+            return commandText;
         }
 
 
