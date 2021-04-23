@@ -27,6 +27,13 @@ namespace stemmeApp.Controllers
             return View();
         }
 
+        public ActionResult Vote()
+        {
+            ViewBag.Message = "Vote for a candidate";
+
+            return View();
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
