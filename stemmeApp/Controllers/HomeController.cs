@@ -36,7 +36,7 @@ namespace stemmeApp.Controllers
 
         public ActionResult Candidate()
         {
-            ViewBag.Message = "Nominer en bruker.";
+            ViewBag.Message = "Nominate a user!";
 
             return View();   
         }
