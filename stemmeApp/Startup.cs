@@ -10,5 +10,6 @@ namespace stemmeApp
         {
             ConfigureAuth(app);
         }
+       
     }
 }

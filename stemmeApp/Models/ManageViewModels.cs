@@ -13,7 +13,23 @@ namespace stemmeApp.Models
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
     }
+    public class ChangeUserInfoModel
+    {
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
 
+        [Display(Name = "Firstname")]
+        public string FirstName { get; set; }
+        [Display(Name = "Lastname")]
+        public string LastName { get; set; }
+        [Display(Name = "Faculty")]
+        public string Faculty { get; set; }
+        [Display(Name = "Institute")]
+        public string Institute { get; set; }
+        [Display(Name = "Info")]
+        public string Info { get; set; }
+    }
     public class ManageLoginsViewModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }
@@ -53,7 +69,7 @@ namespace stemmeApp.Models
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
+        [Display(Name = "Confirm  new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using AspNet.Identity.MySQL;
+using System;
 
 namespace stemmeApp.Models
 {
@@ -16,7 +17,11 @@ namespace stemmeApp.Models
             // Add custom user claims here
             return userIdentity;
         }
-        
+
+        public static implicit operator string(ApplicationUser v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ApplicationDbContext : MySQLDatabase

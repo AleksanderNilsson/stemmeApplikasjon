@@ -50,7 +50,23 @@ namespace stemmeApp.Controllers
                 _userManager = value;
             }
         }
+        //private async Task LoadAsync(ApplicationUser user)
+        //{
+        //    var email = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //    var firstName = user.FirstName;
+        //    var lastName = user.LastName;
+        //    var faculty = user.Faculty;
+        //    var institute = user.Institute;
+        //    Input = new ChangeUserInfoModel
+        //    {
+        //        Email = email,
+        //        FirstName = firstName,
+        //        LastName = lastName,
+        //        Faculty = faculty,
+        //        Institute = institute
+        //    };
 
+        //}
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
