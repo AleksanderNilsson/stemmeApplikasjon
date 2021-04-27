@@ -86,5 +86,12 @@
          
 
         </dd>
+        @if (Model.IsCandidate)
+        {
+        <dt>Candidate:</dt>
+        <dd>
+            [@Html.ActionLink("Change relevant candidate information about yourself", "ChangeCandidateInfo")]
+        </dd>
+        }
     </dl>
 </div>

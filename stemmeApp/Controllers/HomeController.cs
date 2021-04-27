@@ -59,14 +59,14 @@ namespace stemmeApp.Controllers
             //Checks if the inserted username belongs to a user
             if (!db.CheckIfUserExists(Model.Email))
             {
-                ModelState.AddModelError("username", "Nobody with that username exists, the person you want to add as a candidate need to register as an user");
+                ModelState.AddModelError("email", "Nobody with that username exists, the person you want to add as a candidate need to register as an user");
             }
 
 
             //Checks if the inserted username already is a candidate
             if (db.CheckIfCandidateExists(Model.Email))
             {
-                ModelState.AddModelError("username", "The person you are trying to add as a candidate already exists");
+                ModelState.AddModelError("email", "The person you are trying to add as a candidate already exists");
             }
 
 

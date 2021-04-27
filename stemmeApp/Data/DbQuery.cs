@@ -1,4 +1,5 @@
 ﻿using AspNet.Identity.MySQL;
+using stemmeApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,11 +108,39 @@ namespace stemmeApp.Data
         /// <summary>
         /// Returns an entry from the candidate table
         /// </summary>
-        public string GetCandidate(string username) {
-            string commandText = "Select username from candidate where username = @username";
+         public List<CandidateModel> GetCandidate(string username) {
+            List<CandidateModel> ReturnList = new List<CandidateModel>();
+            string commandText = "Select username, faculty, institute, info from candidate where username = @username";
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-            String ReturnValue = _database.GetStrValue(commandText, parameters);
-            return commandText;
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                ReturnList.Add(new CandidateModel()
+                {
+                    Email = rows[0]["username"].ToString(),
+                    Faculty = rows[0]["faculty"].ToString(),
+                    Institute = rows[0]["institute"].ToString(),
+                    Info = rows[0]["info"].ToString(),
+                });
+            }
+            catch (ArgumentOutOfRangeException e) { 
+            }          
+            return ReturnList;
+        }
+
+        /// <summary>
+        /// Updates an entry in the candidate table
+        /// </summary>
+        
+        public void UpdateCandidate(string username, string faculty, string institute, string info)
+        {
+            string commandText = @"Update candidate SET faculty=faculty, institute=@institute, info=@info WHERE username=@username";       
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@username", username);
+            parameters.Add("@faculty", faculty);
+            parameters.Add("@institute", institute);
+            parameters.Add("@info", info);
+            _database.Execute(commandText, parameters);
         }
 
 

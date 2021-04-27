@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using stemmeApp.Data;
 using stemmeApp.Models;
 
 namespace stemmeApp.Controllers
@@ -71,6 +73,7 @@ namespace stemmeApp.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            DbQuery db = new DbQuery();
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -87,7 +90,9 @@ namespace stemmeApp.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                IsCandidate = db.CheckIfCandidateExists(User.Identity.GetUserName())
+
             };
             return View(model);
         }
@@ -404,8 +409,31 @@ namespace stemmeApp.Controllers
 
         public ActionResult ChangeCandidateInfo()
         {
-            List<CandidateModel> listuser = new List<CandidateModel>(); 
-            return View();
+            string currentUser = User.Identity.GetUserName();
+            DbQuery db = new DbQuery();
+            var rs = db.GetCandidate(currentUser);
+            
+            CandidateModel Person = new CandidateModel();
+            try
+            {
+                Person = rs[0];
+            }
+            catch(ArgumentOutOfRangeException e)
+            {
+                return RedirectToAction("Index"); 
+            }
+            
+            return View(Person);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeCandidateInfo(CandidateModel Model) {
+            DbQuery db = new DbQuery();
+            if (Model.Email != User.Identity.GetUserName()) {
+                ModelState.AddModelError("email", "You cannot change your email");           
+            }
+            db.UpdateCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info);
+            return RedirectToAction("Index");
         }
 
 #endregion
