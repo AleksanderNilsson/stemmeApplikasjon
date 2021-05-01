@@ -18,14 +18,18 @@ namespace stemmeApp.Models
             return userIdentity;
         }
 
-        public static implicit operator string(ApplicationUser v)
-        {
-            throw new NotImplementedException();
-        }
+        //public static implicit operator string(ApplicationUser v)
+        //{
+        //    //throw new NotImplementedException();
+        //}
     }
 
     public class ApplicationDbContext : MySQLDatabase
     {
+        public ApplicationDbContext()
+        {
+        }
+
         public ApplicationDbContext(string connectionName)
             : base(connectionName)
         {

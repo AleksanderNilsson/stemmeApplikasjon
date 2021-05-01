@@ -123,7 +123,7 @@ namespace stemmeApp.Data
                     Info = rows[0]["info"].ToString(),
                 });
             }
-            catch (ArgumentOutOfRangeException e) { 
+            catch (ArgumentOutOfRangeException) { 
             }          
             return ReturnList;
         }
@@ -144,7 +144,7 @@ namespace stemmeApp.Data
                     info = rows[0]["info"].ToString(),
                 });
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException)
             {
             }
             return ReturnList;
@@ -164,7 +164,44 @@ namespace stemmeApp.Data
             parameters.Add("@info", info);
             _database.Execute(commandText, parameters);
         }
-
-
+        public string AdminGetUserDetails(string username)
+        {
+            string commandText = "Select username from candidate where username = @username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+            String ReturnValue = _database.GetStrValue(commandText, parameters);
+            return commandText;
+        }
+        public List <AdminUserViewModel> AdminGetUser(string username)
+        {
+            string commandText = @"SELECT * FROM users";
+            List<AdminUserViewModel> ReturnList = new List<AdminUserViewModel>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+            var RV = _database.Query(commandText, parameters);
+            try
+            {
+                ReturnList.Add(new AdminUserViewModel()
+                {
+                    Id = RV[0]["Id"].ToString(),
+                    UserName = RV[0]["UserName"].ToString(),
+                    Email = RV[0]["Email"].ToString(),
+                });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+        public void AdminUpdateUser(string UserName, string Email, string FirstName, string LastName, string PhoneNumber)
+        {
+            string commandText = @"UPDATE users (UserName, Email, FirstName, LastName, PhoneNumber)
+                VALUES (@username, @Email, @FirstName, @LastName, @PhoneNumber)";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@UserName", UserName);
+            parameters.Add("@Email", Email);
+            parameters.Add("@FirstName", FirstName);
+            parameters.Add("@LastName", LastName);
+            parameters.Add("@PhoneNumber", PhoneNumber);
+            _database.Execute(commandText, parameters);
+        }
     }
 }

@@ -14,7 +14,6 @@ using System.IO;
 namespace stemmeApp.Controllers
 {
     // [Authorize] 
-    // ^^^^^^^^^^^ KOMMENTERT UT FORDI DEN GJØR SLIK AT MAN IKKE KAN BESØKE NOEN SIDER UNDER HOME-CONTROLLER UTEN Å VÆRE LOGGET INN
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -110,11 +109,5 @@ namespace stemmeApp.Controllers
             return View();
         }
 
-        public ActionResult AdminModel()
-        {
-            ViewBag.Message = "Admin Panel";
-
-            return View();
-        }
     }
 }

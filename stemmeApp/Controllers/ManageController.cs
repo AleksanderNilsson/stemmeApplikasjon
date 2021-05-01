@@ -13,7 +13,7 @@ using stemmeApp.Models;
 
 namespace stemmeApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -418,7 +418,7 @@ namespace stemmeApp.Controllers
             {
                 Person = rs[0];
             }
-            catch(ArgumentOutOfRangeException e)
+            catch(ArgumentOutOfRangeException)
             {
                 return RedirectToAction("Index"); 
             }
