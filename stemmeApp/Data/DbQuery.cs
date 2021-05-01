@@ -128,10 +128,32 @@ namespace stemmeApp.Data
             return ReturnList;
         }
 
+        public List<VoteModel> GetAllCandidates()
+        {
+            List<VoteModel> ReturnList = new List<VoteModel>();
+            string commandText = "Select username, faculty, institute, info from candidate";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows= _database.Query(commandText, parameters);
+            try
+            {
+                ReturnList.Add(new VoteModel()
+                {
+                    username = rows[0]["username"].ToString(),
+                    faculty = rows[0]["faculty"].ToString(),
+                    institute = rows[0]["institute"].ToString(),
+                    info = rows[0]["info"].ToString(),
+                });
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+            }
+            return ReturnList;
+        }
+
         /// <summary>
         /// Updates an entry in the candidate table
         /// </summary>
-        
+
         public void UpdateCandidate(string username, string faculty, string institute, string info)
         {
             string commandText = @"Update candidate SET faculty=faculty, institute=@institute, info=@info WHERE username=@username";       

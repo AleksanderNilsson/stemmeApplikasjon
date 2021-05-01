@@ -32,7 +32,11 @@ namespace stemmeApp.Controllers
         public ActionResult Vote()
         {
             ViewBag.Message = "Vote for a candidate";
+            DbQuery db = new DbQuery();
+            var data = db.GetAllCandidates();
+            {
 
+            }
             return View();
         }
 
