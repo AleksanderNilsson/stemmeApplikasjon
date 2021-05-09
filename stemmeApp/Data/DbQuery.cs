@@ -134,7 +134,6 @@ namespace stemmeApp.Data
             string commandText = "Select username, faculty, institute, info from candidate";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
-            int length = rows.Count();
             try
             {
                 for(int i=0;i<rows.Count();i++)
