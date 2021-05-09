@@ -10,7 +10,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using stemmeApp.Models;
-using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Web.Helpers;
 using stemmeApp.Data;

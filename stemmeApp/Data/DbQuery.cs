@@ -133,15 +133,17 @@ namespace stemmeApp.Data
             List<VoteModel> ReturnList = new List<VoteModel>();
             string commandText = "Select username, faculty, institute, info from candidate";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rows= _database.Query(commandText, parameters);
+            var rows = _database.Query(commandText, parameters);
+            int length = rows.Count();
             try
             {
+                for(int i=0;i<rows.Count();i++)
                 ReturnList.Add(new VoteModel()
                 {
-                    username = rows[0]["username"].ToString(),
-                    faculty = rows[0]["faculty"].ToString(),
-                    institute = rows[0]["institute"].ToString(),
-                    info = rows[0]["info"].ToString(),
+                    username = rows[i]["username"].ToString(),
+                    faculty = rows[i]["faculty"].ToString(),
+                    institute = rows[i]["institute"].ToString(),
+                    info = rows[i]["info"].ToString(),
                 });
             }
             catch (ArgumentOutOfRangeException)
