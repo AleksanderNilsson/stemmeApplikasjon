@@ -19,8 +19,8 @@ namespace stemmeApp.Models
         [Display(Name = "Write about the candidate")]
         [Required(ErrorMessage = "You need to write about the candidate")]
         public string Info { get; set; }
-    /*  [DataType(DataType.Upload)]
-        [Display(Name = "Upload image")]
-        [Required(ErrorMessage = "Please choose image to upload.")]*/
+        public string Picture { get; set; }
+        [Display(Name = "Picture description")]
+        public string PictureText { get; set; }
     }
 }

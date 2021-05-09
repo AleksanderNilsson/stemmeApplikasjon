@@ -110,7 +110,8 @@ namespace stemmeApp.Data
         /// </summary>
          public List<CandidateModel> GetCandidate(string username) {
             List<CandidateModel> ReturnList = new List<CandidateModel>();
-            string commandText = "Select username, faculty, institute, info from candidate where username = @username";
+            string commandText = @"Select username, faculty, institute, info, picture.loc, picture.text
+            from candidate, picture where username = @username AND candidate.Picture = picture.Idpicture;";
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
             var rows = _database.Query(commandText, parameters);
             try
@@ -121,11 +122,27 @@ namespace stemmeApp.Data
                     Faculty = rows[0]["faculty"].ToString(),
                     Institute = rows[0]["institute"].ToString(),
                     Info = rows[0]["info"].ToString(),
+                    Picture = rows[0]["loc"].ToString(),
+                    PictureText = rows[0]["text"].ToString(),
                 });
             }
             catch (ArgumentOutOfRangeException) { 
             }          
             return ReturnList;
+        }
+
+        /// <summary>
+        /// Returns pictureid for a user
+        /// </summary>
+        /// 
+        public dynamic GetPictureId(string username)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } }; 
+            string commandText = "Select picture from candidate WHERE username = @username";
+            var rows = _database.Query(commandText, parameters);
+            String PictureIdString = rows[0]["picture"];
+            int PictureId = Convert.ToInt32(PictureIdString);
+            return PictureId;
         }
 
         public List<VoteModel> GetAllCandidates()
@@ -155,16 +172,26 @@ namespace stemmeApp.Data
         /// Updates an entry in the candidate table
         /// </summary>
 
-        public void UpdateCandidate(string username, string faculty, string institute, string info)
+        public void UpdateCandidate(string username, string faculty, string institute, string info, string DbPath, string picturetext)
         {
-            string commandText = @"Update candidate SET faculty=faculty, institute=@institute, info=@info WHERE username=@username";       
+            string commandText = @"Update candidate SET faculty=@faculty, institute=@institute, info=@info WHERE username=@username";       
             Dictionary<string, object> parameters = new Dictionary<string, object>();
+            int PictureId = GetPictureId(username);
+            parameters.Add("@pictureid", PictureId);
             parameters.Add("@username", username);
             parameters.Add("@faculty", faculty);
             parameters.Add("@institute", institute);
             parameters.Add("@info", info);
+            parameters.Add("@dbpath", DbPath);
+            parameters.Add("@picturetext", picturetext);
             _database.Execute(commandText, parameters);
+            if (DbPath != null)
+            {
+                commandText = @"Update picture SET loc=@dbpath, text=@picturetext WHERE idpicture=@pictureid";
+            }
+            _database.Query(commandText, parameters);
         }
+
         public string AdminGetUserDetails(string username)
         {
             string commandText = "Select username from candidate where username = @username";
@@ -203,6 +230,22 @@ namespace stemmeApp.Data
             parameters.Add("@LastName", LastName);
             parameters.Add("@PhoneNumber", PhoneNumber);
             _database.Execute(commandText, parameters);
+        }
+
+
+        /// <summary>
+        /// Removes a candidate in the candidate and picture table
+        /// </summary>
+        public void removeCandidate(string Username)
+        {            
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            int PictureId = GetPictureId(Username);
+            String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
+            parameters.Add("@pictureid", PictureId);
+            _database.Execute(commandText, parameters);
+            commandText = "DELETE FROM candidate WHERE username = @username";
+            _database.Execute(commandText, parameters);
+
         }
     }
 }

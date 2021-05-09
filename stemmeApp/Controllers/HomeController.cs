@@ -69,7 +69,7 @@ namespace stemmeApp.Controllers
             //Checks if the inserted username already is a candidate
             if (db.CheckIfCandidateExists(Model.Email))
             {
-                ModelState.AddModelError("email", "The person you are trying to add as a candidate already exists");
+                ModelState.AddModelError("email", "This person is already a nominated");
             }
 
 
@@ -87,9 +87,9 @@ namespace stemmeApp.Controllers
                 var path = Path.Combine(Server.MapPath("~/content/Pictures/"), fileName);
                 file.SaveAs(path);
                 int PictureId = db.CheckForAvailableImageId();
-                string dbPath = "Pictures/" + fileName;
+                string dbPath = "content/Pictures/" + fileName;
                 db.InsertNewCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info, PictureId);
-                db.InsertNewImage(PictureId, dbPath, "test");
+                db.InsertNewImage(PictureId, dbPath, Model.PictureText);
 
                 return RedirectToAction("Index");
             }

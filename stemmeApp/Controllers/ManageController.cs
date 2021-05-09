@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -427,15 +428,40 @@ namespace stemmeApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeCandidateInfo(CandidateModel Model) {
+        public ActionResult ChangeCandidateInfo(CandidateModel Model, HttpPostedFileBase file) {
             DbQuery db = new DbQuery();
+            String DbPath = null;
             if (Model.Email != User.Identity.GetUserName()) {
                 ModelState.AddModelError("email", "You cannot change your email");           
             }
-            db.UpdateCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info);
+            if (file != null)
+            {
+                var extension = Path.GetExtension(file.FileName);
+                var fileName = Model.Email + extension;
+                var path = Path.Combine(Server.MapPath("~/content/Pictures/"), fileName);
+                file.SaveAs(path);
+                DbPath = "content/Pictures/" + fileName;
+            }
+            db.UpdateCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info, DbPath, Model.PictureText);
             return RedirectToAction("Index");
         }
 
-#endregion
+        [HttpPost]
+         public ActionResult RemoveCandidate(string Name)
+        {
+            if (Name.Equals(User.Identity.GetUserName()))
+            {
+                DbQuery db = new DbQuery();
+                db.removeCandidate(Name);
+            }
+            else {
+                ModelState.AddModelError("Submut", "Error, please try again");
+            }
+            
+            return RedirectToAction("Index");
+        }
+
+        
+        #endregion
     }
 }
