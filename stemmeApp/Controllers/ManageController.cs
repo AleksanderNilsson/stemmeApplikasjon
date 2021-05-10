@@ -79,9 +79,11 @@ namespace stemmeApp.Controllers
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? "An error has occurred, please try again"
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.ChangeCandidateInfo ? "Candidate information changed successfully"
+     
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -404,7 +406,8 @@ namespace stemmeApp.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            ChangeCandidateInfo
         }
 
 
@@ -443,7 +446,7 @@ namespace stemmeApp.Controllers
                 DbPath = "content/Pictures/" + fileName;
             }
             db.UpdateCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info, DbPath, Model.PictureText);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCandidateInfo });
         }
 
         [HttpPost]
@@ -455,7 +458,7 @@ namespace stemmeApp.Controllers
                 db.removeCandidate(Name);
             }
             else {
-                ModelState.AddModelError("Submut", "Error, please try again");
+                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
             }
             
             return RedirectToAction("Index");

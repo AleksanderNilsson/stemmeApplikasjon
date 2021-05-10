@@ -185,11 +185,16 @@ namespace stemmeApp.Data
             parameters.Add("@dbpath", DbPath);
             parameters.Add("@picturetext", picturetext);
             _database.Execute(commandText, parameters);
-            if (DbPath != null)
+            if (DbPath != null) //Only updates picture location if a new picture is uploaded
             {
                 commandText = @"Update picture SET loc=@dbpath, text=@picturetext WHERE idpicture=@pictureid";
+                _database.Query(commandText, parameters);
             }
-            _database.Query(commandText, parameters);
+            else { // if no picture is uploaded, only update the picture text
+                commandText = @"Update picture SET text=@picturetext WHERE idpicture=@pictureid";
+                _database.Query(commandText, parameters);
+            }
+            
         }
 
         public string AdminGetUserDetails(string username)

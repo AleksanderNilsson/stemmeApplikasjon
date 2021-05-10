@@ -95,11 +95,11 @@
             </dd>
             <dd>
                 <form method="post" action="@Url.Action("RemoveCandidate", "Manage")">
-                    <input type="text" name="name" value="@User.Identity.GetUserName()" hidden/>
-                    <input class="btn btn-warning" name="submit" type="submit" value="Withdraw as candidate" onclick="return confirm('Are you sure you want to remove yourself as candidate?')"/>
-                 </form>
-            </dd>
-            
+                    <input type="text" name="name" value="@User.Identity.GetUserName()" hidden />
+                    <input class="btn btn-warning" name="submit" type="submit" value="Withdraw as candidate" onclick="return confirm('Are you sure you want to remove yourself as candidate?')" />
+                </form>
+            </dd>          
         }
+        
     </dl>
 </div>

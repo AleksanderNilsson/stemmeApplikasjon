@@ -76,7 +76,7 @@ namespace stemmeApp.Controllers
             //Checks if file is an image
             if (!file.ContentType.Contains("image"))
             {             
-                ModelState.AddModelError("", "File is not an image, you can only upload images");
+                ModelState.AddModelError("picture", "File is not an image, you can only upload images");
             }
 
 

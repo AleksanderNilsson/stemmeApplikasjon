@@ -21,6 +21,7 @@ namespace stemmeApp.Models
         public string Info { get; set; }
         public string Picture { get; set; }
         [Display(Name = "Picture description")]
+        [Required(ErrorMessage = "The picture needs a description")]
         public string PictureText { get; set; }
     }
 }
