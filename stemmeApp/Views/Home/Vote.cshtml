@@ -1,7 +1,12 @@
-﻿
+﻿@model List<stemmeApp.Models.VoteModel>
+
 @{
     ViewBag.Title = "Vote";
 }
 
 <h2>Vote</h2>
+
+@foreach (var item in Model) {
+    @item.username <br />
+        }
 
