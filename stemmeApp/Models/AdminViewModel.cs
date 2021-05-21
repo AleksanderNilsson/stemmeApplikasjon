@@ -34,7 +34,7 @@ namespace stemmeApp.Models
         //public IEnumerable<SelectListItem> RolesList { get; set; }
 
     }
-    public class AdminUserViewModel
+    public class AdminGetUsers
     {
         [Display(Name = "User ID")]
         public string Id { get; set; }

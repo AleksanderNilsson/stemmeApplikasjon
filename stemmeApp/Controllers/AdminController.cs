@@ -47,8 +47,11 @@ namespace stemmeApp.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "User List";
-            return View(UserManager.Users);
+            DbQuery db = new DbQuery();
+            var data = db.AdminGetUsers();
+            return View(db.AdminGetUsers().ToList());
         }
+
         public ActionResult Create()
         {
             return View();
@@ -56,15 +59,16 @@ namespace stemmeApp.Controllers
 
         //
         // GET: Admin/Details/5
-        public async Task<ActionResult> Details(string id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = await UserManager.FindByIdAsync(id);
-            ViewBag.RoleNames = await UserManager.GetRolesAsync(user.Id);
-            return View(user);
+            DbQuery db = new DbQuery();
+            ViewBag.Message = "User Details list";
+            var data = db.AdminUserDetails();
+            return View(db.AdminUserDetails().ToList());
         }
 
         //// GET: Admin/Edit/5
@@ -95,7 +99,7 @@ namespace stemmeApp.Controllers
                     ModelState.AddModelError("email", "You cannot change your email");
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Something Went Baaaad");
                 }
-                db.AdminUpdateUser(Model.UserName, Model.Email, Model.FirstName, Model.LastName, Model.PhoneNumber);
+                //db.AdminUserDetails(Model.UserName, Model.Email, Model.FirstName, Model.LastName, Model.PhoneNumber);
                 return RedirectToAction("Index");
             }
 
