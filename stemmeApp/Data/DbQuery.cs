@@ -7,7 +7,7 @@ using System.Web;
 
 namespace stemmeApp.Data
 {
-    public class DbQuery
+    public class DbQuery 
     {
         MySQLDatabase _database = new MySQLDatabase();
         

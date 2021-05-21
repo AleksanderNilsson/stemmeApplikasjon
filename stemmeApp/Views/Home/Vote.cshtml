@@ -1,12 +1,47 @@
-﻿@model List<stemmeApp.Models.VoteModel>
+﻿@model IEnumerable<stemmeApp.Models.VoteModel>
 
 @{
     ViewBag.Title = "Vote";
 }
 
-<h2>Vote</h2>
+<h2>Vote for a candidate</h2>
+
+
+<table class="table table-bordered table-striped table-responsive table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.faculty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.institute)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.info)
+        </th>
+        <th></th>
+    </tr>
 
 @foreach (var item in Model) {
-    @item.username <br />
-        }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.faculty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.institute)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.info)
+        </td>
+        <td>
+            @Html.ActionLink("Vote", "Vote", new {/* id=item.PrimaryKey */})
+            
+    </tr>
+}
 
+</table>
