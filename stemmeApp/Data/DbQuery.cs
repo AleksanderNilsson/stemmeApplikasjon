@@ -1,11 +1,8 @@
 ﻿using AspNet.Identity.MySQL;
-using MySql.Data.MySqlClient;
 using stemmeApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-
 namespace stemmeApp.Data
 {
     public class DbQuery
@@ -198,24 +195,18 @@ namespace stemmeApp.Data
             
         }
 
-        //public string AdminGetUserDetails(string username)
-        //{
-        //    string commandText = "Select username from candidate where username = @username";
-        //    Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-        //    String ReturnValue = _database.GetStrValue(commandText, parameters);
-        //    return commandText;
-        //}
+        
         public List <AdminGetUsers> AdminGetUsers()
         {
-            string sql = @"SELECT * FROM users";
+            string query = @"SELECT * FROM users";
             
-            List<AdminGetUsers> ReturnList = new List<AdminGetUsers>();
+            List<AdminGetUsers> ReturnQuery = new List<AdminGetUsers>();
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rs = _database.Query(sql, parameters);
+            var rs = _database.Query(query, parameters);
             try
             {
                 for (int i = 0; i < rs.Count(); i++)
-                ReturnList.Add(new AdminGetUsers()
+                    ReturnQuery.Add(new AdminGetUsers()
                 {
                     Id = rs[i]["Id"].ToString(),
                     UserName = rs[i]["UserName"].ToString(),
@@ -226,41 +217,34 @@ namespace stemmeApp.Data
             catch (ArgumentOutOfRangeException)
             {
             }
-            return ReturnList;
+            return ReturnQuery;
         }
-        public List<AdminUserDetailsViewModel> AdminUserDetails()
-        {
-            string sql = @"SELECT * FROM users";
-            List<AdminUserDetailsViewModel> ReturnList = new List<AdminUserDetailsViewModel>();
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rs = _database.Query(sql, parameters);
-            try
+
+        public List<AdminGetUserDetails> AdminGetUserDetails()
             {
-                for (int i = 0; i < rs.Count(); i++) 
-                    ReturnList.Add(new AdminUserDetailsViewModel()
+                string query = @"SELECT * FROM users";
+
+                List<AdminGetUserDetails> ReturnQuery = new List<AdminGetUserDetails>();
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                var rs = _database.Query(query, parameters);
+                try
+                {
+                ReturnQuery.Add(new AdminGetUserDetails()
                     {
-                        Id = rs[0]["Id"].ToString(),
-                        UserName = rs[0]["UserName"].ToString(),
                         Email = rs[0]["Email"].ToString(),
-                        FirstName = rs[0]["FirstName"].ToString(),
-                        LastName = rs[0]["LastName"].ToString(),
-                        //Faculty = rs[0]["Faculty"].ToString(),
-                        //Institute = rs[0]["Institute"].ToString(),
-                        //Info = rs[0]["Info"].ToString(),
-                        PhoneNumber = rs[0]["PhoneNumber"].ToString(),
                     });
-            }
+                }
             catch (ArgumentOutOfRangeException)
-            {
+                {
+                }
+                return ReturnQuery;
             }
-            return ReturnList;
-        }
 
 
-        /// <summary>
-        /// Removes a candidate in the candidate and picture table
-        /// </summary>
-        public void removeCandidate(string Username)
+            /// <summary>
+            /// Removes a candidate in the candidate and picture table
+            /// </summary>
+            public void removeCandidate(string Username)
         {            
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
             int PictureId = GetPictureId(Username);
