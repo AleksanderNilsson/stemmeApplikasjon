@@ -59,13 +59,17 @@ namespace stemmeApp.Controllers
 
         //
         // GET: Admin/Details/5
-        public ActionResult Details()
+        public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             DbQuery db = new DbQuery();
-            var data = db.AdminGetUserDetails();
-            return View(db.AdminGetUserDetails().ToList());
+            ViewBag.Message = "User Details list";
+            var data = db.AdminUserDetails();
+            return View(db.AdminUserDetails().ToList());
         }
-    
 
         //// GET: Admin/Edit/5
         public async Task<ActionResult> Edit(string id)
@@ -84,7 +88,7 @@ namespace stemmeApp.Controllers
         //POST: Admin/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AdminGetUserDetails Model)
+        public ActionResult Edit(AdminUserDetailsViewModel Model)
         {
             DbQuery db = new DbQuery();
             if (ModelState.IsValid)

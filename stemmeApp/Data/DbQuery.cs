@@ -1,8 +1,11 @@
 ﻿using AspNet.Identity.MySQL;
+using MySql.Data.MySqlClient;
 using stemmeApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+
 namespace stemmeApp.Data
 {
     public class DbQuery
@@ -195,18 +198,24 @@ namespace stemmeApp.Data
             
         }
 
-        
+        //public string AdminGetUserDetails(string username)
+        //{
+        //    string commandText = "Select username from candidate where username = @username";
+        //    Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+        //    String ReturnValue = _database.GetStrValue(commandText, parameters);
+        //    return commandText;
+        //}
         public List <AdminGetUsers> AdminGetUsers()
         {
-            string query = @"SELECT * FROM users";
+            string sql = @"SELECT * FROM users";
             
-            List<AdminGetUsers> ReturnQuery = new List<AdminGetUsers>();
+            List<AdminGetUsers> ReturnList = new List<AdminGetUsers>();
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rs = _database.Query(query, parameters);
+            var rs = _database.Query(sql, parameters);
             try
             {
                 for (int i = 0; i < rs.Count(); i++)
-                    ReturnQuery.Add(new AdminGetUsers()
+                ReturnList.Add(new AdminGetUsers()
                 {
                     Id = rs[i]["Id"].ToString(),
                     UserName = rs[i]["UserName"].ToString(),
@@ -217,34 +226,41 @@ namespace stemmeApp.Data
             catch (ArgumentOutOfRangeException)
             {
             }
-            return ReturnQuery;
+            return ReturnList;
+        }
+        public List<AdminUserDetailsViewModel> AdminUserDetails()
+        {
+            string sql = @"SELECT * FROM users";
+            List<AdminUserDetailsViewModel> ReturnList = new List<AdminUserDetailsViewModel>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rs = _database.Query(sql, parameters);
+            try
+            {
+                for (int i = 0; i < rs.Count(); i++) 
+                    ReturnList.Add(new AdminUserDetailsViewModel()
+                    {
+                        Id = rs[0]["Id"].ToString(),
+                        UserName = rs[0]["UserName"].ToString(),
+                        Email = rs[0]["Email"].ToString(),
+                        FirstName = rs[0]["FirstName"].ToString(),
+                        LastName = rs[0]["LastName"].ToString(),
+                        //Faculty = rs[0]["Faculty"].ToString(),
+                        //Institute = rs[0]["Institute"].ToString(),
+                        //Info = rs[0]["Info"].ToString(),
+                        PhoneNumber = rs[0]["PhoneNumber"].ToString(),
+                    });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
         }
 
-        public List<AdminGetUserDetails> AdminGetUserDetails()
-            {
-                string query = @"SELECT * FROM users";
 
-                List<AdminGetUserDetails> ReturnQuery = new List<AdminGetUserDetails>();
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                var rs = _database.Query(query, parameters);
-                try
-                {
-                ReturnQuery.Add(new AdminGetUserDetails()
-                    {
-                        Email = rs[0]["Email"].ToString(),
-                    });
-                }
-            catch (ArgumentOutOfRangeException)
-                {
-                }
-                return ReturnQuery;
-            }
-
-
-            /// <summary>
-            /// Removes a candidate in the candidate and picture table
-            /// </summary>
-            public void removeCandidate(string Username)
+        /// <summary>
+        /// Removes a candidate in the candidate and picture table
+        /// </summary>
+        public void removeCandidate(string Username)
         {            
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
             int PictureId = GetPictureId(Username);
