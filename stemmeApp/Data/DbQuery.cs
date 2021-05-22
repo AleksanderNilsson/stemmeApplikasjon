@@ -198,62 +198,48 @@ namespace stemmeApp.Data
             
         }
 
-        //public string AdminGetUserDetails(string username)
-        //{
-        //    string commandText = "Select username from candidate where username = @username";
-        //    Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-        //    String ReturnValue = _database.GetStrValue(commandText, parameters);
-        //    return commandText;
-        //}
         public List <AdminGetUsers> AdminGetUsers()
         {
-            string sql = @"SELECT * FROM users";
-            
-            List<AdminGetUsers> ReturnList = new List<AdminGetUsers>();
+            string query = @"SELECT * FROM users";
+            List<AdminGetUsers> returnQuery = new List<AdminGetUsers>();
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rs = _database.Query(sql, parameters);
+            var rs = _database.Query(query, parameters);
             try
             {
-                for (int i = 0; i < rs.Count(); i++)
-                ReturnList.Add(new AdminGetUsers()
+                for (int i = 0; i < rs.Count(); i++) {
+                    returnQuery.Add(new AdminGetUsers()
                 {
                     Id = rs[i]["Id"].ToString(),
-                    UserName = rs[i]["UserName"].ToString(),
                     Email = rs[i]["Email"].ToString(),
+                    UserName = rs[i]["UserName"].ToString(),
 
                 });
+                }
             }
             catch (ArgumentOutOfRangeException)
             {
             }
-            return ReturnList;
+            return returnQuery;
         }
-        public List<AdminUserDetailsViewModel> AdminUserDetails()
+        public List<AdminGetUserDetails> AdminGetUserDetails(string userDetails)
         {
-            string sql = @"SELECT * FROM users";
-            List<AdminUserDetailsViewModel> ReturnList = new List<AdminUserDetailsViewModel>();
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rs = _database.Query(sql, parameters);
+            string query = @"SELECT * FROM users";
+            List<AdminGetUserDetails> returnQuery = new List<AdminGetUserDetails>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", userDetails } };
+            var rs = _database.Query(query, parameters);
             try
             {
-                for (int i = 0; i < rs.Count(); i++) 
-                    ReturnList.Add(new AdminUserDetailsViewModel()
+                returnQuery.Add(new AdminGetUserDetails()
                     {
-                        Id = rs[0]["Id"].ToString(),
-                        UserName = rs[0]["UserName"].ToString(),
                         Email = rs[0]["Email"].ToString(),
-                        FirstName = rs[0]["FirstName"].ToString(),
-                        LastName = rs[0]["LastName"].ToString(),
-                        //Faculty = rs[0]["Faculty"].ToString(),
-                        //Institute = rs[0]["Institute"].ToString(),
-                        //Info = rs[0]["Info"].ToString(),
-                        PhoneNumber = rs[0]["PhoneNumber"].ToString(),
+                        FirstName = rs[0]["Firstname"].ToString(),
+                        LastName = rs[0]["Lastname"].ToString(),
                     });
             }
             catch (ArgumentOutOfRangeException)
             {
             }
-            return ReturnList;
+            return returnQuery;
         }
 
 

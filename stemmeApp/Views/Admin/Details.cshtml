@@ -1,4 +1,4 @@
-﻿@model stemmeApp.Models.AdminUserDetailsViewModel
+﻿@model IEnumerable<stemmeApp.Models.AdminGetUserDetails>
 
 @{
     ViewBag.Title = "Details";
@@ -8,76 +8,35 @@
 <h2>Details</h2>
 
 <div>
-    <h4>AdminUserDetailsViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+    <h4>AdminGetUserDetails</h4>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+            </tr>
+        }
+        <p>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Faculty)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Faculty)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Institute)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Institute)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Info)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Info)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        </p>

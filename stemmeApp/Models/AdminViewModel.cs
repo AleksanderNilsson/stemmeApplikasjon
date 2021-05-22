@@ -7,15 +7,10 @@ using System.Web.Mvc;
 
 namespace stemmeApp.Models
 {
-    public class AdminUserDetailsViewModel
-    {
-        [Display(Name = "User ID")]
-        public string Id { get; set; }
-
-        [Display(Name = "UserName")]
-        public string UserName { get; set; }
-
+    public class AdminGetUserDetails
+    { 
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Display(Name = "Firstname")]
@@ -31,8 +26,6 @@ namespace stemmeApp.Models
         [Display(Name = "PhoneNumber")]
         public string PhoneNumber { get; set; }
 
-        //public IEnumerable<SelectListItem> RolesList { get; set; }
-
     }
     public class AdminGetUsers
     {
@@ -44,10 +37,5 @@ namespace stemmeApp.Models
 
         [Display(Name = "Email")]
         public string Email { get; set; }
-    }
-    public class AdminRolesViewModel
-    {
-        public IEnumerable<string> RoleNames { get; set; }
-        public string UserName { get; set; }
     }
 }

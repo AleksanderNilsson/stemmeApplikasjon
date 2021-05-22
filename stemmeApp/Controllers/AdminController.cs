@@ -46,7 +46,6 @@ namespace stemmeApp.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            ViewBag.Message = "User List";
             DbQuery db = new DbQuery();
             var data = db.AdminGetUsers();
             return View(db.AdminGetUsers().ToList());
@@ -66,9 +65,9 @@ namespace stemmeApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DbQuery db = new DbQuery();
-            ViewBag.Message = "User Details list";
-            var data = db.AdminUserDetails();
-            return View(db.AdminUserDetails().ToList());
+            string userDetails = User.Identity.GetUserName();
+            var data = db.AdminGetUserDetails(userDetails);
+            return View(db.AdminGetUserDetails(userDetails).ToList());
         }
 
         //// GET: Admin/Edit/5
@@ -88,7 +87,7 @@ namespace stemmeApp.Controllers
         //POST: Admin/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AdminUserDetailsViewModel Model)
+        public ActionResult Edit(AdminGetUserDetails Model)
         {
             DbQuery db = new DbQuery();
             if (ModelState.IsValid)
