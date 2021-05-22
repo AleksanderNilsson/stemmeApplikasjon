@@ -10,7 +10,6 @@ using MySql.Data.MySqlClient;
 using stemmeApp.Data;
 using Microsoft.AspNet.Identity;
 using System.IO;
-using AspNet.Identity.MySQL;
 
 namespace stemmeApp.Controllers
 {
@@ -28,13 +27,11 @@ namespace stemmeApp.Controllers
 
             return View();
         }
-         
+
         public ActionResult Vote()
         {
-
-
             ViewBag.Message = "Vote for a candidate";
-            DbQuery db = new DbQuery();
+            DbQuery db = new DbQuery();                           
             
             return View(db.GetAllCandidates().ToList());
         }

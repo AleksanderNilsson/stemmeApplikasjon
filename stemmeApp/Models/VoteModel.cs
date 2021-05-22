@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using AspNet.Identity.MySQL;
 
 namespace stemmeApp.Models
 {
-    public class VoteModel:MySQLDatabase
+    public class VoteModel
     {
         public string username { get; set; }
         public string faculty { get; set; }
