@@ -22,3 +22,43 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/* Bootstrap 5*/
+
+.b5container,
+.b5container-fluid,
+.b5container-xxl,
+.b5container-xl,
+.b5container-lg,
+.b5container-md,
+.b5container-sm {
+    width: 100%;
+    padding-right: var(--bs-gutter-x, 0.b575rem);
+    padding-left: var(--bs-gutter-x, 0.b575rem);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.b5col {
+    flex: 1 0 0%;
+}
+
+.b5row {
+    --bs-gutter-x: 1.b55rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) / -2);
+    margin-left: calc(var(--bs-gutter-x) / -2);
+}
+
+    .b5row > * {
+        flex-shrink: 0;
+        width: 100%;
+        max-width: 100%;
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+        margin-top: var(--bs-gutter-y);
+    }
