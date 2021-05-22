@@ -40,9 +40,8 @@
         </footer>
     </div>
 
-    
-    <script src="/Scripts/bundles/bootstrap"></script>
-    <script src="/Scripts/bundles/jquery"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
