@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace stemmeApp.Data
 {
-    public class DbQuery
+    public class DbQuery 
     {
         MySQLDatabase _database = new MySQLDatabase();
         
