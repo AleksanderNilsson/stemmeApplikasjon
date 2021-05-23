@@ -11,7 +11,7 @@ namespace stemmeApp.Data
     public class DbQuery
     {
         MySQLDatabase _database = new MySQLDatabase();
-        
+
 
         /// <summary>
         /// Checks if a username exists in the users table
@@ -73,7 +73,7 @@ namespace stemmeApp.Data
         /// </summary>
         public void InsertNewImage(int id, string loc, string text) {
             string commandText = @"Insert Into picture (idpicture, loc, text)
-             VALUES (@id, @loc, @text)";          
+             VALUES (@id, @loc, @text)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@id", id);
             parameters.Add("@loc", loc);
@@ -92,7 +92,7 @@ namespace stemmeApp.Data
             int random = r.Next(1, 99999);
             while (AvailableImageId == false)
             {
-                
+
                 string commandText = @"SELECT picture FROM candidate WHERE picture = @r";
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 parameters.Add("@r", random);
@@ -109,7 +109,7 @@ namespace stemmeApp.Data
         /// <summary>
         /// Returns an entry from the candidate table
         /// </summary>
-         public List<CandidateModel> GetCandidate(string username) {
+        public List<CandidateModel> GetCandidate(string username) {
             List<CandidateModel> ReturnList = new List<CandidateModel>();
             string commandText = @"Select username, faculty, institute, info, picture.loc, picture.text
             from candidate, picture where username = @username AND candidate.Picture = picture.Idpicture;";
@@ -127,8 +127,8 @@ namespace stemmeApp.Data
                     PictureText = rows[0]["text"].ToString(),
                 });
             }
-            catch (ArgumentOutOfRangeException) { 
-            }          
+            catch (ArgumentOutOfRangeException) {
+            }
             return ReturnList;
         }
 
@@ -138,7 +138,7 @@ namespace stemmeApp.Data
         /// 
         public dynamic GetPictureId(string username)
         {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } }; 
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
             string commandText = "Select picture from candidate WHERE username = @username";
             var rows = _database.Query(commandText, parameters);
             String PictureIdString = rows[0]["picture"];
@@ -154,14 +154,14 @@ namespace stemmeApp.Data
             var rows = _database.Query(commandText, parameters);
             try
             {
-                for(int i=0;i<rows.Count();i++)
-                ReturnList.Add(new VoteModel()
-                {
-                    username = rows[i]["username"].ToString(),
-                    faculty = rows[i]["faculty"].ToString(),
-                    institute = rows[i]["institute"].ToString(),
-                    info = rows[i]["info"].ToString(),
-                });
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new VoteModel()
+                    {
+                        username = rows[i]["username"].ToString(),
+                        faculty = rows[i]["faculty"].ToString(),
+                        institute = rows[i]["institute"].ToString(),
+                        info = rows[i]["info"].ToString(),
+                    });
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -175,7 +175,7 @@ namespace stemmeApp.Data
 
         public void UpdateCandidate(string username, string faculty, string institute, string info, string DbPath, string picturetext)
         {
-            string commandText = @"Update candidate SET faculty=@faculty, institute=@institute, info=@info WHERE username=@username";       
+            string commandText = @"Update candidate SET faculty=@faculty, institute=@institute, info=@info WHERE username=@username";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             int PictureId = GetPictureId(username);
             parameters.Add("@pictureid", PictureId);
@@ -195,26 +195,33 @@ namespace stemmeApp.Data
                 commandText = @"Update picture SET text=@picturetext WHERE idpicture=@pictureid";
                 _database.Query(commandText, parameters);
             }
-            
+
         }
 
+        //public string AdminGetUserDetails(string username)
+        //{
+        //    string commandText = "Select username from candidate where username = @username";
+        //    Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+        //    String ReturnValue = _database.GetStrValue(commandText, parameters);
+        //    return commandText;
+        //}
         public List <AdminGetUsers> AdminGetUsers()
         {
-            string query = @"SELECT * FROM users";
-            List<AdminGetUsers> returnQuery = new List<AdminGetUsers>();
+            string sql = @"SELECT * FROM users";
+            
+            List<AdminGetUsers> ReturnList = new List<AdminGetUsers>();
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rs = _database.Query(query, parameters);
             try
             {
-                for (int i = 0; i < rs.Count(); i++) {
-                    returnQuery.Add(new AdminGetUsers()
+                for (int i = 0; i < rs.Count(); i++)
+                ReturnList.Add(new AdminGetUsers()
                 {
                     Id = rs[i]["Id"].ToString(),
-                    Email = rs[i]["Email"].ToString(),
                     UserName = rs[i]["UserName"].ToString(),
+                    Email = rs[i]["Email"].ToString(),
 
                 });
-                }
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -229,7 +236,8 @@ namespace stemmeApp.Data
             var rs = _database.Query(query, parameters);
             try
             {
-                returnQuery.Add(new AdminGetUserDetails()
+                for (int i = 0; i < rs.Count(); i++) 
+                    ReturnList.Add(new AdminUserDetailsViewModel()
                     {
                         Email = rs[0]["Email"].ToString(),
                         FirstName = rs[0]["Firstname"].ToString(),
@@ -247,7 +255,7 @@ namespace stemmeApp.Data
         /// Removes a candidate in the candidate and picture table
         /// </summary>
         public void removeCandidate(string Username)
-        {            
+        {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
             int PictureId = GetPictureId(Username);
             String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
@@ -257,5 +265,62 @@ namespace stemmeApp.Data
             _database.Execute(commandText, parameters);
 
         }
+
+
+        /// <summary>
+        /// Gets all votes
+        /// </summary>
+
+        public List<Votes> getVotes()
+        {
+            List<Votes> ReturnList = new List<Votes>();
+            string commandText = "Select * from votes";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new Votes()
+                    {
+                        Voter = rows[i]["Voter"].ToString(),
+                        VotedOn = rows[i]["Votedon"].ToString(),
+                    });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+
+        /// <summary>
+        /// Gets election information
+        /// </summary>
+
+        public List<ElectionInformation> getElectionInfo()
+        {
+            List<ElectionInformation> ReturnList = new List<ElectionInformation>();
+            string commandText = "Select * from election";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                ReturnList.Add(new ElectionInformation()
+                {
+                    IdElection = Int32.Parse(rows[0]["Idelection"]),
+                    ElectionStart = DateTime.Parse(rows[0]["Startelection"]),
+                    ElectionEnd = DateTime.Parse(rows[0]["Endelection"]),
+                    Controlled = (rows[0]["Controlled"] == null) ? DateTime.MinValue : DateTime.Parse(rows[0]["Controlled"])
+
+                }) ;
+            }
+            catch (Exception e)
+            {
+               
+            }
+            return ReturnList;
+        }
     }
+
+   
+
 }

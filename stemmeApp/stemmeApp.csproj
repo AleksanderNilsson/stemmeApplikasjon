@@ -284,6 +284,8 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Delete.cshtml" />
     <Content Include="Views\Inspector\Index.cshtml" />
+    <Content Include="Views\Inspector\Votes.cshtml" />
+    <Content Include="Views\Inspector\Candidates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
