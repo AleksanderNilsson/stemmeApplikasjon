@@ -3,8 +3,11 @@ using MySql.Data.MySqlClient;
 using stemmeApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
+using System.Net;
 using System.Web;
+using System.Web.Mvc;
 
 namespace stemmeApp.Data
 {
@@ -197,60 +200,6 @@ namespace stemmeApp.Data
             }
 
         }
-
-        //public string AdminGetUserDetails(string username)
-        //{
-        //    string commandText = "Select username from candidate where username = @username";
-        //    Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-        //    String ReturnValue = _database.GetStrValue(commandText, parameters);
-        //    return commandText;
-        //}
-        public List <AdminGetUsers> AdminGetUsers()
-        {
-            string sql = @"SELECT * FROM users";
-            
-            List<AdminGetUsers> ReturnList = new List<AdminGetUsers>();
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rs = _database.Query(query, parameters);
-            try
-            {
-                for (int i = 0; i < rs.Count(); i++)
-                ReturnList.Add(new AdminGetUsers()
-                {
-                    Id = rs[i]["Id"].ToString(),
-                    UserName = rs[i]["UserName"].ToString(),
-                    Email = rs[i]["Email"].ToString(),
-
-                });
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            return returnQuery;
-        }
-        public List<AdminGetUserDetails> AdminGetUserDetails(string userDetails)
-        {
-            string query = @"SELECT * FROM users";
-            List<AdminGetUserDetails> returnQuery = new List<AdminGetUserDetails>();
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", userDetails } };
-            var rs = _database.Query(query, parameters);
-            try
-            {
-                for (int i = 0; i < rs.Count(); i++) 
-                    ReturnList.Add(new AdminUserDetailsViewModel()
-                    {
-                        Email = rs[0]["Email"].ToString(),
-                        FirstName = rs[0]["Firstname"].ToString(),
-                        LastName = rs[0]["Lastname"].ToString(),
-                    });
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            return returnQuery;
-        }
-
-
         /// <summary>
         /// Removes a candidate in the candidate and picture table
         /// </summary>
@@ -264,8 +213,134 @@ namespace stemmeApp.Data
             commandText = "DELETE FROM candidate WHERE username = @username";
             _database.Execute(commandText, parameters);
 
+<<<<<<< Updated upstream
+        //public string AdminGetUserDetails(string username)
+        //{
+        //    string commandText = "Select username from candidate where username = @username";
+        //    Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+        //    String ReturnValue = _database.GetStrValue(commandText, parameters);
+        //    return commandText;
+        //}
+        public List <AdminGetUsers> AdminGetUsers()
+        {
+            string sql = @"SELECT * FROM users";
+            
+            List<AdminGetUsers> ReturnList = new List<AdminGetUsers>();
+=======
         }
 
+        public List <AdminModel> AdminGetUsers()
+        {
+            string query = @"SELECT * FROM users";
+            List<AdminModel> returnQuery = new List<AdminModel>();
+>>>>>>> Stashed changes
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(query, parameters);
+            try
+            {
+<<<<<<< Updated upstream
+                for (int i = 0; i < rs.Count(); i++)
+                ReturnList.Add(new AdminGetUsers()
+                {
+                    Id = rs[i]["Id"].ToString(),
+                    UserName = rs[i]["UserName"].ToString(),
+                    Email = rs[i]["Email"].ToString(),
+=======
+                for (int i = 0; i < rows.Count(); i++) {
+                    returnQuery.Add(new AdminModel()
+                {
+                    Id = rows[i]["Id"].ToString(),
+                    Email = rows[i]["Email"].ToString(),
+                    Username = rows[i]["UserName"].ToString(),
+>>>>>>> Stashed changes
+
+                });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return returnQuery;
+        }
+        public List<AdminModel> AdminGetSingleUser(string username)
+        {
+            string query = @"SELECT `UserName`,`Email`,`Firstname`,`Lastname` FROM `users` WHERE UserName = @UserName";
+            List<AdminModel> returnQuery = new List<AdminModel>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { {"@UserName", username } };
+            var rows = _database.Query(query, parameters);
+            try
+            {
+<<<<<<< Updated upstream
+                for (int i = 0; i < rs.Count(); i++) 
+                    ReturnList.Add(new AdminUserDetailsViewModel()
+=======
+               returnQuery.Add(new AdminModel()
+               {
+                       Username = rows[0]["UserName"].ToString(),
+                       Email = rows[0]["Email"].ToString(),
+                       Firstname = rows[0]["Firstname"].ToString(),
+                       Lastname = rows[0]["Lastname"].ToString(),
+               });
+                
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return returnQuery;
+        }
+        public List<AdminModel> AdminGetUserDetails(string username)
+        {
+            string query = @"SELECT `UserName`,`Firstname`,`Lastname`,`Email`, IFNULL(`PhoneNumber`, ' ') FROM users;";
+            List<AdminModel> returnQuery = new List<AdminModel>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+            var rows = _database.Query(query, parameters);
+            try  {
+               
+                    returnQuery.Add(new AdminModel()
+>>>>>>> Stashed changes
+                    {
+                        Username = rows[0]["UserName"].ToString(),
+                        Email = rows[0]["Email"].ToString(),
+                        Firstname = rows[0]["Firstname"].ToString(),
+                        Lastname = rows[0]["Lastname"].ToString(),
+                        /*PhoneNumber = rows[0]["PhoneNumber"].ToString(),*/
+                    });
+         
+            }
+            catch (Exception e )
+            {
+                throw new Exception(e.ToString());
+            }
+            return returnQuery;
+        }
+
+<<<<<<< Updated upstream
+
+        /// <summary>
+        /// Removes a candidate in the candidate and picture table
+        /// </summary>
+        public void removeCandidate(string Username)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            int PictureId = GetPictureId(Username);
+            String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
+            parameters.Add("@pictureid", PictureId);
+            _database.Execute(commandText, parameters);
+            commandText = "DELETE FROM candidate WHERE username = @username";
+=======
+        public void AdminEditUser(string username, string email, string Firstname, string Lastname)
+        {
+            string commandText = @"Update users SET email=@email, Firstname=@Firstname, Lastname=@Lastname WHERE username=@username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@username", username);
+            parameters.Add("@email", email);
+            parameters.Add("@Firstname", Firstname);
+            parameters.Add("@Lastname", Lastname);
+>>>>>>> Stashed changes
+            _database.Execute(commandText, parameters);
+
+        }
+
+<<<<<<< Updated upstream
 
         /// <summary>
         /// Gets all votes
@@ -319,6 +394,8 @@ namespace stemmeApp.Data
             }
             return ReturnList;
         }
+=======
+>>>>>>> Stashed changes
     }
 
    

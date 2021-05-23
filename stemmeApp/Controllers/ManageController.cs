@@ -407,7 +407,8 @@ namespace stemmeApp.Controllers
             RemoveLoginSuccess,
             RemovePhoneSuccess,
             Error,
-            ChangeCandidateInfo
+            ChangeCandidateInfo,
+            AdminSuccess
         }
 
 
