@@ -41,20 +41,10 @@ namespace stemmeApp.Controllers
         //// GET: Admin/Edit/5
         public ActionResult Edit()
         {
-            string currentUser = User.Identity.GetUserName();
+            string userId = User.Identity.GetUserId();
             DbQuery db = new DbQuery();
-            var rs = db.AdminGetSingleUser(currentUser);
+            return View(db.AdminGetSingleUser(userId));
 
-            AdminModel userId = new AdminModel();
-            try
-            {
-                userId = rs[0];
-            }
-            catch (Exception ex)
-            {
-            }
-
-            return View(userId);
         }
 
 
