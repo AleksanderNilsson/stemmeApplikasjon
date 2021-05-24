@@ -29,7 +29,7 @@ namespace stemmeApp.Controllers
         }
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
-        
+
         //
         // GET: Admin
         public ActionResult Index()
@@ -49,40 +49,35 @@ namespace stemmeApp.Controllers
             }
             DbQuery db = new DbQuery();
             string username = User.Identity.GetUserName();
-            var data = db.AdminGetUserDetails(username);
             return View(db.AdminGetUserDetails(username).ToList());
 
         }
 
         //// GET: Admin/Edit/5
-        public ActionResult Edit()
+        public ActionResult Edit(AdminModel model)
         {
-                string currentUser = User.Identity.GetUserName();
-                DbQuery db = new DbQuery();
-                var rows = db.AdminGetSingleUser(currentUser);
-                AdminModel user = new AdminModel();
-                try
-                {
-                    user = rows[0];
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    return RedirectToAction("Index");
-                }
-                return View(user);
+            if (model == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DbQuery db = new DbQuery();
+            string username = User.Identity.GetUserName();
+            return View(db.AdminGetUserDetails(username).ToList());
+
         }
-       
+
+
         //POST: Admin/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AdminModel Model, string id)
         {
             DbQuery db = new DbQuery();
-            if (id == null)
+            if (!ModelState.IsValid)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else
+            else if(ModelState.IsValid)
             {
                 var username =  User.Identity.GetUserName();
                 db.AdminEditUser(Model.Username, Model.Email, Model.Firstname, Model.Lastname);

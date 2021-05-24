@@ -94,17 +94,5 @@ namespace stemmeApp.Controllers
             return View();
         }
 
-        public ActionResult Test()
-        {
-            ViewBag.Message = "Test side.";
-
-                string currentUser = User.Identity.GetUserName();
-                DbQuery db = new DbQuery();
-                
-                ViewBag.username = currentUser;
-
-            return View();
-        }
-
     }
 }

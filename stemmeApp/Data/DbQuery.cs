@@ -55,7 +55,6 @@ namespace stemmeApp.Data
             return UserExists;
         }
 
-
         /// <summary>
         /// Inserts a new candidate into the candidate table
         /// </summary>
@@ -212,49 +211,27 @@ namespace stemmeApp.Data
             _database.Execute(commandText, parameters);
             commandText = "DELETE FROM candidate WHERE username = @username";
             _database.Execute(commandText, parameters);
-
-<<<<<<< Updated upstream
-        //public string AdminGetUserDetails(string username)
-        //{
-        //    string commandText = "Select username from candidate where username = @username";
-        //    Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-        //    String ReturnValue = _database.GetStrValue(commandText, parameters);
-        //    return commandText;
-        //}
-        public List <AdminGetUsers> AdminGetUsers()
-        {
-            string sql = @"SELECT * FROM users";
-            
-            List<AdminGetUsers> ReturnList = new List<AdminGetUsers>();
-=======
         }
 
-        public List <AdminModel> AdminGetUsers()
+      
+        public List<AdminModel> AdminGetUsers()
         {
             string query = @"SELECT * FROM users";
             List<AdminModel> returnQuery = new List<AdminModel>();
->>>>>>> Stashed changes
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(query, parameters);
             try
             {
-<<<<<<< Updated upstream
-                for (int i = 0; i < rs.Count(); i++)
-                ReturnList.Add(new AdminGetUsers()
-                {
-                    Id = rs[i]["Id"].ToString(),
-                    UserName = rs[i]["UserName"].ToString(),
-                    Email = rs[i]["Email"].ToString(),
-=======
-                for (int i = 0; i < rows.Count(); i++) {
-                    returnQuery.Add(new AdminModel()
-                {
-                    Id = rows[i]["Id"].ToString(),
-                    Email = rows[i]["Email"].ToString(),
-                    Username = rows[i]["UserName"].ToString(),
->>>>>>> Stashed changes
 
-                });
+                for (int i = 0; i < rows.Count(); i++)
+                {
+                    returnQuery.Add(new AdminModel()
+                    {
+                        Id = rows[i]["Id"].ToString(),
+                        Email = rows[i]["Email"].ToString(),
+                        Username = rows[i]["UserName"].ToString(),
+                    });
+                }
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -263,24 +240,20 @@ namespace stemmeApp.Data
         }
         public List<AdminModel> AdminGetSingleUser(string username)
         {
-            string query = @"SELECT `UserName`,`Email`,`Firstname`,`Lastname` FROM `users` WHERE UserName = @UserName";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+            string query = @"SELECT `UserName`,`Email`,`Firstname`,`Lastname` FROM `users` WHERE username = @username";
             List<AdminModel> returnQuery = new List<AdminModel>();
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { {"@UserName", username } };
             var rows = _database.Query(query, parameters);
             try
             {
-<<<<<<< Updated upstream
-                for (int i = 0; i < rs.Count(); i++) 
-                    ReturnList.Add(new AdminUserDetailsViewModel()
-=======
-               returnQuery.Add(new AdminModel()
-               {
-                       Username = rows[0]["UserName"].ToString(),
-                       Email = rows[0]["Email"].ToString(),
-                       Firstname = rows[0]["Firstname"].ToString(),
-                       Lastname = rows[0]["Lastname"].ToString(),
-               });
-                
+                returnQuery.Add(new AdminModel()
+                {
+                    Username = rows[0]["username"].ToString(),
+                    Email = rows[0]["Email"].ToString(),
+                    Firstname = rows[0]["Firstname"].ToString(),
+                    Lastname = rows[0]["Lastname"].ToString(),
+                });
+
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -289,44 +262,29 @@ namespace stemmeApp.Data
         }
         public List<AdminModel> AdminGetUserDetails(string username)
         {
-            string query = @"SELECT `UserName`,`Firstname`,`Lastname`,`Email`, IFNULL(`PhoneNumber`, ' ') FROM users;";
-            List<AdminModel> returnQuery = new List<AdminModel>();
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+            string query = @"SELECT `UserName`,`Firstname`,`Lastname`,`Email`, IFNULL(`PhoneNumber`, ' ') FROM `users` WHERE username = @username";
+            List<AdminModel> returnQuery = new List<AdminModel>();
             var rows = _database.Query(query, parameters);
-            try  {
-               
-                    returnQuery.Add(new AdminModel()
->>>>>>> Stashed changes
-                    {
-                        Username = rows[0]["UserName"].ToString(),
-                        Email = rows[0]["Email"].ToString(),
-                        Firstname = rows[0]["Firstname"].ToString(),
-                        Lastname = rows[0]["Lastname"].ToString(),
-                        /*PhoneNumber = rows[0]["PhoneNumber"].ToString(),*/
-                    });
-         
+            try {
+
+                returnQuery.Add(new AdminModel()
+                {
+                    Username = rows[0]["username"].ToString(),
+                    Email = rows[0]["Email"].ToString(),
+                    Firstname = rows[0]["Firstname"].ToString(),
+                    Lastname = rows[0]["Lastname"].ToString(),
+                    /*PhoneNumber = rows[0]["PhoneNumber"].ToString(),*/
+                });
+
             }
-            catch (Exception e )
+            catch (Exception e)
             {
                 throw new Exception(e.ToString());
             }
             return returnQuery;
         }
 
-<<<<<<< Updated upstream
-
-        /// <summary>
-        /// Removes a candidate in the candidate and picture table
-        /// </summary>
-        public void removeCandidate(string Username)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
-            int PictureId = GetPictureId(Username);
-            String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
-            parameters.Add("@pictureid", PictureId);
-            _database.Execute(commandText, parameters);
-            commandText = "DELETE FROM candidate WHERE username = @username";
-=======
         public void AdminEditUser(string username, string email, string Firstname, string Lastname)
         {
             string commandText = @"Update users SET email=@email, Firstname=@Firstname, Lastname=@Lastname WHERE username=@username";
@@ -335,69 +293,64 @@ namespace stemmeApp.Data
             parameters.Add("@email", email);
             parameters.Add("@Firstname", Firstname);
             parameters.Add("@Lastname", Lastname);
->>>>>>> Stashed changes
             _database.Execute(commandText, parameters);
 
         }
 
-<<<<<<< Updated upstream
 
-        /// <summary>
-        /// Gets all votes
-        /// </summary>
+            /// <summary>
+            /// Gets all votes
+            /// </summary>
 
-        public List<Votes> getVotes()
-        {
-            List<Votes> ReturnList = new List<Votes>();
-            string commandText = "Select * from votes";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rows = _database.Query(commandText, parameters);
-            try
+            public List<Votes> getVotes()
             {
-                for (int i = 0; i < rows.Count(); i++)
-                    ReturnList.Add(new Votes()
-                    {
-                        Voter = rows[i]["Voter"].ToString(),
-                        VotedOn = rows[i]["Votedon"].ToString(),
-                    });
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            return ReturnList;
-        }
-
-        /// <summary>
-        /// Gets election information
-        /// </summary>
-
-        public List<ElectionInformation> getElectionInfo()
-        {
-            List<ElectionInformation> ReturnList = new List<ElectionInformation>();
-            string commandText = "Select * from election";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rows = _database.Query(commandText, parameters);
-            try
-            {
-                ReturnList.Add(new ElectionInformation()
+                List<Votes> ReturnList = new List<Votes>();
+                string commandText = "Select * from votes";
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                var rows = _database.Query(commandText, parameters);
+                try
                 {
-                    IdElection = Int32.Parse(rows[0]["Idelection"]),
-                    ElectionStart = DateTime.Parse(rows[0]["Startelection"]),
-                    ElectionEnd = DateTime.Parse(rows[0]["Endelection"]),
-                    Controlled = (rows[0]["Controlled"] == null) ? DateTime.MinValue : DateTime.Parse(rows[0]["Controlled"])
-
-                }) ;
+                    for (int i = 0; i < rows.Count(); i++)
+                        ReturnList.Add(new Votes()
+                        {
+                            Voter = rows[i]["Voter"].ToString(),
+                            VotedOn = rows[i]["Votedon"].ToString(),
+                        });
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                }
+                return ReturnList;
             }
-            catch (Exception e)
+
+            /// <summary>
+            /// Gets election information
+            /// </summary>
+
+            public List<ElectionInformation> getElectionInfo()
             {
-               
-            }
-            return ReturnList;
-        }
-=======
->>>>>>> Stashed changes
-    }
+                List<ElectionInformation> ReturnList = new List<ElectionInformation>();
+                string commandText = "Select * from election";
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                var rows = _database.Query(commandText, parameters);
+                try
+                {
+                    ReturnList.Add(new ElectionInformation()
+                    {
+                        IdElection = Int32.Parse(rows[0]["Idelection"]),
+                        ElectionStart = DateTime.Parse(rows[0]["Startelection"]),
+                        ElectionEnd = DateTime.Parse(rows[0]["Endelection"]),
+                        Controlled = (rows[0]["Controlled"] == null) ? DateTime.MinValue : DateTime.Parse(rows[0]["Controlled"])
 
-   
+                    });
+                }
+                catch (Exception e)
+                {
+
+                }
+                return ReturnList;
+            }
+         
+    }
 
 }
