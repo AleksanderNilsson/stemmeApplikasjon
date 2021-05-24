@@ -222,7 +222,6 @@ namespace stemmeApp.Data
             var rows = _database.Query(query, parameters);
             try
             {
-
                 for (int i = 0; i < rows.Count(); i++)
                 {
                     returnQuery.Add(new AdminModel()
@@ -238,49 +237,28 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public List<AdminModel> AdminGetSingleUser(string username)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-            string query = @"SELECT `UserName`,`Email`,`Firstname`,`Lastname` FROM `users` WHERE username = @username";
+        public List<AdminModel> AdminGetSingleUser(string Id) {
             List<AdminModel> returnQuery = new List<AdminModel>();
+
+            string query = @"SELECT * FROM `users` WHERE Id = @Id AND ID IS NOT NULL";
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@Id", Id);
             var rows = _database.Query(query, parameters);
             try
             {
-                returnQuery.Add(new AdminModel()
+                for (int i = 0; i < rows.Count(); i++)
                 {
-                    Username = rows[0]["username"].ToString(),
-                    Email = rows[0]["Email"].ToString(),
-                    Firstname = rows[0]["Firstname"].ToString(),
-                    Lastname = rows[0]["Lastname"].ToString(),
-                });
-
+                    returnQuery.Add(new AdminModel()
+                    {
+                        Id = rows[i]["Id"].ToString(),
+                        Email = rows[i]["Email"].ToString(),
+                        Username = rows[i]["UserName"].ToString(),
+                    });
+                }
             }
             catch (ArgumentOutOfRangeException)
             {
-            }
-            return returnQuery;
-        }
-        public List<AdminModel> AdminGetUserDetails(string username)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-            string query = @"SELECT `UserName`,`Firstname`,`Lastname`,`Email`, IFNULL(`PhoneNumber`, ' ') FROM `users` WHERE username = @username";
-            List<AdminModel> returnQuery = new List<AdminModel>();
-            var rows = _database.Query(query, parameters);
-            try {
-
-                returnQuery.Add(new AdminModel()
-                {
-                    Username = rows[0]["username"].ToString(),
-                    Email = rows[0]["Email"].ToString(),
-                    Firstname = rows[0]["Firstname"].ToString(),
-                    Lastname = rows[0]["Lastname"].ToString(),
-                    /*PhoneNumber = rows[0]["PhoneNumber"].ToString(),*/
-                });
-
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.ToString());
             }
             return returnQuery;
         }
@@ -344,7 +322,7 @@ namespace stemmeApp.Data
 
                     });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
                 }

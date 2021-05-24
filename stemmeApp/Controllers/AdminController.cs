@@ -35,42 +35,33 @@ namespace stemmeApp.Controllers
         public ActionResult Index()
         {
             DbQuery db = new DbQuery();
-            var data = db.AdminGetUsers();
             return View(db.AdminGetUsers().ToList());
         }
 
-        //
-        // GET: Admin/Details/5
-        public ActionResult Details(AdminModel model)
-        {
-            if (model == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            DbQuery db = new DbQuery();
-            string username = User.Identity.GetUserName();
-            return View(db.AdminGetUserDetails(username).ToList());
-
-        }
-
         //// GET: Admin/Edit/5
-        public ActionResult Edit(AdminModel model)
+        public ActionResult Edit()
         {
-            if (model == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            string currentUser = User.Identity.GetUserName();
             DbQuery db = new DbQuery();
-            string username = User.Identity.GetUserName();
-            return View(db.AdminGetUserDetails(username).ToList());
+            var rs = db.AdminGetSingleUser(currentUser);
 
+            AdminModel userId = new AdminModel();
+            try
+            {
+                userId = rs[0];
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return View(userId);
         }
 
 
         //POST: Admin/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AdminModel Model, string id)
+        public ActionResult Edit(AdminModel Model)
         {
             DbQuery db = new DbQuery();
             if (!ModelState.IsValid)
