@@ -34,6 +34,11 @@ namespace stemmeApp.Controllers
             DbQuery db = new DbQuery();                           
             
             return View(db.GetAllCandidates().ToList());
+
+            DbQuery db2 = new DbQuery();
+            return View(db2.GetPicture().ToList());
+
+
         }
 
         public ActionResult Contact()

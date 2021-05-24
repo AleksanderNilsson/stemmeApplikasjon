@@ -149,7 +149,8 @@ namespace stemmeApp.Data
         public List<VoteModel> GetAllCandidates()
         {
             List<VoteModel> ReturnList = new List<VoteModel>();
-            string commandText = "Select username, faculty, institute, info from candidate";
+            string commandText = @"Select username, faculty, institute, info, picture.loc, picture.text
+            from candidate, picture where candidate.Picture = picture.Idpicture;"; ;
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
             try
@@ -161,7 +162,30 @@ namespace stemmeApp.Data
                     faculty = rows[i]["faculty"].ToString(),
                     institute = rows[i]["institute"].ToString(),
                     info = rows[i]["info"].ToString(),
+                    picture = rows[i]["loc"].ToString(),
+
+
                 });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+        public List<VoteModel> GetPicture()
+        {
+            List<VoteModel> ReturnList = new List<VoteModel>();
+            string commandText = "Select loc from picture";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new VoteModel()
+                    {
+                        loc = rows[i]["loc"].ToString(),
+
+                    });
             }
             catch (ArgumentOutOfRangeException)
             {
