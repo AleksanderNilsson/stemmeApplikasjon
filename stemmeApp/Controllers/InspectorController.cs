@@ -25,12 +25,16 @@ namespace stemmeApp.Controllers
 
         public ActionResult Votes()
         {
-            return View();
+            DbQuery db = new DbQuery();
+            var IndexViewModel = new InspectorViewModel();
+            IndexViewModel.Votes = db.getVotes();
+            return View(IndexViewModel);
         }
 
         public ActionResult Candidates()
         {
-            return View();
+            DbQuery db = new DbQuery();
+            return View(db.getCandidateVotes().ToList());
         }
     }
 }

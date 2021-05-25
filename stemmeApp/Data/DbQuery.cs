@@ -157,17 +157,17 @@ namespace stemmeApp.Data
             var rows = _database.Query(commandText, parameters);
             try
             {
-                for(int i=0;i<rows.Count();i++)
-                ReturnList.Add(new VoteModel()
-                {
-                    username = rows[i]["username"].ToString(),
-                    faculty = rows[i]["faculty"].ToString(),
-                    institute = rows[i]["institute"].ToString(),
-                    info = rows[i]["info"].ToString(),
-                    picture = rows[i]["loc"].ToString(),
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new VoteModel()
+                    {
+                        username = rows[i]["username"].ToString(),
+                        faculty = rows[i]["faculty"].ToString(),
+                        institute = rows[i]["institute"].ToString(),
+                        info = rows[i]["info"].ToString(),
+                        picture = rows[i]["loc"].ToString(),
 
 
-                });
+                    });
 
             }
             catch (ArgumentOutOfRangeException)
@@ -238,7 +238,7 @@ namespace stemmeApp.Data
             _database.Execute(commandText, parameters);
         }
 
-      
+
         public List<AdminModel> AdminGetUsers()
         {
             string query = @"SELECT * FROM users";
@@ -263,14 +263,14 @@ namespace stemmeApp.Data
             return returnQuery;
         }
         public AdminModel AdminGetSingleUser(string Id) {
-               AdminModel returnQuery = new AdminModel();
+            AdminModel returnQuery = new AdminModel();
 
             string query = @"SELECT * FROM `users` WHERE Id = @Id AND ID IS NOT NULL";
             IdentityUser user = null;
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@Id", Id);
             var rows = _database.Query(query, parameters);
-            
+
             if (rows != null && rows.Count == 1)
             {
                 for (int i = 0; i < rows.Count(); i++)
@@ -303,59 +303,90 @@ namespace stemmeApp.Data
         }
 
 
-            /// <summary>
-            /// Gets all votes
-            /// </summary>
+        /// <summary>
+        /// Gets all votes
+        /// </summary>
 
-            public List<Votes> getVotes()
+        public List<Votes> getVotes()
+        {
+            List<Votes> ReturnList = new List<Votes>();
+            string commandText = "Select * from votes";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
             {
-                List<Votes> ReturnList = new List<Votes>();
-                string commandText = "Select * from votes";
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                var rows = _database.Query(commandText, parameters);
-                try
-                {
-                    for (int i = 0; i < rows.Count(); i++)
-                        ReturnList.Add(new Votes()
-                        {
-                            Voter = rows[i]["Voter"].ToString(),
-                            VotedOn = rows[i]["Votedon"].ToString(),
-                        });
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                }
-                return ReturnList;
-            }
-
-            /// <summary>
-            /// Gets election information
-            /// </summary>
-
-            public List<ElectionInformation> getElectionInfo()
-            {
-                List<ElectionInformation> ReturnList = new List<ElectionInformation>();
-                string commandText = "Select * from election";
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                var rows = _database.Query(commandText, parameters);
-                try
-                {
-                    ReturnList.Add(new ElectionInformation()
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new Votes()
                     {
-                        IdElection = Int32.Parse(rows[0]["Idelection"]),
-                        ElectionStart = DateTime.Parse(rows[0]["Startelection"]),
-                        ElectionEnd = DateTime.Parse(rows[0]["Endelection"]),
-                        Controlled = (rows[0]["Controlled"] == null) ? DateTime.MinValue : DateTime.Parse(rows[0]["Controlled"])
-
+                        Voter = rows[i]["Voter"].ToString(),
+                        VotedOn = rows[i]["Votedon"].ToString(),
                     });
-                }
-                catch (Exception)
-                {
-
-                }
-                return ReturnList;
             }
-         
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+
+        /// <summary>
+        /// Gets election information
+        /// </summary>
+
+        public List<ElectionInformation> getElectionInfo()
+        {
+            List<ElectionInformation> ReturnList = new List<ElectionInformation>();
+            string commandText = "Select * from election";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                ReturnList.Add(new ElectionInformation()
+                {
+                    IdElection = Int32.Parse(rows[0]["Idelection"]),
+                    ElectionStart = DateTime.Parse(rows[0]["Startelection"]),
+                    ElectionEnd = DateTime.Parse(rows[0]["Endelection"]),
+                    Controlled = (rows[0]["Controlled"] == null) ? DateTime.MinValue : DateTime.Parse(rows[0]["Controlled"])
+
+                });
+            }
+            catch (Exception)
+            {
+
+            }
+            return ReturnList;
+        }
+
+
+        /// <summary>
+        /// Gets all candidates and their votes
+        /// </summary>
+
+        public List<CandidateVotes> getCandidateVotes(){
+            List<CandidateVotes> ReturnList = new List<CandidateVotes>();
+            string commandText = @"SELECT c.UserName, u.Firstname, u.Lastname, COUNT(v.Votedon) as Votes FROM candidate c
+            LEFT JOIN Votes v ON c.UserName = v.Votedon
+            LEFT JOIN Users u ON c.UserName = u.UserName
+            GROUP BY c.UserName
+            ORDER BY Votes DESC";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new CandidateVotes()
+                    {
+                        Username = rows[i]["UserName"].ToString(),
+                        Firstname = rows[i]["Firstname"].ToString(),
+                        Lastname = rows[i]["Lastname"].ToString(),
+                        Votes = Int32.Parse(rows[i]["Votes"]),
+                    });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+
     }
 
 }
