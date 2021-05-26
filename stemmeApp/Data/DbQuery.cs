@@ -243,32 +243,31 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public AdminModel AdminGetSingleUser(string Id) {
-            AdminModel returnQuery = new AdminModel();
+        public List<AdminModel> AdminGetSingleUser() {
+               List<AdminModel> returnQuery = new List<AdminModel>();
 
-            string query = @"SELECT * FROM `users`";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            //parameters.Add("@Id", Id);
-            var rows = _database.Query(query, parameters);
+                string query = @"SELECT * FROM `users`";
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                //parameters.Add("@Id", Id);
+                var rows = _database.Query(query, parameters);
             
-            if (rows != null && rows.Count == 1)
-            {
-                for (int i = 0; i < rows.Count(); i++)
+                if (rows != null && rows.Count == 1)
                 {
-                    returnQuery = new AdminModel()
+                    for (int i = 0; i < rows.Count(); i++)
                     {
-                        Id = rows[i]["Id"].ToString(),
-                        Email = rows[i]["Email"].ToString(),
-                        Firstname = rows[i]["Firstname"].ToString(),
-                        Lastname = rows[i]["Lastname"].ToString(),
+                        returnQuery.Add(new AdminModel()
+                        {
+                            Id = rows[i]["Id"].ToString(),
+                            Email = rows[i]["Email"].ToString(),
+                            Firstname = rows[i]["Firstname"].ToString(),
+                            Lastname = rows[i]["Lastname"].ToString(),
+                        });
+                    }
 
-                    };
                 }
+                return returnQuery;
 
             }
-            return returnQuery;
-
-        }
 
         public void AdminEditUser(string username, string email, string Firstname, string Lastname)
         {
@@ -369,6 +368,6 @@ namespace stemmeApp.Data
 
     }
 
-    }
 }
+
     
