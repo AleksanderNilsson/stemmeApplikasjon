@@ -31,13 +31,9 @@ namespace stemmeApp.Controllers
         public ActionResult Vote()
         {
             ViewBag.Message = "Vote for a candidate";
-            DbQuery db = new DbQuery();                           
-            
+            DbQuery db = new DbQuery();
+
             return View(db.GetAllCandidates().ToList());
-
-            DbQuery db2 = new DbQuery();
-            return View(db2.GetPicture().ToList());
-
 
         }
 
