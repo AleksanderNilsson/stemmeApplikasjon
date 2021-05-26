@@ -12,5 +12,9 @@ namespace stemmeApp.Models
 
         public string institute { get; set; }
         public string info { get; set; }
+        public string picture { get; set; }
+
+        public string loc { get; set; }
+
     }
 }

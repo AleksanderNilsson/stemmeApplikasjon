@@ -6,6 +6,8 @@ using System.Web;
 namespace stemmeApp.Models
 {
 
+
+    //Models used for the Inspector>Index page
     public class Votes {
         public String Voter { get; set; }
         public String VotedOn { get; set; }
@@ -26,6 +28,17 @@ namespace stemmeApp.Models
         public List<Votes> Votes {get; set;} = new List<Votes>();
         public List<ElectionInformation> ElectionInformation { get; set; } = new List<ElectionInformation>();
         public List<VoteModel> Candidates { get; set; } = new List<VoteModel>();
+    }
+
+
+    //Model used for the Inspector>Votes page
+
+    public class CandidateVotes
+    {
+        public String Username { get; set; }
+        public String Firstname { get; set; }
+        public String Lastname { get; set; }
+        public int Votes { get; set; }
     }
 
 
