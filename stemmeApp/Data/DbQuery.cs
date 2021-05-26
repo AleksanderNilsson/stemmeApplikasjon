@@ -281,13 +281,37 @@ namespace stemmeApp.Data
             _database.Execute(commandText, parameters);
 
         }
+        
+        public void AdminDeleteUser(string Username)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@UserName", Username } };
+            string query = "DELETE FROM users WHERE Username = @UserName";
+            _database.Execute(query, parameters);
+        }
+
+        public Boolean CheckIfUserIsCandidate(string Username)
+        {
+            Boolean UserIsCandidate;
+            string query = "SELECT UserName FROM candidate WHERE username = @username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            String ReturnValue = _database.GetStrValue(query, parameters);
+            if (ReturnValue == null)
+            {
+                UserIsCandidate = false;
+            }
+            else
+            {
+                UserIsCandidate = true;
+            }
+            return UserIsCandidate;
+        }
 
 
-            /// <summary>
-            /// Gets all votes
-            /// </summary>
+        /// <summary>
+        /// Gets all votes
+        /// </summary>
 
-            public List<Votes> getVotes()
+        public List<Votes> getVotes()
             {
                 List<Votes> ReturnList = new List<Votes>();
                 string commandText = "Select * from votes";
@@ -382,8 +406,12 @@ namespace stemmeApp.Data
 
         }
 
+<<<<<<< Updated upstream
     }
 
     
+=======
+>>>>>>> Stashed changes
 }
+
     
