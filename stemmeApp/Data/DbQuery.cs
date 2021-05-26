@@ -406,12 +406,8 @@ namespace stemmeApp.Data
 
         }
 
-<<<<<<< Updated upstream
     }
 
-    
-=======
->>>>>>> Stashed changes
 }
 
     

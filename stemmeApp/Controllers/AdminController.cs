@@ -71,7 +71,7 @@ namespace stemmeApp.Controllers
         public ActionResult Delete(string Id)
         {
             DbQuery db = new DbQuery();
-            var selectedUser = db.AdminGetSingleUser(Id);
+            var selectedUser = db.AdminGetSingleUser();
             if (selectedUser == null)
             {
                 return HttpNotFound();
