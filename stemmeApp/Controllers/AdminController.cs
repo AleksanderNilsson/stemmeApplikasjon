@@ -44,6 +44,7 @@ namespace stemmeApp.Controllers
         {
 
             DbQuery db = new DbQuery();
+            String username = RouteData.Values["id"] + Request.Url.Query;
             return View(db.AdminGetSingleUser());
 
         }

@@ -8,16 +8,17 @@
 <div class="b5container">
     <div class="b5row">
         <div class="b5col">
-            @if (DateTime.Now < @Model.ElectionInformation[0].ElectionEnd){<!--Show this if the election has not ended yet-->               
+            @if (DateTime.Now < @Model.ElectionInformation[0].ElectionEnd)  { //Show this if the election has not ended yet
                 <h3>
                     Election @Model.ElectionInformation[0].IdElection is starting @Model.ElectionInformation[0].ElectionStart and ending @Model.ElectionInformation[0].ElectionEnd <br />
                     The election can be controlled after the election has ended
                 </h3>
             }
-            else if (DateTime.Compare(@Model.ElectionInformation[0].ElectionEnd, DateTime.MinValue) == 1){ <!--SHow this if the election ended but has not been controlled-->
+            else if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0){ //Show this if the election ended but has not been controlled
+
                 <h3>The election ended @Model.ElectionInformation[0].ElectionEnd and now needs to be controlled </h3>
             }
-            else{ <!--Shows if the election has been controlled-->          
+            else { //Shows if the election has been controlled
                 <h3>The election was controlled on @Model.ElectionInformation[0].Controlled and the results have been published </h3>
             }
         </div>
@@ -29,22 +30,27 @@
         <div class="b5col">
             <h3>Control Votes</h3>
             <h4>Total number of votes: @Model.Votes.Count</h4>
-            <h4>Click <a href="Votes">here</a> to see a list of all votes</h4>
+            <h4>Click <a href="~/Inspector/Votes">here</a> to see a list of all votes</h4>
         </div>
         <div class="b5col text-right">
             <h3>Control Winner</h3>
             <h4>Total number of candidates: @Model.Candidates.Count</h4>
-            <h4>Click <a href="Candidates">here</a> to see a list of all candidates and their votes</h4>
+            <h4>Click <a href="~/Inspector/Candidates">here</a> to see a list of all candidates and their votes</h4>
         </div>
     </div>
 </div>
 
-<div class="b5container">
-    <div class="b5row">
-        <div class="b5col  text-center">
-            <h3>Approve the election</h3>
-            <h4>After the result has been reviewed, approve the election here  <input type="submit" value="Approve election" class="btn btn-success" /></h4>
-            <h5> Once approved the results will be published</h5>
+@if ((DateTime.Now > @Model.ElectionInformation[0].ElectionEnd) && (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0)) { //Show this if the election ended but has not been controlled
+    <div class="b5container">
+        <div class="b5row">
+            <div class="b5col  text-center">
+                <h3>Approve the election</h3>
+                <h4>After the result has been reviewed, approve the election here</h4>
+                <form method="post">
+                    <input type="submit" value="Approve election" class="btn btn-success" />
+                </form>
+                <h5> Once approved the results will be published</h5>
+            </div>
         </div>
     </div>
-</div>
+}

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace stemmeApp.Controllers
 {
+    [Authorize(Roles = "Inspector")]
     public class InspectorController : Controller
     {
         // GET: Inspector
@@ -21,6 +22,14 @@ namespace stemmeApp.Controllers
 
 
             return View(IndexViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Index(InspectorViewModel Model)
+        {
+            DbQuery db = new DbQuery();
+            db.SetControlDate(1);
+            return RedirectToAction("");
         }
 
         public ActionResult Votes()

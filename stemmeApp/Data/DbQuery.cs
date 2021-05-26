@@ -29,7 +29,8 @@ namespace stemmeApp.Data
             {
                 UserExists = false;
             }
-            else {
+            else
+            {
                 UserExists = true;
             }
             return UserExists;
@@ -58,7 +59,8 @@ namespace stemmeApp.Data
         /// <summary>
         /// Inserts a new candidate into the candidate table
         /// </summary>
-        public void InsertNewCandidate(string username, string faculty, string institute, string info, int PictureId) {
+        public void InsertNewCandidate(string username, string faculty, string institute, string info, int PictureId)
+        {
             string commandText = @"Insert Into candidate (username, faculty, institute, info, picture)
                 VALUES (@username, @faculty, @institute, @info, @pictureid)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -73,7 +75,8 @@ namespace stemmeApp.Data
         /// <summary>
         /// Inserts a new entry into the picture table
         /// </summary>
-        public void InsertNewImage(int id, string loc, string text) {
+        public void InsertNewImage(int id, string loc, string text)
+        {
             string commandText = @"Insert Into picture (idpicture, loc, text)
              VALUES (@id, @loc, @text)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -111,7 +114,8 @@ namespace stemmeApp.Data
         /// <summary>
         /// Returns an entry from the candidate table
         /// </summary>
-        public List<CandidateModel> GetCandidate(string username) {
+        public List<CandidateModel> GetCandidate(string username)
+        {
             List<CandidateModel> ReturnList = new List<CandidateModel>();
             string commandText = @"Select username, faculty, institute, info, picture.loc, picture.text
             from candidate, picture where username = @username AND candidate.Picture = picture.Idpicture;";
@@ -129,7 +133,8 @@ namespace stemmeApp.Data
                     PictureText = rows[0]["text"].ToString(),
                 });
             }
-            catch (ArgumentOutOfRangeException) {
+            catch (ArgumentOutOfRangeException)
+            {
             }
             return ReturnList;
         }
@@ -193,7 +198,8 @@ namespace stemmeApp.Data
                 commandText = @"Update picture SET loc=@dbpath, text=@picturetext WHERE idpicture=@pictureid";
                 _database.Query(commandText, parameters);
             }
-            else { // if no picture is uploaded, only update the picture text
+            else
+            { // if no picture is uploaded, only update the picture text
                 commandText = @"Update picture SET text=@picturetext WHERE idpicture=@pictureid";
                 _database.Query(commandText, parameters);
             }
@@ -237,8 +243,8 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public AdminModel AdminGetSingleUser() {
-               AdminModel returnQuery = new AdminModel();
+        public AdminModel AdminGetSingleUser(string Id) {
+            AdminModel returnQuery = new AdminModel();
 
             string query = @"SELECT * FROM `users`";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -326,10 +332,43 @@ namespace stemmeApp.Data
                 catch (Exception)
                 {
 
-                }
-                return ReturnList;
             }
-         
+            return ReturnList;
+        }
+
+
+        /// <summary>
+        /// Gets all candidates and their votes
+        /// </summary>
+
+        public List<CandidateVotes> getCandidateVotes(){
+            List<CandidateVotes> ReturnList = new List<CandidateVotes>();
+            string commandText = @"SELECT c.UserName, u.Firstname, u.Lastname, COUNT(v.Votedon) as Votes FROM candidate c
+            LEFT JOIN Votes v ON c.UserName = v.Votedon
+            LEFT JOIN Users u ON c.UserName = u.UserName
+            GROUP BY c.UserName
+            ORDER BY Votes DESC";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new CandidateVotes()
+                    {
+                        Username = rows[i]["UserName"].ToString(),
+                        Firstname = rows[i]["Firstname"].ToString(),
+                        Lastname = rows[i]["Lastname"].ToString(),
+                        Votes = Int32.Parse(rows[i]["Votes"]),
+                    });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+
     }
 
+    }
 }
+    
