@@ -14,6 +14,7 @@ using AspNet.Identity.MySQL;
 
 namespace stemmeApp.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         MySQLDatabase _database = new MySQLDatabase();
@@ -41,9 +42,9 @@ namespace stemmeApp.Controllers
         //// GET: Admin/Edit/5
         public ActionResult Edit()
         {
-            string userId = User.Identity.GetUserId();
+
             DbQuery db = new DbQuery();
-            return View(db.AdminGetSingleUser(userId));
+            return View(db.AdminGetSingleUser());
 
         }
 

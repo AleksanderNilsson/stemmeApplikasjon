@@ -237,13 +237,12 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public AdminModel AdminGetSingleUser(string Id) {
+        public AdminModel AdminGetSingleUser() {
                AdminModel returnQuery = new AdminModel();
 
-            string query = @"SELECT * FROM `users` WHERE Id = @Id AND ID IS NOT NULL";
-            IdentityUser user = null;
+            string query = @"SELECT * FROM `users`";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@Id", Id);
+            //parameters.Add("@Id", Id);
             var rows = _database.Query(query, parameters);
             
             if (rows != null && rows.Count == 1)
