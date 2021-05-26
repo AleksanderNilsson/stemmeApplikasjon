@@ -40,12 +40,11 @@ namespace stemmeApp.Controllers
         }
 
         //// GET: Admin/Edit/5
-        public ActionResult Edit()
+        public ActionResult Edit(String Username)
         {
 
             DbQuery db = new DbQuery();
-            String username = RouteData.Values["id"] + Request.Url.Query;
-            return View(db.AdminGetSingleUser());
+            return View(db.AdminGetSingleUser(Username));
 
         }
 
