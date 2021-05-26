@@ -243,7 +243,7 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public AdminModel AdminGetSingleUser(string Id) {
+        public AdminModel AdminGetSingleUser() {
             AdminModel returnQuery = new AdminModel();
 
             string query = @"SELECT * FROM `users`";
@@ -367,8 +367,23 @@ namespace stemmeApp.Data
             return ReturnList;
         }
 
-    }
+        public void SetControlDate(int id)
+        {
+            
+            string commandText = @"Update election set Controlled = @date WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            parameters.Add("@date", DateTime.Now);
+            parameters.Add("@id", id);
+
+
+            _database.Query(commandText, parameters);
+
+
+        }
 
     }
+
+    
 }
     
