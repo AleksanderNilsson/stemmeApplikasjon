@@ -44,7 +44,11 @@ namespace stemmeApp.Controllers
             ViewBag.Message = "Vote for a candidate";
             DbQuery db = new DbQuery();
 
-            return View(db.GetAllCandidates().ToList());
+
+            db.VoteForUser(username, User.Identity.GetUserName());
+
+            return RedirectToAction("Vote");
+
 
 
 
