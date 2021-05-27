@@ -16,8 +16,8 @@
         </div>
         
         <form method="post" action="@Url.Action("Vote", "Home")">
-            <input type="text" name="name" value="@item.username" hidden />
-            <input class="btn btn-warning" name="submit" type="submit" value="Withdraw as candidate" onclick="return confirm('Are you sure you want to remove yourself as candidate?')" />
+            <input type="text" name="username" value="@item.username" hidden />
+            <input class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
         </form>
         </div>
     

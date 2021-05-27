@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Mvc;
 
@@ -176,6 +177,43 @@ namespace stemmeApp.Data
             return ReturnList;
         }
 
+        public void VoteForUser(string votedon, string voter)
+        {
+            try
+            {
+                Dictionary<string, object> parameters1 = new Dictionary<string, object>();
+                var rows = _database.Query("SELECT * FROM votes WHERE voter = '" + voter + "';", parameters1);
+                if (rows.Count() == 0 || rows.Count() == null)
+                {
+
+
+                    string commandText = @"INSERT INTO votes (Voter, Votedon) VALUES (@voter, @votedon)";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    parameters.Add("@voter", voter);
+                    parameters.Add("@votedon", votedon);
+
+
+                    _database.Execute(commandText, parameters);
+                }
+                else
+                {
+                    string commandText = @"UPDATE votes set votedon = '" + votedon + "' WHERE voter = '" + voter + "';";
+                    Dictionary<string, object> parameters2 = new Dictionary<string, object>();
+                    _database.Execute(commandText, parameters2);
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+        }
+
+
+
         /// <summary>
         /// Updates an entry in the candidate table
         /// </summary>
@@ -206,19 +244,6 @@ namespace stemmeApp.Data
 
         }
 
-        public static int Stemme(string epost, string newStemme)
-        {
-            try
-            {
-                string[] stemmeParam = { "votedon", newStemme };
-                string[][] parameters = { stemmeParam };
-                string commandtext = "UPDATE votes SET stemme = @stemme WHERE epost = '" + epost + "';";
-            }
-            catch
-            {
-                return -1;
-            }
-        }
 
         /// <summary>
         /// Removes a candidate in the candidate and picture table
