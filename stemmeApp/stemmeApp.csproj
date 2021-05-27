@@ -284,6 +284,7 @@
     <Content Include="Views\Inspector\Index.cshtml" />
     <Content Include="Views\Inspector\Votes.cshtml" />
     <Content Include="Views\Inspector\Candidates.cshtml" />
+    <Content Include="Views\Home\Vote2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

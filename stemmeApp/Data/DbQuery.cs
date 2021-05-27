@@ -205,6 +205,21 @@ namespace stemmeApp.Data
             }
 
         }
+
+        public static int Stemme(string epost, string newStemme)
+        {
+            try
+            {
+                string[] stemmeParam = { "votedon", newStemme };
+                string[][] parameters = { stemmeParam };
+                string commandtext = "UPDATE votes SET stemme = @stemme WHERE epost = '" + epost + "';";
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+
         /// <summary>
         /// Removes a candidate in the candidate and picture table
         /// </summary>
@@ -370,5 +385,5 @@ namespace stemmeApp.Data
     }
 
     }
-}
+
     

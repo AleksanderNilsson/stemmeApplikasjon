@@ -35,6 +35,19 @@ namespace stemmeApp.Controllers
 
             return View(db.GetAllCandidates().ToList());
 
+            
+
+        }
+        [HttpPost]
+        public ActionResult Vote(string username)
+        {
+            ViewBag.Message = "Vote for a candidate";
+            DbQuery db = new DbQuery();
+
+            return View(db.GetAllCandidates().ToList());
+
+
+
         }
 
         public ActionResult Contact()

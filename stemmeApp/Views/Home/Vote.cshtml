@@ -1,4 +1,6 @@
-﻿@model List<stemmeApp.Models.VoteModel>
+﻿@using System.Configuration
+@using Microsoft.AspNet.Identity
+@model List<stemmeApp.Models.VoteModel>
 
 @{
     ViewBag.Title = "Vote";
@@ -8,10 +10,19 @@
 
 @foreach (var item in Model) {
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" img src="~/@item.picture"  width="100" height="100"/>
+        <img class="card-img-top" img src="~/@item.picture" width="100" height="100" />
         <div class="card-body">
             <p class="card-text">@item.username @item.info</p>
         </div>
-    </div>
-        }
+        
+        <form method="post" action="@Url.Action("Vote", "Home")">
+            <input type="text" name="name" value="@item.username" hidden />
+            <input class="btn btn-warning" name="submit" type="submit" value="Withdraw as candidate" onclick="return confirm('Are you sure you want to remove yourself as candidate?')" />
+        </form>
+        </div>
+    
+    {
+    }
+
+}
 
