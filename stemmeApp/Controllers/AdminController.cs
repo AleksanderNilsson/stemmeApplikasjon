@@ -61,9 +61,16 @@ namespace stemmeApp.Controllers
             }
             else if(ModelState.IsValid)
             {
-                var username =  User.Identity.GetUserName();
-                db.AdminEditUser(Model.Username, Model.Email, Model.Firstname, Model.Lastname);
-                return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
+                //var username =  User.Identity.GetUserName();
+                try 
+                {
+                    db.AdminEditUser(Model.Username, Model.Id, Model.Email, Model.Firstname, Model.Lastname, Model.PhoneNumber, Model.Faculty, Model.Institute, Model.Info);
+                    return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
 
             return View();

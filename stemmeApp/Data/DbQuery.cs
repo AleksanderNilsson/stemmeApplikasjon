@@ -1,14 +1,9 @@
 ﻿using AspNet.Identity.MySQL;
-using MySql.Data.MySqlClient;
 using stemmeApp.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Web;
-using System.Web.Mvc;
+
 
 namespace stemmeApp.Data
 {
@@ -273,8 +268,10 @@ namespace stemmeApp.Data
                     returnQuery.Add(new AdminModel()
                     {
                         Id = rows[i]["Id"].ToString(),
-                        Email = rows[i]["Email"].ToString(),
                         Username = rows[i]["UserName"].ToString(),
+                        Email = rows[i]["Email"].ToString(),
+                        Firstname = rows[i]["Firstname"].ToString(),
+                        Lastname = rows[i]["Lastname"].ToString(),
                     });
                 }
             }
@@ -286,46 +283,79 @@ namespace stemmeApp.Data
         public AdminModel AdminGetSingleUser(String Username) {
                AdminModel returnQuery = new AdminModel();
 
-            string query = @"SELECT * FROM `users` WHERE  Username = @UserName";
+            string query = @"SELECT u.Username, u.Id, u.Email, u.Firstname, u.Lastname, u.PhoneNumber,
+                            c.Faculty, c.Institute, c.Info, c.Picture
+                            FROM users AS u 
+                            JOIN candidate AS c ON u.UserName = c.UserName 
+                            WHERE u.Username = @UserName;";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@UserName", Username);
             var rows = _database.Query(query, parameters);
-            
+
             if (rows != null && rows.Count == 1)
             {
                 for (int i = 0; i < rows.Count(); i++)
                 {
                     returnQuery = new AdminModel()
                     {
+
+                        //From Users Table
+                        Username = rows[i]["Username"].ToString(),
                         Id = rows[i]["Id"].ToString(),
                         Email = rows[i]["Email"].ToString(),
                         Firstname = rows[i]["Firstname"].ToString(),
                         Lastname = rows[i]["Lastname"].ToString(),
+                        PhoneNumber = rows[i]["PhoneNumber"].ToString(),
+
+                        //From Candidate Table
+                        Faculty = rows[i]["Faculty"].ToString(),
+                        Institute = rows[i]["Institute"].ToString(),
+                        Info = rows[i]["Info"].ToString(),
 
                     };
                 }
-
             }
             return returnQuery;
-
         }
 
-        public void AdminEditUser(string username, string email, string Firstname, string Lastname)
+        public void AdminEditUser(
+            string Username, string Id, string Email,
+            string Firstname, string Lastname, string PhoneNumber,
+            string Faculty, string Institute, string Info)
         {
-            string commandText = @"Update users SET email=@email, Firstname=@Firstname, Lastname=@Lastname WHERE username=@username";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@username", username);
-            parameters.Add("@email", email);
-            parameters.Add("@Firstname", Firstname);
-            parameters.Add("@Lastname", Lastname);
-            _database.Execute(commandText, parameters);
+            try
+            {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                string queryOne = @"Update users SET Email=@Email, Firstname=@Firstname, 
+                Lastname=@Lastname, PhoneNumber=@PhoneNumber WHERE Username=@UserName;";
+                parameters.Add("@Username", Username);
+                parameters.Add("@Id", Id);
+                parameters.Add("@Email", Email);
+                parameters.Add("@Firstname", Firstname);
+                parameters.Add("@Lastname", Lastname);
+                parameters.Add("@PhoneNumber", PhoneNumber);
+                _database.Execute(queryOne, parameters);
+
+                Dictionary<string, object> alsoParameters = new Dictionary<string, object>();
+                string queryTwo = @"Update candidate SET Faculty=@Faculty, Institute=@Institute, Info=@Info WHERE Username=@Username;";
+                alsoParameters.Add("@Faculty", Faculty);
+                alsoParameters.Add("@Institute", Institute);
+                alsoParameters.Add("@Info", Info);
+                alsoParameters.Add("@Username", Username);
+                _database.Execute(queryTwo, alsoParameters);
+            }
+            
+            catch (Exception e)
+            {
+                throw e;
+            }
 
         }
 
 
-            /// <summary>
-            /// Gets all votes
-            /// </summary>
+        /// <summary>
+        /// Gets all votes
+        /// </summary>
 
             public List<Votes> getVotes()
             {
