@@ -1,16 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+﻿using AspNet.Identity.MySQL;
 using Microsoft.AspNet.Identity;
-using stemmeApp.Models;
-using System.Net;
 using stemmeApp.Data;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
+using stemmeApp.Models;
+using System;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 using static stemmeApp.Controllers.ManageController;
-using AspNet.Identity.MySQL;
 
 namespace stemmeApp.Controllers
 {
@@ -61,10 +57,9 @@ namespace stemmeApp.Controllers
             }
             else if(ModelState.IsValid)
             {
-                //var username =  User.Identity.GetUserName();
                 try 
                 {
-                    db.AdminEditUser(Model.Username, Model.Id, Model.Email, Model.Firstname, Model.Lastname, Model.PhoneNumber, Model.Faculty, Model.Institute, Model.Info);
+                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info);
                     return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
                 }
                 catch (Exception e)
@@ -76,28 +71,27 @@ namespace stemmeApp.Controllers
             return View();
         }
 
-        //
-        // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
+        // POST: Admin/Delete/5
+        [HttpPost]
+        public ActionResult Delete(AdminModel Model)
         {
+            DbQuery db = new DbQuery();
+            if (db.CheckIfUserIsCandidate(Model.Username))
+            {
+                ModelState.AddModelError("Username", "Cannot delete a user that is already a registered Candidate. Please remove user from candidate role first.");
+            }
+            else if (ModelState.IsValid && Model.Username != null)
+            {
+                db.AdminDeleteUser(Model.Username);
+                return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
+            }
+            else
+            {
+                ModelState.AddModelError("Username", "Unknown error, could not delete...");
+                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+            }
             return View();
         }
 
-        // POST: Admin/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-      
     }
 }

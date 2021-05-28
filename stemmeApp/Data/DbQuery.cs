@@ -282,15 +282,14 @@ namespace stemmeApp.Data
             return returnQuery;
         }
         public AdminModel AdminGetSingleUser(String Username) {
-            AdminModel returnQuery = new AdminModel();
+               AdminModel returnQuery = new AdminModel();
 
-            string query = @"SELECT u.Username, u.Id, u.Email, u.Firstname, u.Lastname, u.PhoneNumber,
-                            c.Faculty, c.Institute, c.Info, c.Picture
+            string query = @"SELECT u.Username, u.Id, u.Email, u.Firstname, u.Lastname, c.Faculty, c.Institute, c.Info, c.Picture
                             FROM users AS u 
-                            JOIN candidate AS c ON u.UserName = c.UserName 
-                            WHERE u.Username = @UserName;";
+                            JOIN candidate AS c ON u.Username = c.Username 
+                            WHERE u.Username = @Username;";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@UserName", Username);
+            parameters.Add("@Username", Username);
             var rows = _database.Query(query, parameters);
 
             if (rows != null && rows.Count == 1)
@@ -306,7 +305,6 @@ namespace stemmeApp.Data
                         Email = rows[i]["Email"].ToString(),
                         Firstname = rows[i]["Firstname"].ToString(),
                         Lastname = rows[i]["Lastname"].ToString(),
-                        PhoneNumber = rows[i]["PhoneNumber"].ToString(),
 
                         //From Candidate Table
                         Faculty = rows[i]["Faculty"].ToString(),
@@ -320,30 +318,33 @@ namespace stemmeApp.Data
         }
 
         public void AdminEditUser(
-            string Username, string Id, string Email,
-            string Firstname, string Lastname, string PhoneNumber,
+            string Id, string Username, string Email, string Firstname, string Lastname,
             string Faculty, string Institute, string Info)
         {
             try
             {
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
-                string queryOne = @"Update users SET Email=@Email, Firstname=@Firstname, 
-                Lastname=@Lastname, PhoneNumber=@PhoneNumber WHERE Username=@UserName;";
+                string query = @"
+                BEGIN;
+                UPDATE `users` 
+                SET Id=@Id,Username=@Username,Email=@Email, Firstname=@Firstname, Lastname=@Lastname 
+                WHERE Username=@Username;
+                
+                UPDATE `candidate` 
+                SET Faculty=@Faculty, Institute=@Institute, Info=@Info 
+                WHERE Username=@Username;
+                COMMIT;";
                 parameters.Add("@Username", Username);
                 parameters.Add("@Id", Id);
                 parameters.Add("@Email", Email);
                 parameters.Add("@Firstname", Firstname);
                 parameters.Add("@Lastname", Lastname);
-                parameters.Add("@PhoneNumber", PhoneNumber);
-                _database.Execute(queryOne, parameters);
 
-                Dictionary<string, object> alsoParameters = new Dictionary<string, object>();
-                string queryTwo = @"Update candidate SET Faculty=@Faculty, Institute=@Institute, Info=@Info WHERE Username=@Username;";
-                alsoParameters.Add("@Faculty", Faculty);
-                alsoParameters.Add("@Institute", Institute);
-                alsoParameters.Add("@Info", Info);
-                alsoParameters.Add("@Username", Username);
-                _database.Execute(queryTwo, alsoParameters);
+                parameters.Add("@Faculty", Faculty);
+                parameters.Add("@Institute", Institute);
+                parameters.Add("@Info", Info);
+
+                _database.Execute(query, parameters);
             }
 
             catch (Exception e)
@@ -352,7 +353,28 @@ namespace stemmeApp.Data
             }
 
         }
-
+        public void AdminDeleteUser(string Username)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@UserName", Username } };
+            string query = "DELETE FROM users WHERE Username = @UserName";
+            _database.Execute(query, parameters);
+        }
+        public Boolean CheckIfUserIsCandidate(string Username)
+        {
+            Boolean UserIsCandidate;
+            string query = "SELECT UserName FROM candidate WHERE username = @username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            String ReturnValue = _database.GetStrValue(query, parameters);
+            if (ReturnValue == null)
+            {
+                UserIsCandidate = false;
+            }
+            else
+            {
+                UserIsCandidate = true;
+            }
+            return UserIsCandidate;
+        }
 
         /// <summary>
         /// Gets all votes

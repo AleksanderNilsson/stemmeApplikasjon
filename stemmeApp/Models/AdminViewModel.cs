@@ -12,25 +12,26 @@ namespace stemmeApp.Models
         /// <summary>
         /// Data from User Table in DB
         /// </summary>
-         
+        [Required(ErrorMessage = "This field cannot be changed")]
         [Display(Name = "User ID")]
         public string Id { get; set; }
 
+        [Required(ErrorMessage = "User must have a Username")]
         [Display(Name = "Username")]
         public string Username { get; set; }
 
-        [Display(Name = "Email / Username")]
+        [Required(ErrorMessage = "User must have a Email")]
+        [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "User must have a Firstname")]
         [Display(Name = "Firstname")]
         public string Firstname { get; set; }
 
+        [Required(ErrorMessage = "User must have a lastname")]
         [Display(Name = "Lastname")]
         public string Lastname { get; set; }
-
-        [Display(Name = "PhoneNumber")]
-        public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Data from Candidate table in DB
