@@ -284,10 +284,27 @@ namespace stemmeApp.Data
         public AdminModel AdminGetSingleUser(String Username) {
                AdminModel returnQuery = new AdminModel();
 
-            string query = @"SELECT u.Username, u.Id, u.Email, u.Firstname, u.Lastname, c.Faculty, c.Institute, c.Info, c.Picture
-                            FROM users AS u 
-                            JOIN candidate AS c ON u.Username = c.Username 
-                            WHERE u.Username = @Username;";
+            string query = @"SELECT
+                            u.Username,
+                            u.Id,
+                            u.Email,
+                            u.Firstname,
+                            u.Lastname,
+                            c.Faculty,
+                            c.Institute,
+                            c.Info,
+                            c.Picture,
+                            ur.RoleId,
+							r.Name
+                        FROM users AS u
+                        JOIN candidate AS c
+                        ON u.Username = c.Username
+                        JOIN userroles AS ur
+                        ON u.Id = ur.UserId
+                        JOIN roles AS r
+						ON r.Id = ur.RoleId
+                        WHERE Username = @Username
+                        ";                      
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@Username", Username);
             var rows = _database.Query(query, parameters);
@@ -298,7 +315,6 @@ namespace stemmeApp.Data
                 {
                     returnQuery = new AdminModel()
                     {
-
                         //From Users Table
                         Username = rows[i]["Username"].ToString(),
                         Id = rows[i]["Id"].ToString(),
@@ -310,6 +326,10 @@ namespace stemmeApp.Data
                         Faculty = rows[i]["Faculty"].ToString(),
                         Institute = rows[i]["Institute"].ToString(),
                         Info = rows[i]["Info"].ToString(),
+                        
+                        //From Role Table(s)
+                        RoleId = rows[i]["RoleId"].ToString(),
+                        RoleName = rows[i]["Name"].ToString(),
 
                     };
                 }
@@ -319,7 +339,7 @@ namespace stemmeApp.Data
 
         public void AdminEditUser(
             string Id, string Username, string Email, string Firstname, string Lastname,
-            string Faculty, string Institute, string Info)
+            string Faculty, string Institute, string Info, string RoleId, string RoleName)
         {
             try
             {
@@ -327,11 +347,11 @@ namespace stemmeApp.Data
                 string query = @"
                 BEGIN;
                 UPDATE `users` 
-                SET Id=@Id,Username=@Username,Email=@Email, Firstname=@Firstname, Lastname=@Lastname 
+                SET Id=@Id,Username=@Username,Email=@Email,Firstname=@Firstname,Lastname=@Lastname 
                 WHERE Username=@Username;
                 
                 UPDATE `candidate` 
-                SET Faculty=@Faculty, Institute=@Institute, Info=@Info 
+                SET Faculty=@Faculty,Institute=@Institute,Info=@Info 
                 WHERE Username=@Username;
                 COMMIT;";
                 parameters.Add("@Username", Username);

@@ -36,7 +36,7 @@ namespace stemmeApp.Models
         /// <summary>
         /// Data from Candidate table in DB
         /// </summary>
-         
+
         [Display(Name = "Faculty")]
         public string Faculty { get; set; }
 
@@ -45,7 +45,16 @@ namespace stemmeApp.Models
 
         [Display(Name = "Info")]
         public string Info { get; set; }
-        
+
+        /// <summary>
+        /// Data from Role table in DB
+        /// </summary>
+        [StringLength(3)]
+        [Required(ErrorMessage = "User must have a role, (0 = Student, 1 = Inspector, 2 = Admin)")]
+        [Display(Name = "Role ID")]
+        public string RoleId { get; set; }
+
+        [Display(Name = "Role Name")]
+        public string RoleName { get; set; }
     }
-   
 }

@@ -35,7 +35,7 @@ namespace stemmeApp.Controllers
             return View(db.AdminGetUsers().ToList());
         }
 
-        //// GET: Admin/Edit/5
+        //// GET: Admin/Edit/Username
         public ActionResult Edit(String Username)
         {
 
@@ -45,7 +45,7 @@ namespace stemmeApp.Controllers
         }
 
 
-        //POST: Admin/Edit/5
+        //POST: Admin/Edit/Username
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AdminModel Model)
@@ -59,7 +59,7 @@ namespace stemmeApp.Controllers
             {
                 try 
                 {
-                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info);
+                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId, Model.RoleName);
                     return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
                 }
                 catch (Exception e)
@@ -71,7 +71,7 @@ namespace stemmeApp.Controllers
             return View();
         }
 
-        // POST: Admin/Delete/5
+        // POST: Admin/Delete/Username
         [HttpPost]
         public ActionResult Delete(AdminModel Model)
         {
