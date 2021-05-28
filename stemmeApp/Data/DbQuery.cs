@@ -296,14 +296,13 @@ namespace stemmeApp.Data
                             c.Picture,
                             ur.RoleId,
 							r.Name
-                        FROM users AS u
-                        JOIN candidate AS c
-                        ON u.Username = c.Username
-                        JOIN userroles AS ur
-                        ON u.Id = ur.UserId
-                        JOIN roles AS r
-						ON r.Id = ur.RoleId
-                        WHERE Username = @Username
+                            FROM users AS u
+                            JOIN candidate AS c
+                            ON u.Username = c.Username
+                            JOIN userroles AS ur
+                            ON u.Id = ur.UserId
+                            JOIN roles AS r
+						    ON r.Id = ur.RoleId
                         ";                      
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@Username", Username);
@@ -339,7 +338,7 @@ namespace stemmeApp.Data
 
         public void AdminEditUser(
             string Id, string Username, string Email, string Firstname, string Lastname,
-            string Faculty, string Institute, string Info, string RoleId, string RoleName)
+            string Faculty, string Institute, string Info, string RoleId)
         {
             try
             {
@@ -353,6 +352,9 @@ namespace stemmeApp.Data
                 UPDATE `candidate` 
                 SET Faculty=@Faculty,Institute=@Institute,Info=@Info 
                 WHERE Username=@Username;
+                
+                UPDATE `userroles` SET RoleId=@RoleId; 
+                
                 COMMIT;";
                 parameters.Add("@Username", Username);
                 parameters.Add("@Id", Id);
@@ -363,6 +365,8 @@ namespace stemmeApp.Data
                 parameters.Add("@Faculty", Faculty);
                 parameters.Add("@Institute", Institute);
                 parameters.Add("@Info", Info);
+                
+                parameters.Add("@RoleId", RoleId);
 
                 _database.Execute(query, parameters);
             }

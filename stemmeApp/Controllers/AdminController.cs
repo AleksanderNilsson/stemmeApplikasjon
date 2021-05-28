@@ -59,7 +59,7 @@ namespace stemmeApp.Controllers
             {
                 try 
                 {
-                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId, Model.RoleName);
+                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId);
                     return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
                 }
                 catch (Exception e)

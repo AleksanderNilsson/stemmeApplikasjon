@@ -49,8 +49,8 @@ namespace stemmeApp.Models
         /// <summary>
         /// Data from Role table in DB
         /// </summary>
-        [StringLength(3)]
-        [Required(ErrorMessage = "User must have a role, (0 = Student, 1 = Inspector, 2 = Admin)")]
+        [StringLength(5)]
+        [Required(ErrorMessage = "User must have a role, (1 = Student, 2 = Inspector, 3 = Admin)")]
         [Display(Name = "Role ID")]
         public string RoleId { get; set; }
 
