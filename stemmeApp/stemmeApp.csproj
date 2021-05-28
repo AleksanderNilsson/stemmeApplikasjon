@@ -208,7 +208,8 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
-    <Compile Include="Models\InspectorModel.cs" />
+    <Compile Include="Models\ResultsModel.cs" />
+    <Compile Include="Models\InsepctorModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\CandidateModel.cs" />
@@ -285,6 +286,7 @@
     <Content Include="Views\Inspector\Votes.cshtml" />
     <Content Include="Views\Inspector\Candidates.cshtml" />
     <Content Include="Views\Home\Vote2.cshtml" />
+    <Content Include="Views\Home\Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

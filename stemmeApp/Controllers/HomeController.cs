@@ -13,7 +13,7 @@ using System.IO;
 
 namespace stemmeApp.Controllers
 {
-    // [Authorize] 
+    //[Authorize] 
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -60,7 +60,7 @@ namespace stemmeApp.Controllers
 
             return View();
         }
-
+        
         public ActionResult Candidate()
         {
             ViewBag.Message = "Nominate a user!";
@@ -110,6 +110,18 @@ namespace stemmeApp.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult Results()
+        {
+            ViewBag.Message = "Results";
+
+            DbQuery db = new DbQuery();
+            var Model = new ResultsViewModel();
+            Model.CandidateVotes = db.getCandidateVotes();
+            Model.ElectionInformation = db.getElectionInfo();
+
+            return View(Model);
         }
 
     }

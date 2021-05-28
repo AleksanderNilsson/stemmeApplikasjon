@@ -7,7 +7,7 @@ namespace stemmeApp.Models
 {
 
 
-    //Models used for the Inspector>Index page
+
     public class Votes {
         public String Voter { get; set; }
         public String VotedOn { get; set; }
@@ -21,17 +21,17 @@ namespace stemmeApp.Models
         public DateTime Controlled { get; set; }
     }
 
-    
-    
+
+
 
     public class InspectorViewModel {
-        public List<Votes> Votes {get; set;} = new List<Votes>();
+        public List<Votes> Votes { get; set; } = new List<Votes>();
         public List<ElectionInformation> ElectionInformation { get; set; } = new List<ElectionInformation>();
         public List<VoteModel> Candidates { get; set; } = new List<VoteModel>();
     }
 
 
-    //Model used for the Inspector>Votes page
+
 
     public class CandidateVotes
     {
@@ -39,7 +39,10 @@ namespace stemmeApp.Models
         public String Firstname { get; set; }
         public String Lastname { get; set; }
         public int Votes { get; set; }
+        public String Picture { get; set; }
+        public String PictureText { get; set; }
     }
+
 
 
 }

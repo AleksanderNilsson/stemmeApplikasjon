@@ -1,0 +1,63 @@
+﻿@model stemmeApp.Models.ResultsViewModel
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2>Results</h2>
+@if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0)
+{
+    <h3>The results are not ready yet</h3>
+}
+else{
+    int index = 0;
+<div class="b5container">
+    <div class="b5row text-center">
+        <div style="font-size:64px">&#128081;</div>
+        <h3>The winner of the election is</h3>
+        @if (@Model.CandidateVotes[index].Votes == @Model.CandidateVotes[index + 1].Votes)
+        { //Runs if the election is a draw
+            <h4 style="color:red">Two or more candidates have the same amount of votes. The winner will be choosen at the next student democracy meeting</h4>
+        }
+
+        @do
+        {
+            <div class="b5col">
+                <h4>@Model.CandidateVotes[index].Username</h4>
+                <img src="~/@Model.CandidateVotes[index].Picture" width="200px" height="200px" />
+                <h4>@Model.CandidateVotes[index].Firstname</h4>
+                <h4>@Model.CandidateVotes[index].Lastname</h4>
+                <h4>@Model.CandidateVotes[index].Votes Votes</h4>
+            </div>
+            index++;
+        }
+        while (@Model.CandidateVotes[index - 1].Votes == @Model.CandidateVotes[index].Votes); <!--Continues to run if draw, until all winners are shown-->
+    </div>
+</div>
+<div class="b5container b5mt-5 b5border-top">
+    <div class="b5row text-center">
+        <div class="b5col">
+            <h3>Runner ups</h3>
+        </div>
+    </div>
+    <div class="b5row text-center">
+        <div class="b5col">
+            <h4>@Model.CandidateVotes[index].Username</h4>
+            <img src="~/@Model.CandidateVotes[index].Picture" width="200px" height="200px" />
+            <h4>@Model.CandidateVotes[index].Firstname</h4>
+            <h4>@Model.CandidateVotes[index].Lastname</h4>
+            <h4>@Model.CandidateVotes[index].Votes Votes</h4>
+        </div>
+        <div class="b5col">
+            <h4>@Model.CandidateVotes[index + 1].Username</h4>
+            <img src="~/@Model.CandidateVotes[index+1].Picture" width="200px" height="200px" />
+            <h4>@Model.CandidateVotes[index + 1].Firstname</h4>
+            <h4>@Model.CandidateVotes[index + 1].Lastname</h4>
+            <h4>@Model.CandidateVotes[index + 1].Votes Votes</h4>
+        </div>
+    </div>
+</div>
+
+
+    }
+
