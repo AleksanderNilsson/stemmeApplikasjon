@@ -65,7 +65,7 @@ textarea {
 
 .b5card {
     position: relative;
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
@@ -74,3 +74,4 @@ textarea {
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
 }
+
