@@ -35,9 +35,10 @@ namespace stemmeApp.Controllers
 
             return View(db.GetAllCandidates().ToList());
 
-            
+
 
         }
+
         [HttpPost]
         public ActionResult Vote(string username)
         {
@@ -49,7 +50,19 @@ namespace stemmeApp.Controllers
 
             return RedirectToAction("Vote");
 
+        }
 
+        [HttpPost]
+        public ActionResult RemoveVote(string username)
+        {
+                DbQuery db = new DbQuery();
+                db.RemoveVote(User.Identity.GetUserName());
+
+                ViewBag.Message = "You have removed your vote";
+
+                return RedirectToAction("Vote");
+
+           
 
 
         }
