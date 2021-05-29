@@ -64,6 +64,7 @@ textarea {
     }
 
 .b5card {
+    align-items: center;
     position: relative;
     display: inline-block;
     flex-direction: column;
