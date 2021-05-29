@@ -242,7 +242,7 @@ namespace stemmeApp.Data
 
 
         /// <summary>
-        /// Removes a candidate in the candidate and picture table
+        /// Removes a candidate in the candidate and picture table, and deletes all votes
         /// </summary>
         public void removeCandidate(string Username)
         {
@@ -252,6 +252,8 @@ namespace stemmeApp.Data
             parameters.Add("@pictureid", PictureId);
             _database.Execute(commandText, parameters);
             commandText = "DELETE FROM candidate WHERE username = @username";
+            _database.Execute(commandText, parameters);
+            commandText = "DELETE FROM votes WHERE votedon = @username";
             _database.Execute(commandText, parameters);
         }
 

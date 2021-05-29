@@ -457,6 +457,13 @@ namespace stemmeApp.Controllers
             {
                 DbQuery db = new DbQuery();
                 db.removeCandidate(Name);
+
+                var fullpath = System.Web.HttpContext.Current.Server.MapPath("~/Content/Pictures");
+                string[] files = System.IO.Directory.GetFiles(fullpath, Name + ".*");
+                if (System.IO.File.Exists(files[0])) // Deletes the image from the server
+                {
+                    System.IO.File.Delete(files[0]);
+                }
             }
             else {
                 return RedirectToAction("Index", new { Message = ManageMessageId.Error });

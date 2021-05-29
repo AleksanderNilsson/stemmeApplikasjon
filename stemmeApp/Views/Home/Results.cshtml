@@ -24,8 +24,9 @@ else{
         {
             <div class="b5col">
                 <h4>@Model.CandidateVotes[index].Username</h4>
-                <img src="~/@Model.CandidateVotes[index].Picture" width="200px" height="200px" />
-                <h4>@Model.CandidateVotes[index].Firstname</h4>
+                <img src="~/@Model.CandidateVotes[index].Picture" width="200px" height="200px" alt="@Model.CandidateVotes[index].PictureText"/>
+
+        <h4>@Model.CandidateVotes[index].Firstname</h4>
                 <h4>@Model.CandidateVotes[index].Lastname</h4>
                 <h4>@Model.CandidateVotes[index].Votes Votes</h4>
             </div>
@@ -43,14 +44,14 @@ else{
     <div class="b5row text-center">
         <div class="b5col">
             <h4>@Model.CandidateVotes[index].Username</h4>
-            <img src="~/@Model.CandidateVotes[index].Picture" width="200px" height="200px" />
+            <img src="~/@Model.CandidateVotes[index].Picture" width="200px" height="200px" alt="@Model.CandidateVotes[index].PictureText"/>
             <h4>@Model.CandidateVotes[index].Firstname</h4>
             <h4>@Model.CandidateVotes[index].Lastname</h4>
             <h4>@Model.CandidateVotes[index].Votes Votes</h4>
         </div>
         <div class="b5col">
             <h4>@Model.CandidateVotes[index + 1].Username</h4>
-            <img src="~/@Model.CandidateVotes[index+1].Picture" width="200px" height="200px" />
+            <img src="~/@Model.CandidateVotes[index+1].Picture" width="200px" height="200px" alt="@Model.CandidateVotes[index+1].PictureText"/>
             <h4>@Model.CandidateVotes[index + 1].Firstname</h4>
             <h4>@Model.CandidateVotes[index + 1].Lastname</h4>
             <h4>@Model.CandidateVotes[index + 1].Votes Votes</h4>
