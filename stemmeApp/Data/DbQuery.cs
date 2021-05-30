@@ -297,7 +297,7 @@ namespace stemmeApp.Data
                AdminModel returnQuery = new AdminModel();
 
             string query = @"SELECT
-                            u.Username,
+                            u.UserName,
                             u.Id,
                             u.Email,
                             u.Firstname,
@@ -309,40 +309,48 @@ namespace stemmeApp.Data
                             ur.RoleId,
 							r.Name
                             FROM users AS u
-                            JOIN candidate AS c
-                            ON u.Username = c.Username
-                            JOIN userroles AS ur
+                            LEFT JOIN candidate AS c
+                            ON u.UserName = c.UserName
+                            LEFT JOIN userroles AS ur
                             ON u.Id = ur.UserId
-                            JOIN roles AS r
+                            LEFT JOIN roles AS r
 						    ON r.Id = ur.RoleId
+                            WHERE U.UserName=@Username;
                         ";                      
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@Username", Username);
+            parameters.Add("@UserName", Username);
             var rows = _database.Query(query, parameters);
 
             if (rows != null && rows.Count == 1)
-            {
+            {  
                 for (int i = 0; i < rows.Count(); i++)
                 {
-                    returnQuery = new AdminModel()
+                    if (rows[i] == null)
                     {
-                        //From Users Table
-                        Username = rows[i]["Username"].ToString(),
-                        Id = rows[i]["Id"].ToString(),
-                        Email = rows[i]["Email"].ToString(),
-                        Firstname = rows[i]["Firstname"].ToString(),
-                        Lastname = rows[i]["Lastname"].ToString(),
-
-                        //From Candidate Table
-                        Faculty = rows[i]["Faculty"].ToString(),
-                        Institute = rows[i]["Institute"].ToString(),
-                        Info = rows[i]["Info"].ToString(),
                         
-                        //From Role Table(s)
-                        RoleId = rows[i]["RoleId"].ToString(),
-                        RoleName = rows[i]["Name"].ToString(),
+                        returnQuery = new AdminModel()
+                        {
+                            //From Users Table
+                            Username = rows[i]["UserName"].ToString(),
+                            Id = rows[i]["Id"].ToString(),
+                            Email = rows[i]["Email"].ToString(),
+                            Firstname = rows[i]["Firstname"].ToString(),
+                            Lastname = rows[i]["Lastname"].ToString(),
 
-                    };
+                            //From Candidate Table
+                            Faculty = (rows[i]["Faculty"] == null) ? "null" : rows[i]["Faculty"].ToString(),
+                            Institute = (rows[i]["Institute"] == null) ? "null" : rows[i]["Institute"].ToString(),
+                            Info = (rows[i]["Info"] == null) ? "null" : rows[i]["Info"].ToString(),
+
+                            //From Role Table(s)
+                            RoleId = rows[i]["RoleId"].ToString(),
+                            RoleName = rows[i]["Name"].ToString(),
+
+                        };
+                        
+                    
+                    }
+                   
                 }
             }
             return returnQuery;
