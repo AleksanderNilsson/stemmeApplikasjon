@@ -305,17 +305,24 @@ namespace stemmeApp.Data
                             c.Faculty,
                             c.Institute,
                             c.Info,
-                            c.Picture,
                             ur.RoleId,
-							r.Name
-                            FROM users AS u
-                            LEFT JOIN candidate AS c
-                            ON u.UserName = c.UserName
-                            LEFT JOIN userroles AS ur
-                            ON u.Id = ur.UserId
-                            LEFT JOIN roles AS r
-						    ON r.Id = ur.RoleId
-                            WHERE U.UserName=@Username;
+                            r.Name,
+                            p.Loc
+                        FROM
+                            users AS u
+                        LEFT JOIN candidate AS c
+                        ON
+                            u.UserName = c.UserName
+                        LEFT JOIN userroles AS ur
+                        ON
+                            u.Id = ur.UserId
+                        LEFT JOIN roles AS r
+                        ON
+                            r.Id = ur.RoleId
+                        LEFT JOIN picture AS p
+                        ON
+                            c.Picture = p.Idpicture
+                        WHERE u.UserName = @UserName;
                         ";                      
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@UserName", Username);
@@ -324,33 +331,29 @@ namespace stemmeApp.Data
             if (rows != null && rows.Count == 1)
             {  
                 for (int i = 0; i < rows.Count(); i++)
-                {
-                    if (rows[i] == null)
+                {     
+                    returnQuery = new AdminModel()
                     {
-                        
-                        returnQuery = new AdminModel()
-                        {
-                            //From Users Table
-                            Username = rows[i]["UserName"].ToString(),
-                            Id = rows[i]["Id"].ToString(),
-                            Email = rows[i]["Email"].ToString(),
-                            Firstname = rows[i]["Firstname"].ToString(),
-                            Lastname = rows[i]["Lastname"].ToString(),
+                        //From Users Table
+                        Username = rows[i]["UserName"].ToString(),
+                        Id = rows[i]["Id"].ToString(),
+                        Email = rows[i]["Email"].ToString(),
+                        Firstname = rows[i]["Firstname"].ToString(),
+                        Lastname = rows[i]["Lastname"].ToString(),
 
-                            //From Candidate Table
-                            Faculty = (rows[i]["Faculty"] == null) ? "null" : rows[i]["Faculty"].ToString(),
-                            Institute = (rows[i]["Institute"] == null) ? "null" : rows[i]["Institute"].ToString(),
-                            Info = (rows[i]["Info"] == null) ? "null" : rows[i]["Info"].ToString(),
+                        //From Candidate Table
+                        Faculty = (rows[i]["Faculty"] == null) ? "null" : rows[i]["Faculty"].ToString(),
+                        Institute = (rows[i]["Institute"] == null) ? "null" : rows[i]["Institute"].ToString(),
+                        Info = (rows[i]["Info"] == null) ? "null" : rows[i]["Faculty"].ToString(),
 
-                            //From Role Table(s)
-                            RoleId = rows[i]["RoleId"].ToString(),
-                            RoleName = rows[i]["Name"].ToString(),
+                        //From Picture Table
+                        Picture = (rows[i]["Loc"] == null) ? "null" : rows[i]["Loc"].ToString(),
 
-                        };
-                        
-                    
-                    }
-                   
+                        //From Role Table(s)
+                        RoleId = (rows[i]["RoleId"] == null) ? "null" : rows[i]["RoleId"].ToString(),
+                        RoleName = (rows[i]["Name"] == null) ? "null" : rows[i]["Name"].ToString(),
+
+                    }; 
                 }
             }
             return returnQuery;
@@ -358,7 +361,7 @@ namespace stemmeApp.Data
 
         public void AdminEditUser(
             string Id, string Username, string Email, string Firstname, string Lastname,
-            string Faculty, string Institute, string Info, string RoleId)
+            string Faculty, string Institute, string Info, string RoleId, string Picture)
         {
             try
             {
@@ -373,7 +376,8 @@ namespace stemmeApp.Data
                 SET Faculty=@Faculty,Institute=@Institute,Info=@Info 
                 WHERE Username=@Username;
                 
-                UPDATE `userroles` SET RoleId=@RoleId; 
+                UPDATE `userroles` SET RoleId=@RoleId 
+                WHERE UserID=@Username; 
                 
                 COMMIT;";
                 parameters.Add("@Username", Username);
@@ -385,8 +389,10 @@ namespace stemmeApp.Data
                 parameters.Add("@Faculty", Faculty);
                 parameters.Add("@Institute", Institute);
                 parameters.Add("@Info", Info);
-                
+
                 parameters.Add("@RoleId", RoleId);
+
+                parameters.Add("@Picture", Picture);
 
                 _database.Execute(query, parameters);
             }

@@ -1,4 +1,5 @@
 ﻿@model stemmeApp.Models.AdminModel
+@using stemmeApp.Data;
 
 @{
     ViewBag.Title = "Edit";
@@ -6,7 +7,6 @@
 }
 
 <h2>Admin Panel</h2>
-
 
 @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -55,32 +55,34 @@
             @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    <!-- CANDIDATE INFO PART -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.Faculty, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Faculty, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Faculty, "", new { @class = "text-danger" })
+    @{ DbQuery db = new DbQuery();}
+    @if (db.CheckIfUserIsCandidate(Model.Username))
+    {
+        <!-- CANDIDATE INFO PART -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Faculty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Faculty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Faculty, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Institute, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Institute, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Institute, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Institute, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Institute, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Institute, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-
+    }
     <!-- ROLE INFO PART -->
     <div class="form-group">
         @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -96,6 +98,18 @@
             @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <!-- PICTURE INFO PART -->
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Current picture:
+        </label>
+        <div class="col-md-10">
+            <img src="~/@Model.Picture" alt="@Model.PictureText" />
+        </div>
+    </div>
+
     <hr />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

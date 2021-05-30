@@ -33,6 +33,8 @@ namespace stemmeApp.Controllers
         {
             DbQuery db = new DbQuery();
             return View(db.AdminGetUsers().ToList());
+
+
         }
 
         //// GET: Admin/Edit/Username
@@ -59,7 +61,7 @@ namespace stemmeApp.Controllers
             {
                 try 
                 {
-                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId);
+                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId, Model.Picture);
                     return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
                 }
                 catch (Exception e)

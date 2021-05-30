@@ -83,7 +83,8 @@ namespace stemmeApp.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : message == ManageMessageId.ChangeCandidateInfo ? "Candidate information changed successfully"
-     
+                : message == ManageMessageId.AdminSuccess ? "Information changed successfully"
+
                 : "";
 
             var userId = User.Identity.GetUserId();

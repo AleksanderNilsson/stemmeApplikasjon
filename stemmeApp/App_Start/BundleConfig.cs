@@ -23,7 +23,7 @@ namespace stemmeApp
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/flatly.css",
                       "~/Content/site.css"));
         }
     }

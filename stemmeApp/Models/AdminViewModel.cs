@@ -47,6 +47,14 @@ namespace stemmeApp.Models
         public string Info { get; set; }
 
         /// <summary>
+        /// Data from Picture table in DB
+        /// </summary>
+        public string Picture { get; set; }
+        [Display(Name = "Picture description")]
+        [Required(ErrorMessage = "The picture needs a description")]
+        public string PictureText { get; set; }
+
+        /// <summary>
         /// Data from Role table in DB
         /// </summary>
         [StringLength(5)]
