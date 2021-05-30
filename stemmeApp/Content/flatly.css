@@ -4266,14 +4266,14 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 
     .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
         background-color: #ecf0f1;
-        border-color: #18bc9c
+        border-color: #18bc9c;
     }
 
     .nav .nav-divider {
         height: 1px;
         margin: 9.5px 0;
         overflow: hidden;
-        background-color: #e5e5e5
+        background-color: #2f4052;
     }
 
     .nav > li > a > img {
@@ -4301,7 +4301,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
             }
 
         .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-            color: #2c3e50;
+            color: #18bc9c;
             cursor: default;
             background-color: #ffffff;
             border: 1px solid #ecf0f1;
@@ -4916,7 +4916,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     }
 
 .navbar-inverse {
-    background-color: #18bc9c;
+    background-color: #2f4052;
     border-color: transparent
 }
 
@@ -4938,7 +4938,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     }
 
         .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
-            color: #2c3e50;
+            color: #18bc9c;
             background-color: transparent
         }
 
@@ -4971,7 +4971,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     }
 
         .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
-            color: #2c3e50;
+            color: #18bc9c;
             background-color: transparent
         }
 
@@ -5146,7 +5146,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
         .pager li > a, .pager li > span {
             display: inline-block;
             padding: 5px 14px;
-            background-color: #18bc9c;
+            background-color: #2f4052;
             border: 1px solid transparent;
             border-radius: 15px
         }
@@ -5167,7 +5167,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     .pager .disabled > a, .pager .disabled > a:hover, .pager .disabled > a:focus, .pager .disabled > span {
         color: #ffffff;
         cursor: not-allowed;
-        background-color: #18bc9c
+        background-color: #2f4052
     }
 
 .label {
@@ -5363,7 +5363,7 @@ a.badge:hover, a.badge:focus {
     }
 
 a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
-    border-color: #18bc9c
+    border-color: #2f4052
 }
 
 .thumbnail .caption {
@@ -5808,11 +5808,13 @@ a.list-group-item-danger, button.list-group-item-danger {
     margin-top: 0;
     margin-bottom: 0;
     font-size: 17px;
-    color: inherit
+    color: #18bc9c
 }
-
+.headerTitle {
+    color: #18bc9c;
+}
     .panel-title > a, .panel-title > small, .panel-title > .small, .panel-title > small > a, .panel-title > .small > a {
-        color: inherit
+        color: #18bc9c
     }
 
 .panel-footer {
@@ -7125,7 +7127,7 @@ button.close {
 
 .navbar-inverse .badge {
     background-color: #fff;
-    color: #18bc9c
+    color: #2f4052
 }
 
 .navbar-brand {
@@ -7149,7 +7151,7 @@ button.close {
 }
 
 .text-success, .text-success:hover {
-    color: #18bc9c
+    color: #2f4052
 }
 
 .text-danger, .text-danger:hover {

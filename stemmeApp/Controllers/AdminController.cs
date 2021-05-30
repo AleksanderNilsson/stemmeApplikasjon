@@ -53,11 +53,8 @@ namespace stemmeApp.Controllers
         public ActionResult Edit(AdminModel Model)
         {
             DbQuery db = new DbQuery();
-            if (!ModelState.IsValid)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            else if(ModelState.IsValid)
+            
+             if(ModelState.IsValid)
             {
                 try 
                 {

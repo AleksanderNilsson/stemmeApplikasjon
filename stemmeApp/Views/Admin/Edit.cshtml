@@ -7,17 +7,18 @@
 }
 
 <h2>Admin Panel</h2>
-
+<div>
+    <strong>@Html.ActionLink("Back to List", "Index")</strong>
+</div>
 @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Edit User Panel</h4>
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <!-- USER TABLE INFO PART -->
+    <h4>----------------------------- User Info Panel -----------------------------</h4>
     <div class="form-group">
         @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -55,10 +56,27 @@
             @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
         </div>
     </div>
+    <!-- ROLE INFO PART -->
+    <h4>----------------------------- Role Info Panel -----------------------------</h4>
+    <div class="form-group">
+        @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+        </div>
+    </div>
     @{ DbQuery db = new DbQuery();}
     @if (db.CheckIfUserIsCandidate(Model.Username))
     {
         <!-- CANDIDATE INFO PART -->
+        <h4>----------------------------- Candidate Info Panel -----------------------------</h4>
         <div class="form-group">
             @Html.LabelFor(model => model.Faculty, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -82,46 +100,33 @@
                 @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <!-- PICTURE INFO PART -->
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Current picture:
+            </label>
+            <div class="col-md-10">
+                <img src="~/@Model.Picture" style="height:200px;width:200px;border-radius:15px;" />
+            </div>
+        </div>
     }
-    <!-- ROLE INFO PART -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <!-- PICTURE INFO PART -->
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            Current picture:
-        </label>
-        <div class="col-md-10">
-            <img src="~/@Model.Picture" alt="@Model.PictureText" />
-        </div>
-    </div>
-
     <hr />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="submit" value="Commit Changes" class="btn btn-primary" />
         </div>
+    </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Well done, Successfully saved new changes!</strong>
     </div>
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

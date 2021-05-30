@@ -350,8 +350,8 @@ namespace stemmeApp.Data
                         Picture = (rows[i]["Loc"] == null) ? "null" : rows[i]["Loc"].ToString(),
 
                         //From Role Table(s)
-                        RoleId = (rows[i]["RoleId"] == null) ? "null" : rows[i]["RoleId"].ToString(),
-                        RoleName = (rows[i]["Name"] == null) ? "null" : rows[i]["Name"].ToString(),
+                        RoleId = (rows[i]["RoleId"] == null) ? "0" : rows[i]["RoleId"].ToString(),
+                        RoleName = (rows[i]["Name"] == null) ? "user" : rows[i]["Name"].ToString(),
 
                     }; 
                 }
@@ -409,6 +409,15 @@ namespace stemmeApp.Data
             string query = "DELETE FROM users WHERE Username = @UserName";
             _database.Execute(query, parameters);
         }
+        public void AdminDeleteUserImage(string Username)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            int PictureId = GetPictureId(Username);
+            String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
+            parameters.Add("@pictureid", PictureId);
+            _database.Execute(commandText, parameters);
+        }
+
         public Boolean CheckIfUserIsCandidate(string Username)
         {
             Boolean UserIsCandidate;
