@@ -10,6 +10,7 @@ using MySql.Data.MySqlClient;
 using stemmeApp.Data;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace stemmeApp.Controllers
 {
@@ -30,7 +31,7 @@ namespace stemmeApp.Controllers
 
         public ActionResult Vote()
         {
-            ViewBag.Message = "Vote for a candidate";
+            //ViewBag.Message = "Vote for a candidate";
             DbQuery db = new DbQuery();
 
             return View(db.GetAllCandidates().ToList());
@@ -42,12 +43,11 @@ namespace stemmeApp.Controllers
         [HttpPost]
         public ActionResult Vote(string username)
         {
-            ViewBag.Message = "Vote for a candidate";
+            //ViewBag.Message = "Vote for a candidate";
             DbQuery db = new DbQuery();
-
-
             db.VoteForUser(username, User.Identity.GetUserName());
 
+            TempData["VotedUser"] = "You have voted for the selected candidate!";
             return RedirectToAction("Vote");
 
         }
@@ -58,7 +58,7 @@ namespace stemmeApp.Controllers
                 DbQuery db = new DbQuery();
                 db.RemoveVote(User.Identity.GetUserName());
 
-                ViewBag.Message = "You have removed your vote";
+                TempData["RemoveVote"] = "You have revoked your vote!";
 
                 return RedirectToAction("Vote");
 

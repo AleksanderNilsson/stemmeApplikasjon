@@ -13,6 +13,9 @@ namespace stemmeApp.Models
         public string institute { get; set; }
         public string info { get; set; }
         public string picture { get; set; }
+        public string firstname { get; set; }
+        public string lastname { get; set; }
+
 
 
     }

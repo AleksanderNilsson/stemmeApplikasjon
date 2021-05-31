@@ -4,30 +4,61 @@
 @model List<stemmeApp.Models.VoteModel>
 <link rel="stylesheet" href="~/Content/Site.css">
 
+<style>
+
+    p.card-info {
+        width: 498px;
+        height: 110px;
+        overflow: auto;
+        letter-spacing: 1px;
+        margin-top: 2rem !important;
+        margin-right: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+ 
+      
+    </style>
+
 @{
     ViewBag.Title = "Vote";
+
 }
 
-<h2>Vote</h2>
+<h2>Vote for a candidate </h2>
+<form method="post" action="@Url.Action("RemoveVote", "home")">
+    <input class="btn btn-danger" name="submit" type="submit" value="Revoke your vote" onclick="return confirm('Are you sure you want to revoke your vote?')" />
+</form>
+<h3 class="VotedUser" style="color: green"> @TempData["VotedUser"] </h3>
+<h3 class="RemoveVote" style="color: green"> @TempData["RemoveVote"] </h3>
+<br />
 
 @foreach (var item in Model)
 {
-    <div class="b5card text-center" style="width: 50rem; border-radius: 25px;">
-        <img class="card-img-top" img src="~/@item.picture" width="500" height="300" alt="..." style="border: 3px solid #2f4052; border-radius:25px;"/>
-        <div class="card-body">
-            <p class="card-text" >@item.username</p>
-            <p class="card-info"  >@item.info</p>
-        </div>
+    <div class="b5card text-center" style="width: 50rem;
+    border-radius: 5px;
+    margin-left: 2rem !important;
+    margin-top: 2rem !important;
+    margin-right: 2rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+        
 
-        <form method="post" action="@Url.Action("Vote", "Home")">
-            <input type="text" text-center name="username" value="@item.username" hidden />
-            <input class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
-        </form>
+        <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style=" border-radius:3px;" />
+        <div class="card-body">
+            <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
+            <p class="card-text">@item.faculty </p>
+            <p class="card-text">@item.institute </p>
+            <p class="card-info">@item.info </p>
+
+
+            <form method="post" action="@Url.Action("Vote", "Home")">
+                    <input type="text" text-center name="username" value="@item.username" hidden />
+                    <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
+                </form>
+            
+            
+        </div>
     </div>
 
 }
-<br/> <br/>
-<form method="post" action="@Url.Action("RemoveVote", "home")">
-<input class="btn btn-danger" name="submit" type="submit" value="RemoveVote" onclick="return confirm('Are you sure you want to revoke your vote?')" />
-</form>
 

@@ -145,14 +145,14 @@ namespace stemmeApp.Data
             string commandText = "Select picture from candidate WHERE username = @username";
             var rows = _database.Query(commandText, parameters);
             String PictureIdString = rows[0]["picture"];
-            int PictureId = Convert.ToInt32(PictureIdString);
+            int PictureId = Convert.ToInt32(PictureIdString); 
             return PictureId;
         }
 
         public List<VoteModel> GetAllCandidates()
         {
             List<VoteModel> ReturnList = new List<VoteModel>();
-            string commandText = @"Select username, faculty, institute, info, picture.loc, picture.text from candidate, picture where candidate.Picture = picture.Idpicture;";
+            string commandText = @"SELECT c.username, c.faculty, c.institute, c.info, p.loc, p.text, u.firstname, u.lastname FROM candidate as c LEFT JOIN picture as p ON c.Picture = p.Idpicture LEFT JOIN users as u ON c.username = u.email";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
             try
@@ -165,6 +165,9 @@ namespace stemmeApp.Data
                         institute = rows[i]["institute"].ToString(),
                         info = rows[i]["info"].ToString(),
                         picture = rows[i]["loc"].ToString(),
+                        firstname = rows[i]["firstname"].ToString(),
+                        lastname = rows[i]["lastname"].ToString(),
+
                     });
             }
             catch (ArgumentOutOfRangeException)
