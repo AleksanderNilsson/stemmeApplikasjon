@@ -1,4 +1,5 @@
-﻿@using System.Configuration
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Configuration
 @using Microsoft.AspNet.Identity
 @model List<stemmeApp.Models.VoteModel>
 <link rel="stylesheet" href="~/Content/Site.css">
@@ -11,18 +12,17 @@
 
 @foreach (var item in Model)
 {
-    <div class="b5card text-center" style="width: 18rem;">
-        <img class="card-img-top" img src="~/@item.picture" width="178" height="150" alt="..." />
+    <div class="b5card text-center" style="width: 50rem; border-radius: 25px;">
+        <img class="card-img-top" img src="~/@item.picture" width="500" height="300" alt="..." style="border: 3px solid RED; border-radius:25px;"/>
         <div class="card-body">
-            <p class="card-text"> @item.username <br /> @item.info</p>
+            <p class="card-text" >@item.username</p>
+            <p class="card-info"  >@item.info</p>
         </div>
 
         <form method="post" action="@Url.Action("Vote", "Home")">
             <input type="text" text-center name="username" value="@item.username" hidden />
             <input class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
         </form>
-        
-
     </div>
 
 }

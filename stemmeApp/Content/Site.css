@@ -73,29 +73,30 @@ textarea {
     background-color: #fff;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: 0.25rem;
+    border-radius: 25px;
+
 }
 
 .b5mt-1 {
-    margin-top: 0.25rem !important;
+    margin-top: 10rem !important;
 }
 
 .b5mt-2 {
-    margin-top: 0.5rem !important;
+    margin-top: 10rem !important;
 }
 
 .b5mt-3 {
-    margin-top: 1rem !important;
+    margin-top: 10rem !important;
 }
 
 .b5mt-4 {
-    margin-top: 1.5rem !important;
+    margin-top: 10rem !important;
 }
 
 .b5mt-5 {
-    margin-top: 3rem !important;
+    margin-top: 10rem !important;
 }
 
 .b5border-top {
-    border-top: 3px solid black !important;
+    border-top: 30px solid black !important;
 }
