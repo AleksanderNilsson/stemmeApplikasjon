@@ -525,6 +525,59 @@ namespace stemmeApp.Data
            _database.Query(commandText, parameters);
             
         }
+        public ElectionDateInformation ElectionPanel()
+        {
+            ElectionDateInformation returnQuery = new ElectionDateInformation();
+            string commandText = "Select * from election";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                returnQuery = new ElectionDateInformation()
+                {
+                    Title = rows[0]["Title"].ToString(),
+                    Idelection = Int32.Parse(rows[0]["Idelection"]),
+                    Startelection = DateTime.Parse(rows[0]["Startelection"]),
+                    Endelection = DateTime.Parse(rows[0]["Endelection"]),
+                    Controlled = (rows[0]["Controlled"] == null) ? DateTime.MinValue : DateTime.Parse(rows[0]["Controlled"])
+
+                };
+            }
+            catch (Exception)
+            {
+
+            }
+            return returnQuery;
+        }
+        public void AdminUpdateElection(string Title, int Idelection, DateTime Startelection, DateTime Endelection, DateTime Controlled)
+        {
+            try
+            {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                string query = @"
+                BEGIN;
+                UPDATE `election` 
+                SET Title=@Title,Idelection=@Idelection,Startelection=@Startelection,Endelection=@Endelection,
+                Controlled=@Controlled,
+                WHERE IdElection=@IdElection;
+
+                
+                COMMIT;";
+                parameters.Add("@Title", Title);
+                parameters.Add("@Idelection", Idelection);
+                parameters.Add("@Startelection", Startelection);
+                parameters.Add("@Endelection", Endelection);
+                parameters.Add("@Controlled", Controlled);
+
+                _database.Execute(query, parameters);
+            }
+
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
 
     }
 

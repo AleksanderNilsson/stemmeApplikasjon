@@ -63,4 +63,33 @@ namespace stemmeApp.Models
         [Display(Name = "Role Name")]
         public string RoleName { get; set; }
     }
+    public class ElectionDateInformation
+    {
+        [Display(Name = "Election Title: ")]
+        [StringLength(1, MinimumLength = 1, ErrorMessage = "The Elecction ID must be a length of only 1 character.")]
+        public string Title { get; set; }
+
+        [Display(Name = "Election ID: ")]
+        [Range(1, 9999, ErrorMessage = "Id must be a positive number")]
+        [StringLength(1, MinimumLength = 1, ErrorMessage = "The Elecction ID must be a length of only 1 character.")]
+        public int Idelection { get; set; }
+
+        [Display(Name = "Start Date: ")]
+        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/6/2021", "1/1/2077", ErrorMessage = "Date not valid..")]
+        [DisplayFormat(DataFormatString = "{00:00:00:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime Startelection { get; set; }
+
+        [Display(Name = "End Date: ")]
+        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/6/2021", "1/1/2077", ErrorMessage = "Date not valid..")]
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime Endelection { get; set; }
+
+        [Display(Name = "Controlled at Date:")]
+        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/6/2021", "1/1/2077")]
+        [DisplayFormat(DataFormatString = "{00:00:00:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime Controlled { get; set; }
+    }
 }
