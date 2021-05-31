@@ -13,37 +13,20 @@ namespace stemmeApp.Controllers
     //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        MySQLDatabase _database = new MySQLDatabase();
-
-        public AdminController()
-        {
-            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_database));
-        }
-
-        public AdminController(UserManager<ApplicationUser> userManager)
-        {
-            UserManager = userManager;
-        }
-
-        public UserManager<ApplicationUser> UserManager { get; private set; }
-
+       
         //
         // GET: Admin
         public ActionResult Index()
         {
             DbQuery db = new DbQuery();
             return View(db.AdminGetUsers().ToList());
-
-
         }
 
         //// GET: Admin/Edit/Username
         public ActionResult Edit(String Username)
         {
-
             DbQuery db = new DbQuery();
             return View(db.AdminGetSingleUser(Username));
-
         }
 
 
@@ -53,7 +36,6 @@ namespace stemmeApp.Controllers
         public ActionResult Edit(AdminModel Model)
         {
             DbQuery db = new DbQuery();
-
             if (ModelState.IsValid)
             {
                 try
@@ -69,7 +51,6 @@ namespace stemmeApp.Controllers
 
             return View();
         }
-
         // POST: Admin/Delete/Username
         [HttpPost]
         public ActionResult Delete(AdminModel Model)
@@ -77,30 +58,38 @@ namespace stemmeApp.Controllers
             DbQuery db = new DbQuery();
             if (db.CheckIfUserIsCandidate(Model.Username))
             {
-                ModelState.AddModelError("Username", "Cannot delete a user that is already a registered Candidate. Please remove user from candidate role first.");
+                ViewBag.StatusMessage = ("Username", "Cannot delete a user that is already a registered Candidate. Please remove user from candidate role first.");
+                TempData["ErrorCandidate"] = "Cannot delete a user that is already a registered Candidate. Please remove user from candidate role first.";
+                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
             }
-            else if (ModelState.IsValid && Model.Username != null)
+            else 
             {
                 db.AdminDeleteUser(Model.Username);
                 return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
             }
-            else
-            {
-                ModelState.AddModelError("Username", "Unknown error, could not delete...");
-                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
-            }
             return View();
         }
         [HttpPost]
-        public ActionResult AdminDeleteUserImage(AdminModel Model, string username)
+        public ActionResult AdminRemoveAsCandidate(AdminModel Model, string username)
         {
             DbQuery db = new DbQuery();
-            if (db.CheckIfUserIsCandidate(Model.Username))
-            {
-                    db.AdminDeleteUserImage(username);
-                    return RedirectToAction("Index");
-            }
-            return RedirectToAction("Edit");
+            db.removeCandidate(username);
+            return RedirectToAction("Index");
+         
         }
+
+        // GET: Admin/ElectionPanel
+        public ActionResult ElectionPanel()
+        {
+            DbQuery db = new DbQuery();
+            return View(db.getElectionInfo().ToList());
+        }
+        // POST: Admin/ElectionPanel
+        //[HttpPost]
+        //public ActionResult ElectionPanel()
+        //{
+        //    DbQuery db = new DbQuery();
+        //    return View();
+        //}
     }
 }

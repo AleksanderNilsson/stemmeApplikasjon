@@ -54,7 +54,8 @@ namespace stemmeApp.Models
         /// <summary>
         /// Data from Role table in DB
         /// </summary>
-        [StringLength(5)]
+        [StringLength(1, MinimumLength = 1, ErrorMessage = "The RoleID must be a length of only 1 character.")]
+        [RegularExpression("0|1|2", ErrorMessage = "(1 = Student, 2 = Inspector, 3 = Admin)")]
         [Required(ErrorMessage = "User must have a role, (1 = Student, 2 = Inspector, 3 = Admin)")]
         [Display(Name = "Role ID")]
         public string RoleId { get; set; }

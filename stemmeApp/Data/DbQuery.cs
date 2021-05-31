@@ -261,10 +261,11 @@ namespace stemmeApp.Data
             String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
             parameters.Add("@pictureid", PictureId);
             _database.Execute(commandText, parameters);
-            commandText = "DELETE FROM candidate WHERE username = @username";
-            _database.Execute(commandText, parameters);
             commandText = "DELETE FROM votes WHERE votedon = @username";
             _database.Execute(commandText, parameters);
+            commandText = "DELETE FROM candidate WHERE username = @username";
+            _database.Execute(commandText, parameters);
+            
         }
 
 
@@ -377,7 +378,7 @@ namespace stemmeApp.Data
                 WHERE Username=@Username;
                 
                 UPDATE `userroles` SET RoleId=@RoleId 
-                WHERE UserID=@Username; 
+                WHERE UserID=@Id; 
                 
                 COMMIT;";
                 parameters.Add("@Username", Username);
@@ -408,14 +409,6 @@ namespace stemmeApp.Data
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@UserName", Username } };
             string query = "DELETE FROM users WHERE Username = @UserName";
             _database.Execute(query, parameters);
-        }
-        public void AdminDeleteUserImage(string Username)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            int PictureId = GetPictureId(Username);
-            String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
-            parameters.Add("@pictureid", PictureId);
-            _database.Execute(commandText, parameters);
         }
 
         public Boolean CheckIfUserIsCandidate(string Username)
