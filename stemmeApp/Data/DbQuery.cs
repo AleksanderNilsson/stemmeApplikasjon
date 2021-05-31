@@ -535,7 +535,7 @@ namespace stemmeApp.Data
             {
                 returnQuery = new ElectionDateInformation()
                 {
-                    Title = rows[0]["Title"].ToString(),
+                    Title = rows[0]["Title"],
                     Idelection = Int32.Parse(rows[0]["Idelection"]),
                     Startelection = DateTime.Parse(rows[0]["Startelection"]),
                     Endelection = DateTime.Parse(rows[0]["Endelection"]),
@@ -560,7 +560,6 @@ namespace stemmeApp.Data
                 SET Title=@Title,Idelection=@Idelection,Startelection=@Startelection,Endelection=@Endelection,
                 Controlled=@Controlled,
                 WHERE IdElection=@IdElection;
-
                 
                 COMMIT;";
                 parameters.Add("@Title", Title);

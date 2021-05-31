@@ -6,6 +6,12 @@
     ViewBag.Title = "ElectionPanel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Scripts.Render("~/bundles/jqueryval")
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+<script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
 
 <h2>Election Panel</h2>
 
@@ -17,7 +23,7 @@
 {
     @Html.AntiForgeryToken()
     <h4>----------------------------- Election Panel -----------------------------</h4>
-    
+
     <div class="form-group">
         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -64,5 +70,5 @@
         <div class="col-md-12">
             <input type="submit" value="Commit New Changes" class="btn btn-warning" />
         </div>
-     </div>
+    </div>
 }
