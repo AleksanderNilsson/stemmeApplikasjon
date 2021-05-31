@@ -54,12 +54,47 @@ namespace stemmeApp.Models
         /// <summary>
         /// Data from Role table in DB
         /// </summary>
-        [StringLength(5)]
+        [StringLength(1, MinimumLength = 1, ErrorMessage = "The RoleID must be a length of only 1 character.")]
+        [RegularExpression("0|1|2", ErrorMessage = "(1 = Student, 2 = Inspector, 3 = Admin)")]
         [Required(ErrorMessage = "User must have a role, (1 = Student, 2 = Inspector, 3 = Admin)")]
         [Display(Name = "Role ID")]
         public string RoleId { get; set; }
 
         [Display(Name = "Role Name")]
         public string RoleName { get; set; }
+    }
+    public class ElectionDateInformation
+    {
+        [Required]
+        [Display(Name = "Election Title: ")]
+        [StringLength(1, MinimumLength = 1, ErrorMessage = "The Elecction ID must be a length of only 1 character.")]
+        public string Title { get; set; }
+
+        [Required]
+        [Display(Name = "Election ID: ")]
+        [Range(1, 9999, ErrorMessage = "Id must be a positive number")]
+        [StringLength(1, MinimumLength = 1, ErrorMessage = "The Elecction ID must be a length of only 1 character.")]
+        public int Idelection { get; set; }
+
+        [Required]
+        [Display(Name = "Start Date: ")]
+        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/6/2021", "1/1/2077", ErrorMessage = "Date not valid..")]
+        [DisplayFormat(DataFormatString = "{00:00:00:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime Startelection { get; set; }
+
+        [Required]
+        [Display(Name = "End Date: ")]
+        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/6/2021", "1/1/2077", ErrorMessage = "Date not valid..")]
+        [DisplayFormat(DataFormatString = "{00:00:00:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime Endelection { get; set; }
+
+        [Required]
+        [Display(Name = "Controlled at Date:")]
+        [DataType(DataType.DateTime)]
+        [Range(typeof(DateTime), "1/6/2021", "1/1/2077")]
+        [DisplayFormat(DataFormatString = "{00:00:00:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime Controlled { get; set; }
     }
 }

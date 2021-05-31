@@ -7,7 +7,8 @@
 
 <h2>Admin Panel</h2>
 <p class="text-success">@ViewBag.StatusMessage</p>
-
+<p class="text-danger">@ViewBag.StatusMessage</p>
+@TempData["ErrorCandidate"]
 
 <table class="table">
     <tr>
@@ -33,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                <strong>@Html.DisplayFor(modelItem => item.Email)</strong>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Firstname)
@@ -42,8 +43,13 @@
                 @Html.DisplayFor(modelItem => item.Lastname)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", "Admin", new { Username = item.Username }, null) |
-                @Html.ActionLink("Delete", "Delete", new { Username = item.Username })
+                @Html.ActionLink("Edit", "Edit", "Admin", new { Username = item.Username }, new { @class = "btn btn-warning" })
+
+                <form style="display: inline-block" method="post" action="@Url.Action("Delete", "Admin")">
+                    <input type="text" name="username" value="@item.Username" hidden />
+                    <input class="btn btn-danger" name="submit" type="submit" value="Delete" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
+                </form>
+
             </td>
         </tr>
     }
