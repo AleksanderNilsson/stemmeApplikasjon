@@ -411,7 +411,7 @@ namespace stemmeApp.Data
         }
         public void AdminDeleteUserImage(string Username)
         {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
             int PictureId = GetPictureId(Username);
             String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
             parameters.Add("@pictureid", PictureId);

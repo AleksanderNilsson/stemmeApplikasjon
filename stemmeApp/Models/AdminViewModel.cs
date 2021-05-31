@@ -50,7 +50,7 @@ namespace stemmeApp.Models
         /// Data from Picture table in DB
         /// </summary>
         public string Picture { get; set; }
-
+        public string PictureID { get; set; }
         /// <summary>
         /// Data from Role table in DB
         /// </summary>

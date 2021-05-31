@@ -53,10 +53,10 @@ namespace stemmeApp.Controllers
         public ActionResult Edit(AdminModel Model)
         {
             DbQuery db = new DbQuery();
-            
-             if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
-                try 
+                try
                 {
                     db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId, Model.Picture);
                     return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
@@ -91,6 +91,16 @@ namespace stemmeApp.Controllers
             }
             return View();
         }
-
+        [HttpPost]
+        public ActionResult AdminDeleteUserImage(AdminModel Model, string username)
+        {
+            DbQuery db = new DbQuery();
+            if (db.CheckIfUserIsCandidate(Model.Username))
+            {
+                    db.AdminDeleteUserImage(username);
+                    return RedirectToAction("Index");
+            }
+            return RedirectToAction("Edit");
+        }
     }
 }
