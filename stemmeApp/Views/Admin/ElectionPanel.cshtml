@@ -44,7 +44,7 @@
         <br /><br />
         @Html.LabelFor(model => model.Startelection, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Startelection, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Startelection, new { htmlAttributes = new { @class = "form-control", @type="datetime-local" } })
             @Html.ValidationMessageFor(model => model.Startelection, "", new { @class = "text-danger" })
         </div>
     </div>
