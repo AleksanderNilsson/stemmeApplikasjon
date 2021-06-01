@@ -21,7 +21,7 @@ namespace stemmeApp.Controllers
         {
             DbQuery db = new DbQuery();
             
-            return View(db.ElectionPanel());
+            return View(db.getElectionInfo());
         }
 
         public ActionResult About()

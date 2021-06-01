@@ -10,7 +10,14 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li style="color:red"><p>@role</p></li>
+            @if (role.Equals("Inspector") || role.Equals("Admin"))
+            { <!-- Only shows role if admin or inspector -->
+                <li style="color:red">
+                    <a>
+                        <p>Role: @role</p>
+                    </a>
+                </li>
+            }
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>

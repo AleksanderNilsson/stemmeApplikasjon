@@ -1,14 +1,26 @@
-﻿@model stemmeApp.Models.ElectionDateInformation
+﻿@model List<stemmeApp.Models.ElectionInformation>
 @{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
     <h1>USN Election 2021 </h1>
-    <h2>The election opens for voting @Model.Startelection</h2>
-    <h2>The election is <strong>open</strong> until @Model.Endelection</h2>
-    <h2>The election has now closed, the results will be published as soon as possible</h2>
-    <h2>The election has now closed, see the results <a href="~/Home/Results">here</a></h2>
+    @if (DateTime.Now < @Model[0].ElectionStart)
+    { <!--Runs if election has not started yet-->
+        <h2>The election opens for voting @Model[0].ElectionStart</h2>
+    }
+    else if (DateTime.Now < @Model[0].ElectionEnd)
+    { <!--Runs if the election has started but not ended-->
+        <h2>The election is <strong>open</strong> until @Model[0].ElectionEnd</h2>
+        }
+        else if (DateTime.Compare(@Model[0].Controlled, DateTime.MinValue) == 0)
+    { <!--Runs if the election has ended but results are not published-->
+        <h2>The election has now closed, the results will be published as soon as possible</h2>
+    }
+    else
+    { <!--Runs if the election is done and results are published-->
+        <h2>The election has now closed, see the results <a href="~/Home/Results">here</a></h2>
+    }
     <p class="lead">It its time to vote on your favourite candidate. With this application you can nominate and or register as a candidate. The candidate with the most votes wins! </p>
     @if (!User.Identity.IsAuthenticated)
     {
