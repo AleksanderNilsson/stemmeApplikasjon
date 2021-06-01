@@ -62,6 +62,9 @@ namespace stemmeApp.Models
 
         [Display(Name = "Role Name")]
         public string RoleName { get; set; }
+        
+        [Display(Name = "Election Title: ")]
+        public string Title { get; set; }
     }
     public class ElectionDateInformation
     {
@@ -69,9 +72,6 @@ namespace stemmeApp.Models
         [Display(Name = "Election Title: ")]
         public string Title { get; set; }
 
-        [Required]
-        [Display(Name = "Election ID: ")]
-        [Range(1, 9999, ErrorMessage = "Id must be a positive number")]
         public int Idelection { get; set; }
 
         [Required]

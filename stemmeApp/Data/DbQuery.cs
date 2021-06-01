@@ -540,7 +540,6 @@ namespace stemmeApp.Data
                 returnQuery = new ElectionDateInformation()
                 {
                     Title = rows[0]["Title"],
-                    Idelection = Int32.Parse(rows[0]["Idelection"]),
                     Startelection = DateTime.Parse(rows[0]["Startelection"]),
                     Endelection = DateTime.Parse(rows[0]["Endelection"]),
                 };
@@ -551,17 +550,17 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public void AdminUpdateElection(string Title, int Idelection, DateTime Startelection, DateTime Endelection)
+        public void AdminUpdateElection(string Title, int IdElection, DateTime Startelection, DateTime Endelection)
         {
             try
             {
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 string query = @"
                 UPDATE `election` 
-                SET Title=@Title,Idelection=@Idelection,Startelection=@Startelection,Endelection=@Endelection
-                WHERE IdElection=@IdElection;";
+                SET Title=@Title,Startelection=@Startelection,Endelection=@Endelection
+                WHERE IdElection=1";
                 parameters.Add("@Title", Title);
-                parameters.Add("@Idelection", Idelection);
+                parameters.Add("@IdElection", 1);
                 parameters.Add("@Startelection", Startelection);
                 parameters.Add("@Endelection", Endelection);
 

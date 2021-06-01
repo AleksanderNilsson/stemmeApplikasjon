@@ -4569,11 +4569,13 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     height: 60px;
     padding: 19.5px 15px;
     font-size: 19px;
-    line-height: 21px
+    line-height: 21px;
+    color: red;
 }
 
     .navbar-brand:hover, .navbar-brand:focus {
-        text-decoration: none
+        text-decoration: none;
+        color: red;
     }
 
     .navbar-brand > img {
@@ -4925,7 +4927,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     }
 
         .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
-            color: #2c3e50;
+            color: #18bc9c;
             background-color: transparent
         }
 

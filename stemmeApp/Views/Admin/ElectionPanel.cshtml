@@ -2,11 +2,12 @@
 @using stemmeApp.Data;
 @using Microsoft.AspNet.Identity
 @using System.ComponentModel.DataAnnotations;
+
 @{
     ViewBag.Title = "ElectionPanel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Scripts.Render("~/bundles/jqueryval")
+
 
 <h2>Election Panel</h2>
 
@@ -20,18 +21,11 @@
     <h4>----------------------------- Election Panel -----------------------------</h4>
 
     <div class="form-group">
+        <br /><br />
         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Idelection, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Idelection, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Idelection, "", new { @class = "text-danger" })
-
         </div>
     </div>
 
@@ -39,7 +33,7 @@
         <br /><br />
         @Html.LabelFor(model => model.Startelection, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Startelection, new { htmlAttributes = new { placeholder = "Format: dd-mm-yyyy hh:mm:ss",  @class = "form-control", @type="datetime-local" } })
+            @Html.EditorFor(model => model.Startelection, new { htmlAttributes = new { placeholder = "Format: dd-mm-yyyy hh:mm:ss", @class = "form-control", @type = "datetime-local" } })
             @Html.ValidationMessageFor(model => model.Startelection, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -53,10 +47,12 @@
         </div>
     </div>
     <br />
-
+    <br />
+    <br />
     <div class="form-group">
         <div class="col-md-12">
             <input type="submit" value="Commit New Changes" class="btn btn-warning" />
         </div>
     </div>
 }
+<div></div>

@@ -5,7 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Admin Panel</h2>
+<h1>Admin Panel</h1>
+<br />
+<h3>Users Panel</h3>
+<hr />
 <p class="text-success">@ViewBag.StatusMessage</p>
 <p class="text-danger">@ViewBag.StatusMessage</p>
 @TempData["ErrorCandidate"]
@@ -25,6 +28,7 @@
             @Html.DisplayNameFor(model => model.Lastname)
         </th>
         <th></th>
+      
     </tr>
 
     @foreach (var item in Model)
@@ -36,6 +40,7 @@
             <td>
                 <strong>@Html.DisplayFor(modelItem => item.Email)</strong>
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Firstname)
             </td>
@@ -44,13 +49,12 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", "Admin", new { Username = item.Username }, new { @class = "btn btn-warning" })
-
                 <form style="display: inline-block" method="post" action="@Url.Action("Delete", "Admin")">
                     <input type="text" name="username" value="@item.Username" hidden />
                     <input class="btn btn-danger" name="submit" type="submit" value="Delete" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
                 </form>
-
             </td>
+
         </tr>
     }
 
