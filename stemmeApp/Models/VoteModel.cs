@@ -7,6 +7,15 @@ namespace stemmeApp.Models
 {
     public class VoteModel
     {
+        public List<Candidates> Candidates { get; set; } = new List<Candidates>();
+
+        public List<ElectionInformation> ElectionInformation { get; set; } = new List<ElectionInformation>();
+
+
+    }
+
+    public class Candidates
+    {
         public string username { get; set; }
         public string faculty { get; set; }
 
@@ -15,8 +24,7 @@ namespace stemmeApp.Models
         public string picture { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
-
-
-
     }
+    
+
 }

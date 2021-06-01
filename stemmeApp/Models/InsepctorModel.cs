@@ -20,7 +20,7 @@ namespace stemmeApp.Models
     public class InspectorViewModel {
         public List<Votes> Votes { get; set; } = new List<Votes>();
         public List<ElectionInformation> ElectionInformation { get; set; } = new List<ElectionInformation>();
-        public List<VoteModel> Candidates { get; set; } = new List<VoteModel>();
+        public List<Candidates> Candidates { get; set; } = new List<Candidates>();
     }
 
     public class CandidateVotes

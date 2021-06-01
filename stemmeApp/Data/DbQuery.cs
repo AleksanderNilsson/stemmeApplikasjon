@@ -149,16 +149,16 @@ namespace stemmeApp.Data
             return PictureId;
         }
 
-        public List<VoteModel> GetAllCandidates()
+        public List<Candidates> GetAllCandidates()
         {
-            List<VoteModel> ReturnList = new List<VoteModel>();
+            List<Candidates> ReturnList = new List<Candidates>();
             string commandText = @"SELECT c.username, c.faculty, c.institute, c.info, p.loc, p.text, u.firstname, u.lastname FROM candidate as c LEFT JOIN picture as p ON c.Picture = p.Idpicture LEFT JOIN users as u ON c.username = u.email";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
             try
             {
                 for (int i = 0; i < rows.Count(); i++)
-                    ReturnList.Add(new VoteModel()
+                    ReturnList.Add(new Candidates()
                     {
                         username = rows[i]["username"].ToString(),
                         faculty = rows[i]["faculty"].ToString(),
@@ -175,6 +175,7 @@ namespace stemmeApp.Data
             }
             return ReturnList;
         }
+
 
         public void VoteForUser(string votedon, string voter)
         {

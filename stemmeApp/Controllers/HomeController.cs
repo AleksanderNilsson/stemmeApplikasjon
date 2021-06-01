@@ -29,16 +29,21 @@ namespace stemmeApp.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Vote()
         {
             //ViewBag.Message = "Vote for a candidate";
             DbQuery db = new DbQuery();
 
-            return View(db.GetAllCandidates().ToList());
+            var Model = new VoteModel();
+            Model.ElectionInformation = db.getElectionInfo();
+            Model.Candidates= db.GetAllCandidates();
 
-
+            return View(Model);
 
         }
+
+       
 
         [HttpPost]
         public ActionResult Vote(string username)
@@ -73,7 +78,7 @@ namespace stemmeApp.Controllers
 
             return View();
         }
-        
+        [Authorize]
         public ActionResult Candidate()
         {
             ViewBag.Message = "Nominate a user!";
