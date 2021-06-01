@@ -85,26 +85,26 @@ namespace stemmeApp.Controllers
             return View(db.ElectionPanel());
         }
 
-        ////POST: Admin/ElectionPanel
-        //[HttpPost]
-        //public ActionResult ElectionPanel(ElectionDateInformation Model)
-        //{
-        //    try
-        //    {
-        //        DbQuery db = new DbQuery();
-        //        db.AdminUpdateElection(Model.Title,
-        //                               Model.Idelection,
-        //                               Model.Startelection,
-        //                               Model.Endelection,
-        //                               Model.Controlled);
-        //        return RedirectToAction("ElectionPanel");
-        //    } catch (Exception e)
-        //    {
-        //        throw e;
+        //POST: Admin/ElectionPanel
+        [HttpPost]
+        public ActionResult ElectionPanel(ElectionDateInformation Model)
+        {
+            try
+            {
+                DbQuery db = new DbQuery();
+                db.AdminUpdateElection(Model.Title,
+                                       Model.Idelection,
+                                       Model.Startelection,
+                                       Model.Endelection);
+                return RedirectToAction("ElectionPanel");
+            }
+            catch (Exception e)
+            {
+                throw e;
 
-        //    }
-        //    return RedirectToAction("ElectionPanel");
+            }
+            return RedirectToAction("ElectionPanel");
 
-        //}
+        }
     }
 }

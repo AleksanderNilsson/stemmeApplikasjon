@@ -542,8 +542,6 @@ namespace stemmeApp.Data
                     Idelection = Int32.Parse(rows[0]["Idelection"]),
                     Startelection = DateTime.Parse(rows[0]["Startelection"]),
                     Endelection = DateTime.Parse(rows[0]["Endelection"]),
-                    Controlled = (rows[0]["Controlled"] == null) ? DateTime.MinValue : DateTime.Parse(rows[0]["Controlled"])
-
                 };
             }
             catch (Exception)
@@ -552,24 +550,19 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public void AdminUpdateElection(string Title, int Idelection, DateTime Startelection, DateTime Endelection, DateTime Controlled)
+        public void AdminUpdateElection(string Title, int Idelection, DateTime Startelection, DateTime Endelection)
         {
             try
             {
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 string query = @"
-                BEGIN;
                 UPDATE `election` 
-                SET Title=@Title,Idelection=@Idelection,Startelection=@Startelection,Endelection=@Endelection,
-                Controlled=@Controlled,
-                WHERE IdElection=@IdElection;
-                
-                COMMIT;";
+                SET Title=@Title,Idelection=@Idelection,Startelection=@Startelection,Endelection=@Endelection
+                WHERE IdElection=@IdElection;";
                 parameters.Add("@Title", Title);
                 parameters.Add("@Idelection", Idelection);
                 parameters.Add("@Startelection", Startelection);
                 parameters.Add("@Endelection", Endelection);
-                parameters.Add("@Controlled", Controlled);
 
                 _database.Execute(query, parameters);
             }
