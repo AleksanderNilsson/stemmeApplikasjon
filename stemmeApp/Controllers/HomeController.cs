@@ -19,7 +19,9 @@ namespace stemmeApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            DbQuery db = new DbQuery();
+            
+            return View(db.ElectionPanel());
         }
 
         public ActionResult About()

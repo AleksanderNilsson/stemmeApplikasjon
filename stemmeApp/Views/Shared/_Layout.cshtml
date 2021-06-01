@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity;
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +12,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -24,19 +27,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                   @if (User.Identity.IsAuthenticated)
-                   {
+                    @if (User.Identity.IsAuthenticated)
+                    {<!--Shows if logged in-->
                         <li>@Html.ActionLink(linkText: "Vote", actionName: "Vote", controllerName: "Home")</li>
                         <li>@Html.ActionLink("New Candidate", "Candidate", "Home")</li>
-                        if (User.IsInRole("Admin"))
-                        {
-                            <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
-                        }
-                        if (User.IsInRole("Inspector"))
-                        {
-                            <li>@Html.ActionLink("Inspect election", "Index", "Inspector")</li>
-                        }
-                   }
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {<!--Shows if user has role admin-->
+                        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                    }
+                    @if (User.IsInRole("Inspector"))
+                    {<!--Shows if user has role inspector-->
+                        <li>@Html.ActionLink("Inspect election", "Index", "Inspector")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
