@@ -581,6 +581,20 @@ namespace stemmeApp.Data
 
         }
 
+        public String getUserRole(string UserId)
+        {
+            string role = "";
+            string commandText = @"SELECT name from roles r, userroles u WHERE u.UserId = @id AND r.Id = u.RoleId;";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            DbQuery db = new DbQuery();
+            parameters.Add("@id", UserId);
+            var result = _database.Query(commandText, parameters);
+            if (result.Count != 0){ 
+                role = result[0]["name"];
+            }
+            return role;
+        } 
+
     }
 
 }

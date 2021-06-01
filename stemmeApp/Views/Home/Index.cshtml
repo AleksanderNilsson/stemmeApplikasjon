@@ -1,26 +1,41 @@
-﻿@{
+﻿@model stemmeApp.Models.ElectionDateInformation
+@{
     ViewBag.Title = "Home Page";
 }
+
 <div class="jumbotron">
     <h1>USN Election 2021 </h1>
+    <h2>The election opens for voting @Model.Startelection</h2>
+    <h2>The election is <strong>open</strong> until @Model.Endelection</h2>
+    <h2>The election has now closed, the results will be published as soon as possible</h2>
+    <h2>The election has now closed, see the results <a href="~/Home/Results">here</a></h2>
     <p class="lead">It its time to vote on your favourite candidate. With this application you can nominate and or register as a candidate. The candidate with the most votes wins! </p>
-    <p><a href="Home/Vote" class="btn btn-primary btn-lg">Vote now! &raquo;</a></p>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <p>To be ready to vote when the election starts register a user now, nominating is already open for users.</p>
+        <p><a href="~/Account/Register" class="btn btn-primary btn-lg">Register user! &raquo;</a></p>
+    }
+    else
+    {
+        <p><a href="~/Manage" class="btn btn-primary btn-lg">Manage account! &raquo;</a></p>
+    }
 </div>
-
+@if (User.Identity.IsAuthenticated)
+{
 <div class="row">
     <div class="col-md-4">
-        <h2>Register User</h2>
+        <h2>Nominate someone</h2>
         <p>
-            Anyone is able to create a user to vote on who they deserves to win the selected election. You're also able to register as a <b>Candidate</b> if you were to apply for it.
+            Nominate a person you think would do a good job as the leader for the student democracy, you can also nominate yourself!
         </p>
-        <p><a class="btn btn-default" href="Account/Register">Register here &raquo;</a></p>
+        <p><a class="btn btn-default" href="~/Home/Candidate">Nominate here &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>View Nominees</h2>
+        <h2>Vote</h2>
         <p>
-            Here you will be able to view all the current nominees for the current election.
+            Vote for the person yout think deserve to win the election
         </p>
-        <p><a class="btn btn-default" href="Home/Nominees">View here &raquo;</a></p>
+        <p><a class="btn btn-default" href="~/Home/Vote">Vote here &raquo;</a></p>
     </div>
-    
 </div>
+}
