@@ -214,12 +214,9 @@ namespace stemmeApp.Data
 
         public void RemoveVote(string Username)
         {
-            
-
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
             String commandText = "DELETE FROM votes WHERE voter = @username";
             _database.Execute(commandText, parameters);
-         
         }
 
 
