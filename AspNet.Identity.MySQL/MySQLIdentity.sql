@@ -1,10 +1,10 @@
-CREATE TABLE `roles` (
+CREATE TABLE `Roles` (
   `Id` varchar(128) NOT NULL,
   `Name` varchar(256) NOT NULL,
   PRIMARY KEY (`Id`)
 );
 
-CREATE TABLE `users` (
+CREATE TABLE `Users` (
   `Id` varchar(128) NOT NULL,
   `Email` varchar(256) DEFAULT NULL,
   `EmailConfirmed` tinyint(1) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`Id`)
 );
 
-CREATE TABLE `userclaims` (
+CREATE TABLE `UserClaims` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `UserId` varchar(128) NOT NULL,
   `ClaimType` longtext,
@@ -30,47 +30,47 @@ CREATE TABLE `userclaims` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id` (`Id`),
   KEY `UserId` (`UserId`),
-  CONSTRAINT `ApplicationUser_Claims` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `ApplicationUser_Claims` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
-CREATE TABLE `userlogins` (
+CREATE TABLE `UserLogins` (
   `LoginProvider` varchar(128) NOT NULL,
   `ProviderKey` varchar(128) NOT NULL,
   `UserId` varchar(128) NOT NULL,
   PRIMARY KEY (`LoginProvider`,`ProviderKey`,`UserId`),
   KEY `ApplicationUser_Logins` (`UserId`),
-  CONSTRAINT `ApplicationUser_Logins` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `ApplicationUser_Logins` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
-CREATE TABLE `userroles` (
+CREATE TABLE `UserRoles` (
   `UserId` varchar(128) NOT NULL,
   `RoleId` varchar(128) NOT NULL,
   PRIMARY KEY (`UserId`,`RoleId`),
   KEY `IdentityRole_Users` (`RoleId`),
-  CONSTRAINT `ApplicationUser_Roles` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `IdentityRole_Users` FOREIGN KEY (`RoleId`) REFERENCES `roles` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `ApplicationUser_Roles` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `IdentityRole_Users` FOREIGN KEY (`RoleId`) REFERENCES `Roles` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ;
 
-CREATE TABLE candidate(
+CREATE TABLE Candidate(
 UserName VARCHAR(256) NOT NULL,
 Faculty VARCHAR(100),
 Institute VARCHAR(100),
 Info LONGTEXT,
 Picture INT UNIQUE,
-Primary key (username),
-foreign key (UserName) references users(UserName)
+Primary key (UserName),
+foreign key (UserName) references Users(UserName)
 );
 
 
-CREATE TABLE votes(
+CREATE TABLE Votes(
 Voter VARCHAR(256),
 Votedon VARCHAR(256),
 primary key (Voter),
-foreign key (Voter) references users(UserName),
-foreign key (Votedon) references Candidate(Username)
+foreign key (Voter) references Users(UserName),
+foreign key (Votedon) references Candidate(UserName)
 );
 
-CREATE TABLE election(
+CREATE TABLE Election(
 Idelection INT,
 Startelection DATETIME,
 Endelection DATETIME,
@@ -79,13 +79,13 @@ Title VARCHAR(100),
 primary key (Idelection)
 );
 
-CREATE TABLE picture(
+CREATE TABLE Picture(
 Idpicture INT,
 Loc VARCHAR(100),
 Text VARCHAR(256),
 Alt VARCHAR(100),
 primary key(Idpicture),
-foreign key (Idpicture) references candidate(Picture)
+foreign key (Idpicture) references Candidate(Picture)
 );
 
 

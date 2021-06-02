@@ -38,7 +38,7 @@ namespace stemmeApp.Data
         public Boolean CheckIfCandidateExists(string Username)
         {
             Boolean UserExists;
-            string commandText = "Select username from candidate where username = @username";
+            string commandText = "Select username from Candidate where username = @username";
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
             String ReturnValue = _database.GetStrValue(commandText, parameters);
             if (ReturnValue == null)
@@ -57,7 +57,7 @@ namespace stemmeApp.Data
         /// </summary>
         public void InsertNewCandidate(string username, string faculty, string institute, string info, int PictureId)
         {
-            string commandText = @"Insert Into candidate (username, faculty, institute, info, picture)
+            string commandText = @"Insert Into Candidate (username, faculty, institute, info, picture)
                 VALUES (@username, @faculty, @institute, @info, @pictureid)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@username", username);
@@ -73,7 +73,7 @@ namespace stemmeApp.Data
         /// </summary>
         public void InsertNewImage(int id, string loc, string text)
         {
-            string commandText = @"Insert Into picture (idpicture, loc, text)
+            string commandText = @"Insert Into Picture (idpicture, loc, text)
              VALUES (@id, @loc, @text)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@id", id);
@@ -94,7 +94,7 @@ namespace stemmeApp.Data
             while (AvailableImageId == false)
             {
 
-                string commandText = @"SELECT picture FROM candidate WHERE picture = @r";
+                string commandText = @"SELECT picture FROM Candidate WHERE picture = @r";
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 parameters.Add("@r", random);
                 String result = _database.GetStrValue(commandText, parameters);
@@ -113,8 +113,8 @@ namespace stemmeApp.Data
         public List<CandidateModel> GetCandidate(string username)
         {
             List<CandidateModel> ReturnList = new List<CandidateModel>();
-            string commandText = @"Select username, faculty, institute, info, picture.loc, picture.text
-            from candidate, picture where username = @username AND candidate.Picture = picture.Idpicture;";
+            string commandText = @"Select username, faculty, institute, info, Picture.loc, Picture.text
+            from Candidate, Picture where username = @username AND Candidate.Picture = Picture.Idpicture;";
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
             var rows = _database.Query(commandText, parameters);
             try
@@ -142,7 +142,7 @@ namespace stemmeApp.Data
         public dynamic GetPictureId(string username)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-            string commandText = "Select picture from candidate WHERE username = @username";
+            string commandText = "Select picture from Candidate WHERE username = @username";
             var rows = _database.Query(commandText, parameters);
             String PictureIdString = rows[0]["picture"];
             int PictureId = Convert.ToInt32(PictureIdString); 
@@ -152,7 +152,7 @@ namespace stemmeApp.Data
         public List<Candidates> GetAllCandidates()
         {
             List<Candidates> ReturnList = new List<Candidates>();
-            string commandText = @"SELECT c.username, c.faculty, c.institute, c.info, p.loc, p.text, u.firstname, u.lastname FROM candidate as c LEFT JOIN picture as p ON c.Picture = p.Idpicture LEFT JOIN users as u ON c.username = u.email";
+            string commandText = @"SELECT c.username, c.faculty, c.institute, c.info, p.loc, p.text, u.firstname, u.lastname FROM Candidate as c LEFT JOIN Picture as p ON c.Picture = p.Idpicture LEFT JOIN Users as u ON c.username = u.email";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
             try
@@ -182,12 +182,12 @@ namespace stemmeApp.Data
             try
             {
                 Dictionary<string, object> parameters1 = new Dictionary<string, object>();
-                var rows = _database.Query("SELECT * FROM votes WHERE voter = '" + voter + "';", parameters1);
+                var rows = _database.Query("SELECT * FROM Votes WHERE voter = '" + voter + "';", parameters1);
                 if (rows.Count() == 0 || rows.Count() == null)
                 {
 
 
-                    string commandText = @"INSERT INTO votes (Voter, Votedon) VALUES (@voter, @votedon)";
+                    string commandText = @"INSERT INTO Votes (Voter, Votedon) VALUES (@voter, @votedon)";
                     Dictionary<string, object> parameters = new Dictionary<string, object>();
                     parameters.Add("@voter", voter);
                     parameters.Add("@votedon", votedon);
@@ -197,7 +197,7 @@ namespace stemmeApp.Data
                 }
                 else
                 {
-                    string commandText = @"UPDATE votes set votedon = '" + votedon + "' WHERE voter = '" + voter + "';";
+                    string commandText = @"UPDATE Votes set votedon = '" + votedon + "' WHERE voter = '" + voter + "';";
                     Dictionary<string, object> parameters2 = new Dictionary<string, object>();
                     _database.Execute(commandText, parameters2);
 
@@ -217,7 +217,7 @@ namespace stemmeApp.Data
             
 
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
-            String commandText = "DELETE FROM votes WHERE voter = @username";
+            String commandText = "DELETE FROM Votes WHERE voter = @username";
             _database.Execute(commandText, parameters);
          
         }
@@ -230,7 +230,7 @@ namespace stemmeApp.Data
 
         public void UpdateCandidate(string username, string faculty, string institute, string info, string DbPath, string picturetext)
         {
-            string commandText = @"Update candidate SET faculty=@faculty, institute=@institute, info=@info WHERE username=@username";
+            string commandText = @"Update Candidate SET faculty=@faculty, institute=@institute, info=@info WHERE username=@username";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             int PictureId = GetPictureId(username);
             parameters.Add("@pictureid", PictureId);
@@ -262,12 +262,12 @@ namespace stemmeApp.Data
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
             int PictureId = GetPictureId(Username);
-            String commandText = "DELETE FROM picture WHERE idpicture = @pictureid";
+            String commandText = "DELETE FROM Picture WHERE idpicture = @pictureid";
             parameters.Add("@pictureid", PictureId);
             _database.Execute(commandText, parameters);
-            commandText = "DELETE FROM votes WHERE votedon = @username";
+            commandText = "DELETE FROM Votes WHERE votedon = @username";
             _database.Execute(commandText, parameters);
-            commandText = "DELETE FROM candidate WHERE username = @username";
+            commandText = "DELETE FROM Candidate WHERE username = @username";
             _database.Execute(commandText, parameters);
             
         }
@@ -275,7 +275,7 @@ namespace stemmeApp.Data
 
         public List<AdminModel> AdminGetUsers()
         {
-            string query = @"SELECT * FROM users";
+            string query = @"SELECT * FROM Users";
             List<AdminModel> returnQuery = new List<AdminModel>();
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(query, parameters);
@@ -314,17 +314,17 @@ namespace stemmeApp.Data
                             r.Name,
                             p.Loc
                         FROM
-                            users AS u
-                        LEFT JOIN candidate AS c
+                            Users AS u
+                        LEFT JOIN Candidate AS c
                         ON
                             u.UserName = c.UserName
-                        LEFT JOIN userroles AS ur
+                        LEFT JOIN UserRoles AS ur
                         ON
                             u.Id = ur.UserId
-                        LEFT JOIN roles AS r
+                        LEFT JOIN Roles AS r
                         ON
                             r.Id = ur.RoleId
-                        LEFT JOIN picture AS p
+                        LEFT JOIN Picture AS p
                         ON
                             c.Picture = p.Idpicture
                         WHERE u.UserName = @UserName;
@@ -373,15 +373,15 @@ namespace stemmeApp.Data
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 string query = @"
                 BEGIN;
-                UPDATE `users` 
+                UPDATE `Users` 
                 SET Id=@Id,Username=@Username,Email=@Email,Firstname=@Firstname,Lastname=@Lastname 
                 WHERE Username=@Username;
                 
-                UPDATE `candidate` 
+                UPDATE `Candidate` 
                 SET Faculty=@Faculty,Institute=@Institute,Info=@Info 
                 WHERE Username=@Username;
                 
-                UPDATE `userroles` SET RoleId=@RoleId 
+                UPDATE `UserRoles` SET RoleId=@RoleId 
                 WHERE UserID=@Id; 
                 
                 COMMIT;";
@@ -411,14 +411,14 @@ namespace stemmeApp.Data
         public void AdminDeleteUser(string Username)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@UserName", Username } };
-            string query = "DELETE FROM users WHERE Username = @UserName";
+            string query = "DELETE FROM Users WHERE Username = @UserName";
             _database.Execute(query, parameters);
         }
 
         public Boolean CheckIfUserIsCandidate(string Username)
         {
             Boolean UserIsCandidate;
-            string query = "SELECT UserName FROM candidate WHERE username = @username";
+            string query = "SELECT UserName FROM Candidate WHERE username = @username";
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
             String ReturnValue = _database.GetStrValue(query, parameters);
             if (ReturnValue == null)
@@ -439,7 +439,7 @@ namespace stemmeApp.Data
         public List<Votes> getVotes()
         {
             List<Votes> ReturnList = new List<Votes>();
-            string commandText = "Select * from votes";
+            string commandText = "Select * from Votes";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
             try
@@ -464,7 +464,7 @@ namespace stemmeApp.Data
         public List<ElectionInformation> getElectionInfo()
         {
             List<ElectionInformation> ReturnList = new List<ElectionInformation>();
-            string commandText = "Select * from election";
+            string commandText = "Select * from Election";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
             try
@@ -492,7 +492,7 @@ namespace stemmeApp.Data
 
         public List<CandidateVotes> getCandidateVotes() {
             List<CandidateVotes> ReturnList = new List<CandidateVotes>();
-            string commandText = @"SELECT c.UserName, u.Firstname, u.Lastname, COUNT(v.Votedon) as Votes, p.Loc, p.Text  FROM candidate c
+            string commandText = @"SELECT c.UserName, u.Firstname, u.Lastname, COUNT(v.Votedon) as Votes, p.Loc, p.Text  FROM Candidate c
                                 LEFT JOIN Votes v ON c.UserName = v.Votedon
                                 LEFT JOIN Users u ON c.UserName = u.UserName
                                 LEFT JOIN Picture p ON c.Picture = p.Idpicture
@@ -521,7 +521,7 @@ namespace stemmeApp.Data
 
 
         public void SetControlDate(int id) {
-            string commandText = @"Update election SET controlled=@date WHERE idelection=@id";
+            string commandText = @"Update Election SET controlled=@date WHERE idelection=@id";
             Dictionary<string, object> parameters = new Dictionary<string, object>();        
             parameters.Add("@date", DateTime.Now);
             parameters.Add("@id", id);
@@ -532,7 +532,7 @@ namespace stemmeApp.Data
         public ElectionDateInformation ElectionPanel()
         {
             ElectionDateInformation returnQuery = new ElectionDateInformation();
-            string commandText = "Select * from election";
+            string commandText = "Select * from Election";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             var rows = _database.Query(commandText, parameters);
             try
@@ -556,7 +556,7 @@ namespace stemmeApp.Data
             {
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 string query = @"
-                UPDATE `election` 
+                UPDATE `Election` 
                 SET Title=@Title,Startelection=@Startelection,Endelection=@Endelection
                 WHERE IdElection=1";
                 parameters.Add("@Title", Title);
@@ -577,7 +577,7 @@ namespace stemmeApp.Data
         public String getUserRole(string UserId)
         {
             string role = "";
-            string commandText = @"SELECT name from roles r, userroles u WHERE u.UserId = @id AND r.Id = u.RoleId;";
+            string commandText = @"SELECT name from Roles r, UserRoles u WHERE u.UserId = @id AND r.Id = u.RoleId;";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             DbQuery db = new DbQuery();
             parameters.Add("@id", UserId);
