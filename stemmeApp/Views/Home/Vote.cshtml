@@ -1,6 +1,7 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using System.Configuration
 @using Microsoft.AspNet.Identity
+@using stemmeApp.Models
 @model stemmeApp.Models.VoteModel
 <link rel="stylesheet" href="~/Content/Site.css">
 
@@ -22,43 +23,91 @@
 
 }
 <h2>Vote for a candidate </h2>
+    @if (DateTime.Now < @Model.ElectionInformation[0].ElectionStart)
+    {  
+    <h3>
+        The voting panel for election: @Model.ElectionInformation[0].IdElection. will open at election start: @Model.ElectionInformation[0].ElectionStart
+    </h3>
+    }
+    else if (DateTime.Now > @Model.ElectionInformation[0].ElectionEnd)
+    {
+    <h3>
+        The voting panel for election: @Model.ElectionInformation[0].IdElection. ended at election end: @Model.ElectionInformation[0].ElectionEnd
+    </h3>
+    }
 
-@Model.ElectionInformation[0].ElectionStart
+    else
+    {
+        /*@Model.Votes[].VotedOn = null)
 
-<form method="post" action="@Url.Action("RemoveVote", "home")">
-    <input class="btn btn-danger" name="submit" type="submit" value="Revoke your vote" onclick="return confirm('Are you sure you want to revoke your vote?')" />
-</form>
-<h3 class="VotedUser" style="color: green"> @TempData["VotedUser"] </h3>
-<h3 class="RemoveVote" style="color: green"> @TempData["RemoveVote"] </h3>
-<br />
-
-@foreach (var item in Model.Candidates)
-{
-    <div class="b5card text-center" style="width: 50rem;
-    border-radius: 5px;
-    margin-left: 2rem !important;
-    margin-top: 2rem !important;
-    margin-right: 2rem !important;
-    margin-bottom: 2rem !important;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-
-
-        <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style=" border-radius:3px;" />
-        <div class="card-body">
-            <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
-            <p class="card-text">@item.faculty </p>
-            <p class="card-text">@item.institute </p>
-            <p class="card-info">@item.info </p>
+        //List<Votes> Votedon = new List<Votes>();
 
 
-            <form method="post" action="@Url.Action("Vote", "Home")">
-                <input type="text" text-center name="username" value="@item.username" hidden />
-                <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
-            </form>
+        //foreach (Votes votes in Votedon)
+        {
+
+            if (User.Identity.Name == new Votes().Voter && Votedon.Exists(x => x.VotedOn == null)) 
 
 
-        </div>
-    </div>
+            {
+                foreach (var item in Model.Candidates)
+                {
+                        <div class="b5card text-center" style="width: 50rem; border-radius: 5px; margin-left: 2rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 
-}
+
+                            <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style="border-radius: 3px;"/>
+                            <div class="card-body">
+                                <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
+                                <p class="card-text">@item.faculty </p>
+                                <p class="card-text">@item.institute </p>
+                                <p class="card-info">@item.info </p>
+
+
+                                <form method="post" action="@Url.Action("Vote", "Home")">
+                                    <input type="text" text-center name="username" value="@item.username" hidden/>
+                                    <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')"/>
+                                </form>
+
+
+                            </div>
+                        </div>
+
+                    }
+                }
+                else */
+                {
+                    <form method="post" action="@Url.Action("RemoveVote", "home")">
+                        <input class="btn btn-danger" name="submit" type="submit" value="Revoke your vote" onclick="return confirm('Are you sure you want to revoke your vote?')"/>
+                    </form>
+                    <h3 class="VotedUser" style="color: green"> @TempData["VotedUser"] </h3>
+                    <h3 class="RemoveVote" style="color: green"> @TempData["RemoveVote"] </h3>
+                    <br/>
+
+                    foreach (var item in Model.Candidates)
+                    {
+                        <div class="b5card text-center" style="width: 50rem; border-radius: 5px; margin-left: 2rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+
+                            <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style="border-radius: 3px;"/>
+                            <div class="card-body">
+                                <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
+                                <p class="card-text">@item.faculty </p>
+                                <p class="card-text">@item.institute </p>
+                                <p class="card-info">@item.info </p>
+
+
+                                <form method="post" action="@Url.Action("Vote", "Home")">
+                                    <input type="text" text-center name="username" value="@item.username" hidden/>
+                                    <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')"/>
+                                </form>
+
+
+                            </div>
+                        </div>
+
+                    }
+                }
+            
+        }   
+
 
