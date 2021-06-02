@@ -11,6 +11,7 @@ namespace stemmeApp.Models
 
         public List<ElectionInformation> ElectionInformation { get; set; } = new List<ElectionInformation>();
 
+        public List<Votes> Votes { get; set; } = new List<Votes>();
 
     }
 

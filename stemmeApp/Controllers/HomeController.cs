@@ -40,6 +40,7 @@ namespace stemmeApp.Controllers
             var Model = new VoteModel();
             Model.ElectionInformation = db.getElectionInfo();
             Model.Candidates= db.GetAllCandidates();
+            Model.Votes = db.getVotes();
 
             return View(Model);
 
