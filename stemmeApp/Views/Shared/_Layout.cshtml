@@ -30,7 +30,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {<!--Shows if logged in-->
                         <li>@Html.ActionLink(linkText: "Vote", actionName: "Vote", controllerName: "Home")</li>
-                        <li>@Html.ActionLink("New Candidate", "Candidate", "Home")</li>
+                        <li>@Html.ActionLink("Nomination", "Candidate", "Home")</li>
                     }
                     @if (User.IsInRole("Admin"))
                     {<!--Shows if user has role admin-->
