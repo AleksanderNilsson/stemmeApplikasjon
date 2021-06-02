@@ -27,10 +27,7 @@
         <p>To be ready to vote when the election starts register a user now, nominating is already open for users.</p>
         <p><a href="~/Account/Register" class="btn btn-primary btn-lg">Register user! &raquo;</a></p>
     }
-    else
-    {
-        <p><a href="~/Manage" class="btn btn-primary btn-lg">Manage account! &raquo;</a></p>
-    }
+    
 </div>
 @if (User.Identity.IsAuthenticated)
 {
@@ -48,6 +45,13 @@
             Vote for the person yout think deserve to win the election
         </p>
         <p><a class="btn btn-default" href="~/Home/Vote">Vote here &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Manage your account</h2>
+        <p>
+            Change your password and check your candidate information
+        </p>
+        <p><a class="btn btn-default" href="~/Home/Vote">Manage account &raquo;</a></p>
     </div>
 </div>
 }
