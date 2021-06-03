@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using AspNet.Identity.MySQL;
-using System;
 
 namespace stemmeApp.Models
 {

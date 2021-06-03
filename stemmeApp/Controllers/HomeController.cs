@@ -18,12 +18,6 @@ namespace stemmeApp.Controllers
             return View(db.getElectionInfo());
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
 
         [Authorize]
         public ActionResult Vote()
@@ -69,12 +63,7 @@ namespace stemmeApp.Controllers
 
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
         [Authorize]
         public ActionResult Candidate()
         {
