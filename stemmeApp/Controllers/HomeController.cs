@@ -28,16 +28,21 @@ namespace stemmeApp.Controllers
         [Authorize]
         public ActionResult Vote()
         {
-            //ViewBag.Message = "Vote for a candidate";
             DbQuery db = new DbQuery();
-
             var Model = new VoteModel();
+            string Voter = User.Identity.GetUserName();
+            if (db.CheckIfVotedOn(Voter))
+            {
+                TempData["VotedOn"] = "yahoo";
+            }
+            else
+            {
+                TempData["VotedOn"] = null;
+            }
             Model.ElectionInformation = db.getElectionInfo();
-            Model.Candidates= db.GetAllCandidates();
+            Model.Candidates = db.GetAllCandidates();
             Model.Votes = db.getVotes();
-
             return View(Model);
-
         }
 
        
@@ -49,7 +54,6 @@ namespace stemmeApp.Controllers
             DbQuery db = new DbQuery();
             db.VoteForUser(username, User.Identity.GetUserName());
 
-            TempData["VotedUser"] = "You have voted for the selected candidate!";
             return RedirectToAction("Vote");
 
         }
@@ -63,10 +67,6 @@ namespace stemmeApp.Controllers
                 TempData["RemoveVote"] = "You have revoked your vote!";
 
                 return RedirectToAction("Vote");
-
-           
-
-
         }
 
         public ActionResult Contact()
@@ -120,8 +120,9 @@ namespace stemmeApp.Controllers
                 string dbPath = "content/Pictures/" + fileName;
                 db.InsertNewCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info, PictureId);
                 db.InsertNewImage(PictureId, dbPath, Model.PictureText);
+                TempData["CandidteSuccess"] = "Successfully added candidate";
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Vote");
             }
 
             return View();
@@ -139,6 +140,7 @@ namespace stemmeApp.Controllers
             return View(Model);
         }
 
-
+        
     }
+
 }

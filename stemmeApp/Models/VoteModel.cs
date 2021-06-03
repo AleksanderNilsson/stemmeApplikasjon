@@ -6,12 +6,13 @@ namespace stemmeApp.Models
 {
     public class VoteModel
     {
+       
         public List<Candidates> Candidates { get; set; } = new List<Candidates>();
 
         public List<ElectionInformation> ElectionInformation { get; set; } = new List<ElectionInformation>();
 
         public List<Votes> Votes { get; set; } = new List<Votes>();
-
+        public string Email { get; set; }
     }
 
     public class Candidates

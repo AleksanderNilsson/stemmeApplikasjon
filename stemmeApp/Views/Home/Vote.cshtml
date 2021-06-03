@@ -22,8 +22,8 @@
     ViewBag.Title = "Vote";
 
 }
+<br />
 <h2>Vote for a candidate </h2>
-
 
 @if (DateTime.Now < @Model.ElectionInformation[0].ElectionStart)
 {
@@ -40,77 +40,64 @@ else if (DateTime.Now > @Model.ElectionInformation[0].ElectionEnd)
 
 else
 {
-    /*@Model.Votes[].VotedOn = null)
-
-    //List<Votes> Votedon = new List<Votes>();
-
-
-    //foreach (Votes votes in Votedon)
+    <h4>
+        If you don't see anyone you want to vote on, you can nominate anyone candidate here: @Html.ActionLink("here.", "Candidate", "Home")
+    </h4>
+    if (TempData["VotedOn"] != null)
     {
-
-        if (User.Identity.Name == new Votes().Voter && Votedon.Exists(x => x.VotedOn == null))
-
-
-        {
-            foreach (var item in Model.Candidates)
-            {
-                    <div class="b5card text-center" style="width: 50rem; border-radius: 5px; margin-left: 2rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-
-
-                        <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style="border-radius: 3px;"/>
-                        <div class="card-body">
-                            <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
-                            <p class="card-text">@item.faculty </p>
-                            <p class="card-text">@item.institute </p>
-                            <p class="card-info">@item.info </p>
-
-
-                            <form method="post" action="@Url.Action("Vote", "Home")">
-                                <input type="text" text-center name="username" value="@item.username" hidden/>
-                                <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')"/>
-                            </form>
-
-
-                        </div>
-                    </div>
-
-                }
-            }
-            else */
-    {
-        <h4>
-            If you don't see your candidate, then you can nominate one  @Html.ActionLink(linkText: "here.", actionName: "Candidate", controllerName: "Home")
-        </h4>
         <form method="post" action="@Url.Action("RemoveVote", "home")">
-            <input class="btn btn-danger" name="submit" type="submit" value="Revoke your vote" onclick="return confirm('Are you sure you want to revoke your vote?')" />
+            <input class="btn btn-danger" name="submit" type="submit" value="Revoke Vote" onclick="return confirm('Are you sure you want to revoke your vote?')" />
         </form>
-        <h4 class="VotedUser" style="color: green"> @TempData["VotedUser"] </h4>
-        <h4 class="RemoveVote" style="color: green"> @TempData["RemoveVote"] </h4>
-        <br />
+    }
 
-        foreach (var item in Model.Candidates)
-        {
-            <div class="b5card text-center" style="width: 50rem; border-radius: 5px; margin-left: 2rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <br />
+    if (TempData["VotedUser"] != null)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong> @TempData["VotedUser"]</strong>
+        </div>
+    }
+    <br />
+    if (TempData["CandidteSuccess"] != null)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong> @TempData["CandidteSuccess"]</strong>
+        </div>
+    }
+    <br />
+    if (TempData["RemoveVote"] != null)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>@TempData["RemoveVote"]</strong>
+        </div>
+    }
+    <br />
+
+    foreach (var item in Model.Candidates)
+    {
+        <div class="b5card text-center" style="width: 50rem; border-radius: 5px; margin-left: 2rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 
 
-                <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style="border-radius: 3px;" />
-                <div class="card-body">
-                    <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
-                    <p class="card-text">@item.faculty </p>
-                    <p class="card-text">@item.institute </p>
-                    <p class="card-info">@item.info </p>
+            <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style="border-radius: 3px;" />
+            <div class="card-body">
+                <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
+                <p class="card-text">@item.faculty </p>
+                <p class="card-text">@item.institute </p>
+                <p class="card-info">@item.info </p>
 
 
-                    <form method="post" action="@Url.Action("Vote", "Home")">
-                        <input type="text" text-center name="username" value="@item.username" hidden />
-                        <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
-                    </form>
+                <form method="post" action="@Url.Action("Vote", "Home")">
+                    <input type="text" text-center name="username" value="@item.username" hidden />
+                    <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
+                </form>
 
 
-                </div>
             </div>
+        </div>
 
-        }
     }
 
 }

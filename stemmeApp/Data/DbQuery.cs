@@ -277,7 +277,22 @@ namespace stemmeApp.Data
 
 
         //VOTES TABLE
-
+        public Boolean CheckIfVotedOn(string Voter)
+        {
+            Boolean VotedOn;
+            string query = "SELECT voter from `Votes` WHERE Voter=@Voter";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@Voter", Voter } };
+            String ReturnValue = _database.GetStrValue(query, parameters);
+            if (ReturnValue == null)
+            {
+                VotedOn = false;
+            }
+            else
+            {
+                VotedOn = true;
+            }
+            return VotedOn;
+        }
         public void VoteForUser(string votedon, string voter)
         {
             try

@@ -12,15 +12,23 @@
 
 <br />
 <h2>Election Panel</h2>
-
+<h3>This is the current election, change the dates accordingly. If you want to end the election early, simply set both dates to being in the past. </h3>
+@if (TempData["ElectionPanel"] != null)
+    {
+<div class="alert alert-dismissible alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>@TempData["ElectionPanel"]</strong>
+</div>
+    }
 
 @using (Html.BeginForm("ElectionPanel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-   
-    <h3>This is the current election, change the dates accordingly. If you want to end the election early, simply set both dates to being in the past. </h3>
+
+ 
+
     <div class="form-group">
-        <br /><br />
+        <br />
         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })

@@ -10,63 +10,65 @@
 <h3>Users Panel</h3>
 @if (TempData["EditUserSuccess"] != null)
 {
-<div class="alert alert-dismissible alert-success">
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong> @TempData["EditUserSuccess"]</strong> 
+    </div>
+}
+@if (TempData["EditFailed"] != null || @TempData["ErrorCandidate"] != null)
+{
+<div class="alert alert-dismissible alert-danger">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    @ViewBag.StatusMessage
-    @TempData["EditUserSuccess"]
+    <strong>@TempData["ErrorCandidate"]</strong>
+    <strong>@TempData["EditFailed"]</strong>
 </div>
 }
+    <hr />
+        @ViewBag.StatusMessage
 
-<p class="text-danger">
-    @ViewBag.StatusMessage
-    @TempData["ErrorCandidate"]
-</p>
-
-<hr />
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Firstname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lastname)
-        </th>
-        <th></th>
-
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                <strong>@Html.DisplayFor(modelItem => item.Email)</strong>
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Firstname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", "Admin", new { Username = item.Username }, new { @class = "btn btn-warning" })
-                <form style="display: inline-block" method="post" action="@Url.Action("Delete", "Admin")">
-                    <input type="text" name="username" value="@item.Username" hidden />
-                    <input class="btn btn-danger" name="submit" type="submit" value="Delete" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
-                </form>
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th></th>
 
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <strong>@Html.DisplayFor(modelItem => item.Email)</strong>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Admin", new { Username = item.Username }, new { @class = "btn btn-warning" })
+                    <form style="display: inline-block" method="post" action="@Url.Action("Delete", "Admin")">
+                        <input type="text" name="username" value="@item.Username" hidden />
+                        <input class="btn btn-danger" name="submit" type="submit" value="Delete" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
+                    </form>
+                </td>
+
+            </tr>
+        }
+
+    </table>

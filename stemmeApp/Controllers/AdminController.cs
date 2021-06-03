@@ -43,7 +43,7 @@ namespace stemmeApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    TempData["EditFailed"] = "Failed to edited User.";
                 }
             }
 
@@ -95,6 +95,7 @@ namespace stemmeApp.Controllers
                                        Model.Idelection,
                                        Model.Startelection,
                                        Model.Endelection);
+                TempData["ElectionPanel"] = "Successfully changed election details";
                 return RedirectToAction("ElectionPanel");
             }
             catch (Exception e)
