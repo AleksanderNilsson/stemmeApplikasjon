@@ -8,12 +8,13 @@
 <style>
 
     p.card-info {
-        width: 498px;
+        text-align: center;
         height: 110px;
         overflow: auto;
         letter-spacing: 1px;
-        margin-top: 2rem !important;
-        margin-right: 2rem !important;
+        margin-top: 0.1rem !important;
+        margin-right: 0.1rem !important;
+        margin-left: 1rem !important;
         margin-bottom: 2rem !important;
     }
 </style>
@@ -78,20 +79,20 @@ else
 
     foreach (var item in Model.Candidates)
     {
-        <div class="b5card text-center" style="width: 50rem; border-radius: 5px; margin-left: 2rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+        <div class="b5card text-center" style="width: 40rem; border-radius: 5px; margin-left: 6rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 
 
-            <img class="card-img-top" img src="~/@item.picture" width="350" height="250" style="border-radius: 3px;" />
+            <img class="card-img-top" img src="~/@item.picture" width="400" height="250" style=" object-fit: fill; border-radius: 3px;" />
             <div class="card-body">
-                <p> <strong class="card-text">@item.firstname @item.lastname </strong> </p>
-                <p class="card-text">@item.faculty </p>
-                <p class="card-text">@item.institute </p>
+                <h3><strong class="card-text">@item.firstname @item.lastname </strong> </h3>
+                <strong><p class="card-text">@item.faculty </p></strong>
+                <strong><p class="card-text">@item.institute</p></strong>
                 <p class="card-info">@item.info </p>
 
 
                 <form method="post" action="@Url.Action("Vote", "Home")">
                     <input type="text" text-center name="username" value="@item.username" hidden />
-                    <input style="margin: 10px;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
+                    <input style="width:50%; margin-bottom:5%;" class="btn btn-primary" name="submit" type="submit" value="Vote for candidate" onclick="return confirm('Are you sure you want to vote for @item.username')" />
                 </form>
 
 
