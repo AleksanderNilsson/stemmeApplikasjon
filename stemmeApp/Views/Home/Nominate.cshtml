@@ -6,7 +6,7 @@
 <br />
 <h2>Nominate a candidate</h2>
 
-@using (Html.BeginForm("Candidate", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+@using (Html.BeginForm("Nominate", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     
