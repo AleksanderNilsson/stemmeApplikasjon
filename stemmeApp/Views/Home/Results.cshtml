@@ -5,7 +5,7 @@
 }
 
 <h2>Results</h2>
-@if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) != 0) //If election is not cointrolled
+@if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0) //If election is not cointrolled
 {
     <h3>The results are not ready yet</h3>
 }
