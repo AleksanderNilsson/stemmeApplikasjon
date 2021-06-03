@@ -7,7 +7,13 @@
 <br />
 <h2>@ViewBag.Title</h2>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
+@if (TempData["EditUserSuccess"] != null)
+{
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong> @TempData["EditUserSuccess"]</strong>
+    </div>
+}
 <div>
     <h4>Change your account settings</h4>
     <hr />
@@ -25,7 +31,7 @@
             }
             ]
         </dd>
-               @if (Model.IsCandidate)
+        @if (Model.IsCandidate)
         {
             <dt>Candidate:</dt>
             <dd>
@@ -36,8 +42,9 @@
                     <input type="text" name="name" value="@User.Identity.GetUserName()" hidden />
                     <input class="btn btn-warning" name="submit" type="submit" value="Withdraw as candidate" onclick="return confirm('Are you sure you want to remove yourself as candidate?')" />
                 </form>
-            </dd>          
+            </dd>
+
         }
-        
+
     </dl>
 </div>

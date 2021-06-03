@@ -357,7 +357,6 @@ namespace stemmeApp.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -426,7 +425,8 @@ namespace stemmeApp.Controllers
             {
                 return RedirectToAction("Index"); 
             }
-            
+            TempData["EditUserSuccess"] = "Successfully changed candidate info!";
+
             return View(Person);
         }
 
@@ -434,9 +434,12 @@ namespace stemmeApp.Controllers
         public ActionResult ChangeCandidateInfo(CandidateModel Model, HttpPostedFileBase file) {
 
             //Checks if file is an image
-            if (!file.ContentType.Contains("image"))
+            if(file != null)
             {
-                ModelState.AddModelError("Picture", "File is not an image, you can only upload images");
+                if (!file.ContentType.Contains("image"))
+                {
+                    ModelState.AddModelError("Picture", "File is not an image, you can only upload images");
+                }
             }
 
             if (ModelState.IsValid)
@@ -483,7 +486,5 @@ namespace stemmeApp.Controllers
             return RedirectToAction("Index");
         }
 
-        
-        #endregion
     }
 }
