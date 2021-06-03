@@ -191,7 +191,10 @@ namespace AspNet.Identity.MySQL
             parameters.Add("@firstname", user.FirstName);
             parameters.Add("@lastname", user.LastName);
 
-            return _database.Execute(commandText, parameters);
+            int value =  _database.Execute(commandText, parameters);
+            UserRolesTable role = new UserRolesTable(_database);
+            role.Insert(user, "0");
+            return value;
         }
 
         /// <summary>
