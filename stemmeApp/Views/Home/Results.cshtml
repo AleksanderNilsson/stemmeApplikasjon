@@ -5,7 +5,7 @@
 }
 
 <h2>Results</h2>
-@if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0)
+@if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0) //Checks if the election has been controlled
 {
     <h3>The results are not ready yet</h3>
 }
@@ -21,7 +21,7 @@ else{
         }
 
         @do
-        {
+        { // do while. Runs until one or all winners are shown
             <div class="b5col">
                 <h4>@Model.CandidateVotes[index].Username</h4>
                 <img src="~/@Model.CandidateVotes[index].Picture" width="200px" height="200px" alt="@Model.CandidateVotes[index].PictureText"/>
@@ -35,7 +35,8 @@ else{
         while (@Model.CandidateVotes[index - 1].Votes == @Model.CandidateVotes[index].Votes); <!--Continues to run if draw, until all winners are shown-->
     </div>
 </div>
-<div class="b5container b5mt-5 b5border-top">
+
+<div class="b5container b5mt-5 b5border-top"> <!--This part shows the 2 candidates closest to the winner-->
     <div class="b5row text-center">
         <div class="b5col">
             <h3>Runner ups</h3>

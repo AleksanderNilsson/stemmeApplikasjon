@@ -12,7 +12,7 @@ using stemmeApp.Models;
 
 namespace stemmeApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
