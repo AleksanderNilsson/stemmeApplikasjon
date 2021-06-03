@@ -34,7 +34,7 @@
             <h4>Total number of votes: @Model.Votes.Count</h4>
             <form method="post" action="@Url.Action("Votes", "Inspector")">
                 <input type="text" text-center name="Inspector" hidden />
-                <input style="width:40%; margin-bottom:5%;" class="btn btn-primary" name="submit" type="submit" value="Control Votes"/>
+                <input  class="btn btn-primary" name="submit" type="submit" value="Control Votes"/>
             </form>
         </div>
         <div class="b5col text-right">
@@ -42,13 +42,13 @@
             <h4>Total number of candidates: @Model.Candidates.Count</h4>
             <form method="post" action="@Url.Action("Candidates", "Inspector")">
                 <input type="text" text-center name="Inspector" hidden />
-                <input style="width:40%; margin-bottom:5%;" class="btn btn-primary" name="submit" type="submit" value="Control Candidates" />
+                <input  class="btn btn-primary" name="submit" type="submit" value="Control Candidates" />
             </form>
         </div>
     </div>
 </div>
 
-@if ((DateTime.Now > @Model.ElectionInformation[0].ElectionEnd) && (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0)) { //Show this if the election ended but has not been controlled
+@if ((DateTime.Now > @Model.ElectionInformation[0].ElectionEnd) || (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) != 0)) { //Show this if the election ended but has not been controlled
     <div class="b5container">
         <div class="b5row">
             <div class="b5col  text-center">
