@@ -47,6 +47,7 @@
                 <h3>Approve the election</h3>
                 <h4>After the result has been reviewed, approve the election here</h4>
                 <form method="post">
+                    @Html.HiddenFor(model => model.ElectionInformation[0].IdElection, new { htmlAttributes = new { @class = "form-control"} })
                     <input type="submit" value="Approve election" class="btn btn-success" />
                 </form>
                 <h5> Once approved the results will be published</h5>

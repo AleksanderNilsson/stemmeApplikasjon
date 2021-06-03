@@ -28,7 +28,7 @@ namespace stemmeApp.Controllers
         public ActionResult Index(InspectorViewModel Model)
         {
             DbQuery db = new DbQuery();
-            db.SetControlDate(1);
+            db.SetControlDate(Model.ElectionInformation[0].IdElection);
             return RedirectToAction("");
         }
 
