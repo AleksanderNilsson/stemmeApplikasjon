@@ -88,4 +88,6 @@ primary key(Idpicture),
 foreign key (Idpicture) references Candidate(Picture)
 );
 
-
+INSERT INTO `Roles`(`Id`, `Name`) VALUES ('0','user');
+INSERT INTO `Roles`(`Id`, `Name`) VALUES ('1','Inspector');
+INSERT INTO `Roles`(`Id`, `Name`) VALUES ('2','Admin');

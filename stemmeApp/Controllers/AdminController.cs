@@ -10,7 +10,7 @@ using static stemmeApp.Controllers.ManageController;
 
 namespace stemmeApp.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
        
@@ -41,6 +41,7 @@ namespace stemmeApp.Controllers
                 try
                 {
                     db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId, Model.Picture);
+                    TempData["EditUserSuccess"] = "Successfully edited User.";
                     return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
                 }
                 catch (Exception e)
@@ -65,6 +66,7 @@ namespace stemmeApp.Controllers
             else 
             {
                 db.AdminDeleteUser(Model.Username);
+                TempData["EditUserSuccess"] = "Successfully deleted user..";
                 return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
             }
             return View();
@@ -74,7 +76,7 @@ namespace stemmeApp.Controllers
         {
             DbQuery db = new DbQuery();
             db.removeCandidate(username);
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit");
          
         }
 

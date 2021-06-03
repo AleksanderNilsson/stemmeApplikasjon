@@ -34,7 +34,6 @@
                     }
                     @if (User.IsInRole("Admin"))
                     {<!--Shows if user has role admin-->
-                        <li><p>|||||||||</p>  </li>
                         <li> @Html.ActionLink(" Admin Panel", "Index", "Admin") </li>
                         <li> @Html.ActionLink("Edit Election", "ElectionPanel", "Admin") </li>
                     }

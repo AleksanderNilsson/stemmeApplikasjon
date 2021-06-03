@@ -8,10 +8,21 @@
 <h1>Admin Panel</h1>
 <br />
 <h3>Users Panel</h3>
+@if (TempData["EditUserSuccess"] != null)
+{
+<div class="alert alert-dismissible alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    @ViewBag.StatusMessage
+    @TempData["EditUserSuccess"]
+</div>
+}
+
+<p class="text-danger">
+    @ViewBag.StatusMessage
+    @TempData["ErrorCandidate"]
+</p>
+
 <hr />
-<p class="text-success">@ViewBag.StatusMessage</p>
-<p class="text-danger">@ViewBag.StatusMessage</p>
-@TempData["ErrorCandidate"]
 
 <table class="table">
     <tr>
@@ -28,7 +39,7 @@
             @Html.DisplayNameFor(model => model.Lastname)
         </th>
         <th></th>
-      
+
     </tr>
 
     @foreach (var item in Model)

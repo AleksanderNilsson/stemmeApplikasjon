@@ -77,13 +77,11 @@ namespace stemmeApp.Models
         [Required]
         [Display(Name = "Start Date: ")]
         [DataType(DataType.DateTime)]
-        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime Startelection { get; set; }
 
         [Required]
         [Display(Name = "End Date: ")]
         [DataType(DataType.DateTime)]
-        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime Endelection { get; set; }
 
     }

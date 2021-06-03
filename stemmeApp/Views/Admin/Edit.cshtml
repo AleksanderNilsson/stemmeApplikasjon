@@ -6,131 +6,134 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Admin Panel</h2>
-<div>
-    <strong>@Html.ActionLink("Back to List", "Index")</strong>
-</div>
-@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-<hr />
-
-    <!-- USER TABLE INFO PART -->
-    <h4>----------------------------- User Info Panel -----------------------------</h4>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Firstname, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Lastname, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <!-- ROLE INFO PART -->
-    <h4>----------------------------- Role Info Panel -----------------------------</h4>
-    <div class="form-group">
-        @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
-            <strong> >   There are three roles, User(0), Inspector(1), Admin(2)</strong>
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @{ DbQuery db = new DbQuery();}
-    @if (db.CheckIfUserIsCandidate(Model.Username))
-    {
-        <!-- CANDIDATE INFO PART -->
-        <h4>----------------------------- Candidate Info Panel -----------------------------</h4>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Faculty, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Faculty, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Faculty, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Institute, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Institute, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Institute, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <!-- PICTURE INFO PART -->
-
-        <div class="form-group">
-            <label class="control-label col-md-2">
-                Current picture:
-            </label>
-            <div class="col-md-10">
-                <img src="~/@Model.Picture" style="height:200px;width:200px;border-radius:15px;" />
-            </div>
-        </div>
-    }
-    <h3>Actions</h3>
-    <input type="submit" value="Commit New Changes" class="btn btn-warning" />
-    
-
-</div>
-}
-@{ DbQuery db2 = new DbQuery();}
-@if (db2.CheckIfUserIsCandidate(Model.Username))
-{
 <br />
-    <form method="post" action="@Url.Action("AdminRemoveAsCandidate", "Admin")">
-        <input type="text" name="username" value="@Model.Username" hidden />
-        <input class="btn btn-danger" name="submit" type="submit" value="Remove as Candidate" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
-    </form>
-}
+    <h2>Admin Panel</h2>
+    <div class="form-group">
+        <div class="col-md-10">
+            <a href="Index" class="btn btn-primary" style="margin-top:15px"> < Go back to list</button></a>
+         </div>
+    </div>
+        @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    <div class="form-horizontal">
+        <hr />
+        <!-- USER TABLE INFO PART -->
+        <h4>----------------------------- User Info Panel -----------------------------</h4>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Firstname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Lastname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- ROLE INFO PART -->
+        <h4>----------------------------- Role Info Panel -----------------------------</h4>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                <strong> >   There are three roles, User(0), Inspector(1), Admin(2)</strong>
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @{ DbQuery db = new DbQuery();}
+        @if (db.CheckIfUserIsCandidate(Model.Username))
+        {
+            <!-- CANDIDATE INFO PART -->
+            <h4>----------------------------- Candidate Info Panel -----------------------------</h4>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Faculty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Faculty, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Faculty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Institute, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Institute, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Institute, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- PICTURE INFO PART -->
+
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    Current picture:
+                </label>
+                <div class="col-md-10">
+                    <img src="~/@Model.Picture" style="height:200px;width:200px;border-radius:15px;" />
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Commit New Changes" class="btn btn-warning" />
+            </div>
+        </div>
+
+</div>
+        }
+        @{ DbQuery db2 = new DbQuery();}
+        @if (db2.CheckIfUserIsCandidate(Model.Username))
+        {
+            <br />
+            <form method="post" action="@Url.Action("AdminRemoveAsCandidate", "Admin")">
+                <input type="text" name="username" value="@Model.Username" hidden />
+                <input class="btn btn-danger" name="submit" type="submit" value="Remove as Candidate" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
+            </form>
+        }
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

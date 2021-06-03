@@ -9,17 +9,16 @@
 }
 
 
+
+<br />
 <h2>Election Panel</h2>
 
-<div>
-    <strong>@Html.ActionLink("Back to List", "Index")</strong>
-</div>
 
 @using (Html.BeginForm("ElectionPanel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    <h4>----------------------------- Election Panel -----------------------------</h4>
-
+   
+    <h3>This is the current election, change the dates accordingly. If you want to end the election early, simply set both dates to being in the past. </h3>
     <div class="form-group">
         <br /><br />
         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -54,5 +53,9 @@
             <input type="submit" value="Commit New Changes" class="btn btn-warning" />
         </div>
     </div>
-}
+}<div class="form-group">
+    <div class="col-md-10">
+        <a href="Index" class="btn btn-primary" style="margin-top:15px"> < Go to Admin Panel</button></a>
+    </div>
+</div>
 <div></div>
