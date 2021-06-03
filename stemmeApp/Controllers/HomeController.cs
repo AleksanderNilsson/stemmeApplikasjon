@@ -27,7 +27,8 @@ namespace stemmeApp.Controllers
             string Voter = User.Identity.GetUserName();
             if (db.CheckIfVotedOn(Voter))
             {
-                TempData["VotedOn"] = "yahoo";
+                TempData["VotedOn"] = "true";
+                ViewBag.Message = db.GetCurrentVote(Voter);
             }
             else
             {
@@ -44,9 +45,9 @@ namespace stemmeApp.Controllers
         [HttpPost]
         public ActionResult Vote(string username)
         {
-            //ViewBag.Message = "Vote for a candidate";
             DbQuery db = new DbQuery();
             db.VoteForUser(username, User.Identity.GetUserName());
+            TempData["VotedUser"] = "Successfully voted on a candidate";
 
             return RedirectToAction("Vote");
 

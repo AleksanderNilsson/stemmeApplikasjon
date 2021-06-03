@@ -42,16 +42,21 @@ else if (DateTime.Now > @Model.ElectionInformation[0].ElectionEnd)
 else
 {
     <h4>
-        If you don't see anyone you want to vote on, you can nominate anyone candidate here: @Html.ActionLink("here.", "Candidate", "Home")
+        If you don't see anyone you want to vote on, you can nominate anyone candidate <strong>@Html.ActionLink("here.", "Candidate", "Home")</strong>
     </h4>
     if (TempData["VotedOn"] != null)
     {
+        
+        <br />
+        <blockquote>
+             Your vote is currently on:<strong> @ViewBag.Message </strong>
+        </blockquote>
         <form method="post" action="@Url.Action("RemoveVote", "home")">
             <input class="btn btn-danger" name="submit" type="submit" value="Revoke Vote" onclick="return confirm('Are you sure you want to revoke your vote?')" />
         </form>
     }
 
-    <br />
+   
     if (TempData["VotedUser"] != null)
     {
         <div class="alert alert-dismissible alert-success">
@@ -75,20 +80,16 @@ else
             <strong>@TempData["RemoveVote"]</strong>
         </div>
     }
-    <br />
 
     foreach (var item in Model.Candidates)
     {
         <div class="b5card text-center" style="width: 40rem; border-radius: 5px; margin-left: 6rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-
-
             <img class="card-img-top" img src="~/@item.picture" width="400" height="250" style=" object-fit: fill; border-radius: 3px;" />
             <div class="card-body">
                 <h3><strong class="card-text">@item.firstname @item.lastname </strong> </h3>
                 <strong><p class="card-text">@item.faculty </p></strong>
                 <strong><p class="card-text">@item.institute</p></strong>
                 <p class="card-info">@item.info </p>
-
 
                 <form method="post" action="@Url.Action("Vote", "Home")">
                     <input type="text" text-center name="username" value="@item.username" hidden />
