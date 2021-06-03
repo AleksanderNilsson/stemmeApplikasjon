@@ -14,18 +14,16 @@
 <h2>Election Panel</h2>
 <h3>This is the current election, change the dates accordingly. If you want to end the election early, simply set both dates to being in the past. </h3>
 @if (TempData["ElectionPanel"] != null)
-    {
-<div class="alert alert-dismissible alert-success">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <strong>@TempData["ElectionPanel"]</strong>
-</div>
-    }
+{
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>@TempData["ElectionPanel"]</strong>
+    </div>
+}
 
 @using (Html.BeginForm("ElectionPanel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-
- 
 
     <div class="form-group">
         <br />
@@ -53,17 +51,27 @@
             @Html.ValidationMessageFor(model => model.Endelection, "", new { @class = "text-danger" })
         </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <div class="form-group">
+
+    <div class="btn-group btn-group-justified">
+        <br /><br />     
+        <h3>Actions</h3>
         <div class="col-md-12">
-            <input type="submit" value="Commit New Changes" class="btn btn-warning" />
+            <input type="submit" value="Commit New Changes" style="width:20%;margin:10px;" class="btn btn-warning" /><br />
         </div>
     </div>
-}<div class="form-group">
-    <div class="col-md-10">
-        <a href="Index" class="btn btn-primary" style="margin-top:15px"> < Go to Admin Panel</button></a>
+}
+    <div class="btn-group btn-group-justified">
+        <div class="col-md-12">
+            <form method="post" action="@Url.Action("EndElection", "Admin")">
+                <input type="text" name="endElection" hidden />
+                <input class="btn btn-danger" name="submit" style="width:20%;margin:10px;" type="submit" value="End Election" onclick="return confirm('Are you sure you want to end the election?')" />
+            </form>        </div>
     </div>
-</div>
-<div></div>
+    <div class="btn-group btn-group-justified">
+        <div class="col-md-12">
+            <a href="Index" class="btn btn-primary" style="width:20%;margin:10px;"> Go to Admin Panel</a>
+        </div>
+    </div>
+    
+
+

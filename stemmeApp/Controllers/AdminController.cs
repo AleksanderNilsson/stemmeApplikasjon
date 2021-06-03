@@ -37,7 +37,10 @@ namespace stemmeApp.Controllers
             {
                 try
                 {
-                    db.AdminEditUser(Model.Id, Model.Username, Model.Email, Model.Firstname, Model.Lastname, Model.Faculty, Model.Institute, Model.Info, Model.RoleId, Model.Picture);
+                    db.AdminEditUser(
+                        Model.Id, Model.Username, Model.Email, 
+                        Model.Firstname, Model.Lastname, Model.Faculty,
+                        Model.Institute, Model.Info, Model.RoleId, Model.Picture);
                     TempData["EditUserSuccess"] = "Successfully edited User.";
                     return RedirectToAction("Index", new { Message = ManageMessageId.AdminSuccess });
                 }
@@ -103,6 +106,20 @@ namespace stemmeApp.Controllers
                 throw e;
 
             }
+            return RedirectToAction("ElectionPanel");
+
+        }
+        [HttpPost]
+        public ActionResult EndElection(ElectionDateInformation Model)
+        {
+            DbQuery db = new DbQuery();
+            db.EndElection(
+            Model.Title,
+            Model.Idelection,
+            Model.Startelection,
+            Model.Endelection);
+            TempData["ElectionPanel"] = "Successfully changed election details";
+
             return RedirectToAction("ElectionPanel");
 
         }

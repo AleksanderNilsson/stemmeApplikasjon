@@ -13,6 +13,9 @@ namespace stemmeApp.Models
 
         public List<Votes> Votes { get; set; } = new List<Votes>();
         public string Email { get; set; }
+        public string CurrentVotedOn { get; set; }
+        public string Voter { get; set; }
+
     }
 
     public class Candidates

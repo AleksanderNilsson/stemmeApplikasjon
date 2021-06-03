@@ -280,7 +280,7 @@ namespace stemmeApp.Data
         public Boolean CheckIfVotedOn(string Voter)
         {
             Boolean VotedOn;
-            string query = "SELECT voter from `Votes` WHERE Voter=@Voter";
+            string query = "SELECT Voter from `Votes` WHERE Voter=@Voter";
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@Voter", Voter } };
             String ReturnValue = _database.GetStrValue(query, parameters);
             if (ReturnValue == null)
@@ -292,6 +292,22 @@ namespace stemmeApp.Data
                 VotedOn = true;
             }
             return VotedOn;
+        }
+
+        public String GetCurrentVote(string Voter)
+        {
+            String CurrentVotedOn = "";
+            string commandText = "SELECT `Votedon` FROM Votes WHERE Voter=@Voter;";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@Voter", Voter } };
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                CurrentVotedOn = rows[0]["Votedon"].ToString();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return CurrentVotedOn;
         }
         public void VoteForUser(string votedon, string voter)
         {
@@ -359,6 +375,7 @@ namespace stemmeApp.Data
             String commandText = "DELETE FROM Votes WHERE voter = @username";
             _database.Execute(commandText, parameters);
         }
+        
 
 
         /// <summary>
@@ -534,7 +551,6 @@ namespace stemmeApp.Data
             {
                 throw e;
             }
-
         }
 
         public void AdminUpdateElection(string Title, int IdElection, DateTime Startelection, DateTime Endelection)
@@ -561,7 +577,29 @@ namespace stemmeApp.Data
 
         }
 
+        public void EndElection(string Title, int IdElection, DateTime Startelection, DateTime Endelection)
+        {
+            try
+            {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                string query = @"
+                UPDATE `Election` 
+                SET Title=@Title,Startelection=@Startelection,Endelection=@Endelection
+                WHERE IdElection=1";
+                parameters.Add("@Title", "Ended Election");
+                parameters.Add("@IdElection", 1);
+                parameters.Add("@Startelection", DateTime.Now);
+                parameters.Add("@Endelection", DateTime.Now);
 
+                _database.Execute(query, parameters);
+            }
+
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
         public void AdminDeleteUser(string Username)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@UserName", Username } };
