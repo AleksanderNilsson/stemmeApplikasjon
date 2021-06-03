@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using stemmeApp.Models;
-using System.Data;
-using System.Configuration;
-using MySql.Data.MySqlClient;
 using stemmeApp.Data;
 using Microsoft.AspNet.Identity;
 using System.IO;
-using System.Security.Cryptography;
+
 
 namespace stemmeApp.Controllers
 {

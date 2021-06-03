@@ -1,10 +1,7 @@
-﻿using AspNet.Identity.MySQL;
-using Microsoft.AspNet.Identity;
-using stemmeApp.Data;
+﻿using stemmeApp.Data;
 using stemmeApp.Models;
 using System;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using static stemmeApp.Controllers.ManageController;
 

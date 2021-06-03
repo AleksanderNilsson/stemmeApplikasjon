@@ -52,6 +52,29 @@ namespace stemmeApp.Data
             return UserExists;
         }
 
+
+        /// <summary>
+        /// Gets the role of a user
+        /// </summary>
+        public String getUserRole(string UserId)
+        {
+            string role = "";
+            string commandText = @"SELECT name from Roles r, UserRoles u WHERE u.UserId = @id AND r.Id = u.RoleId;";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            DbQuery db = new DbQuery();
+            parameters.Add("@id", UserId);
+            var result = _database.Query(commandText, parameters);
+            if (result.Count != 0)
+            {
+                role = result[0]["name"];
+            }
+            return role;
+        }
+
+
+        //CANDIDATE TABLE
+
+
         /// <summary>
         /// Inserts a new candidate into the candidate table
         /// </summary>
@@ -68,44 +91,6 @@ namespace stemmeApp.Data
             _database.Execute(commandText, parameters);
         }
 
-        /// <summary>
-        /// Inserts a new entry into the picture table
-        /// </summary>
-        public void InsertNewImage(int id, string loc, string text)
-        {
-            string commandText = @"Insert Into Picture (idpicture, loc, text)
-             VALUES (@id, @loc, @text)";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@id", id);
-            parameters.Add("@loc", loc);
-            parameters.Add("@text", text);
-            _database.Execute(commandText, parameters);
-        }
-
-
-        /// <summary>
-        /// Returns an unique int to be used as pictureid in the database
-        /// </summary>
-        public int CheckForAvailableImageId()
-        {
-            Boolean AvailableImageId = false;
-            Random r = new Random();
-            int random = r.Next(1, 99999);
-            while (AvailableImageId == false)
-            {
-
-                string commandText = @"SELECT picture FROM Candidate WHERE picture = @r";
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                parameters.Add("@r", random);
-                String result = _database.GetStrValue(commandText, parameters);
-                if (result == null)
-                {
-                    AvailableImageId = true;
-                }
-                random = r.Next(1, 99999);
-            }
-            return random;
-        }
 
         /// <summary>
         /// Returns an entry from the candidate table with picture
@@ -135,19 +120,6 @@ namespace stemmeApp.Data
             return ReturnList;
         }
 
-        /// <summary>
-        /// Returns pictureid for a user
-        /// </summary>
-        /// 
-        public dynamic GetPictureId(string username)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
-            string commandText = "Select picture from Candidate WHERE username = @username";
-            var rows = _database.Query(commandText, parameters);
-            String PictureIdString = rows[0]["picture"];
-            int PictureId = Convert.ToInt32(PictureIdString); 
-            return PictureId;
-        }
 
         public List<Candidates> GetAllCandidates()
         {
@@ -177,54 +149,9 @@ namespace stemmeApp.Data
         }
 
 
-        public void VoteForUser(string votedon, string voter)
-        {
-            try
-            {
-                Dictionary<string, object> parameters1 = new Dictionary<string, object>();
-                var rows = _database.Query("SELECT * FROM Votes WHERE voter = '" + voter + "';", parameters1);
-                if (rows.Count() == 0 || rows.Count() == null)
-                {
-
-
-                    string commandText = @"INSERT INTO Votes (Voter, Votedon) VALUES (@voter, @votedon)";
-                    Dictionary<string, object> parameters = new Dictionary<string, object>();
-                    parameters.Add("@voter", voter);
-                    parameters.Add("@votedon", votedon);
-
-
-                    _database.Execute(commandText, parameters);
-                }
-                else
-                {
-                    string commandText = @"UPDATE Votes set votedon = '" + votedon + "' WHERE voter = '" + voter + "';";
-                    Dictionary<string, object> parameters2 = new Dictionary<string, object>();
-                    _database.Execute(commandText, parameters2);
-
-
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-
-        }
-
-        public void RemoveVote(string Username)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
-            String commandText = "DELETE FROM Votes WHERE voter = @username";
-            _database.Execute(commandText, parameters);
-        }
-
-
-
         /// <summary>
         /// Updates an entry in the candidate table
         /// </summary>
-
         public void UpdateCandidate(string username, string faculty, string institute, string info, string DbPath, string picturetext)
         {
             string commandText = @"Update Candidate SET faculty=@faculty, institute=@institute, info=@info WHERE username=@username";
@@ -266,8 +193,194 @@ namespace stemmeApp.Data
             _database.Execute(commandText, parameters);
             commandText = "DELETE FROM Candidate WHERE username = @username";
             _database.Execute(commandText, parameters);
-            
+
         }
+
+
+        /// <summary>
+        /// Returns true if user is candidate, false if not
+        /// </summary>
+        public Boolean CheckIfUserIsCandidate(string Username)
+        {
+            Boolean UserIsCandidate;
+            string query = "SELECT UserName FROM Candidate WHERE username = @username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            String ReturnValue = _database.GetStrValue(query, parameters);
+            if (ReturnValue == null)
+            {
+                UserIsCandidate = false;
+            }
+            else
+            {
+                UserIsCandidate = true;
+            }
+            return UserIsCandidate;
+        }
+
+
+        //PICTURE TABLE
+
+
+        /// <summary>
+        /// Inserts a new entry into the picture table
+        /// </summary>
+        public void InsertNewImage(int id, string loc, string text)
+        {
+            string commandText = @"Insert Into Picture (idpicture, loc, text)
+             VALUES (@id, @loc, @text)";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            parameters.Add("@loc", loc);
+            parameters.Add("@text", text);
+            _database.Execute(commandText, parameters);
+        }
+
+
+        /// <summary>
+        /// Returns an unique int to be used as pictureid in the database
+        /// </summary>
+        public int CheckForAvailableImageId()
+        {
+            Boolean AvailableImageId = false;
+            Random r = new Random();
+            int random = r.Next(1, 99999);
+            while (AvailableImageId == false)
+            {
+
+                string commandText = @"SELECT picture FROM Candidate WHERE picture = @r";
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                parameters.Add("@r", random);
+                String result = _database.GetStrValue(commandText, parameters);
+                if (result == null)
+                {
+                    AvailableImageId = true;
+                }
+                random = r.Next(1, 99999);
+            }
+            return random;
+        }
+
+        
+        /// <summary>
+        /// Returns pictureid for a user
+        /// </summary>
+        /// 
+        public dynamic GetPictureId(string username)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", username } };
+            string commandText = "Select picture from Candidate WHERE username = @username";
+            var rows = _database.Query(commandText, parameters);
+            String PictureIdString = rows[0]["picture"];
+            int PictureId = Convert.ToInt32(PictureIdString); 
+            return PictureId;
+        }
+
+
+        //VOTES TABLE
+
+        public void VoteForUser(string votedon, string voter)
+        {
+            try
+            {
+                Dictionary<string, object> parameters1 = new Dictionary<string, object>();
+                var rows = _database.Query("SELECT * FROM Votes WHERE voter = '" + voter + "';", parameters1);
+                if (rows.Count() == 0 || rows.Count() == null)
+                {
+
+
+                    string commandText = @"INSERT INTO Votes (Voter, Votedon) VALUES (@voter, @votedon)";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    parameters.Add("@voter", voter);
+                    parameters.Add("@votedon", votedon);
+
+
+                    _database.Execute(commandText, parameters);
+                }
+                else
+                {
+                    string commandText = @"UPDATE Votes set votedon = '" + votedon + "' WHERE voter = '" + voter + "';";
+                    Dictionary<string, object> parameters2 = new Dictionary<string, object>();
+                    _database.Execute(commandText, parameters2);
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+        }
+
+
+        /// <summary>
+        /// Gets all votes
+        /// </summary>
+        public List<Votes> getVotes()
+        {
+            List<Votes> ReturnList = new List<Votes>();
+            string commandText = "Select * from Votes";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new Votes()
+                    {
+                        Voter = rows[i]["Voter"].ToString(),
+                        VotedOn = rows[i]["Votedon"].ToString(),
+                    });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+
+        public void RemoveVote(string Username)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            String commandText = "DELETE FROM Votes WHERE voter = @username";
+            _database.Execute(commandText, parameters);
+        }
+
+
+        /// <summary>
+        /// Gets all candidates and their votes
+        /// </summary>
+        public List<CandidateVotes> getCandidateVotes()
+        {
+            List<CandidateVotes> ReturnList = new List<CandidateVotes>();
+            string commandText = @"SELECT c.UserName, u.Firstname, u.Lastname, COUNT(v.Votedon) as Votes, p.Loc, p.Text  FROM Candidate c
+                                LEFT JOIN Votes v ON c.UserName = v.Votedon
+                                LEFT JOIN Users u ON c.UserName = u.UserName
+                                LEFT JOIN Picture p ON c.Picture = p.Idpicture
+                                GROUP BY c.UserName 
+                                ORDER BY Votes DESC";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var rows = _database.Query(commandText, parameters);
+            try
+            {
+                for (int i = 0; i < rows.Count(); i++)
+                    ReturnList.Add(new CandidateVotes()
+                    {
+                        Username = rows[i]["UserName"].ToString(),
+                        Firstname = rows[i]["Firstname"].ToString(),
+                        Lastname = rows[i]["Lastname"].ToString(),
+                        Votes = Int32.Parse(rows[i]["Votes"]),
+                        Picture = rows[i]["Loc"].ToString(),
+                        PictureText = rows[i]["Text"].ToString(),
+                    });
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            return ReturnList;
+        }
+
+
+        //ADMIN
 
 
         public List<AdminModel> AdminGetUsers()
@@ -295,6 +408,8 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
+
+
         public AdminModel AdminGetSingleUser(String Username) {
                AdminModel returnQuery = new AdminModel();
 
@@ -361,6 +476,7 @@ namespace stemmeApp.Data
             return returnQuery;
         }
 
+
         public void AdminEditUser(
             string Id, string Username, string Email, string Firstname, string Lastname,
             string Faculty, string Institute, string Info, string RoleId, string Picture)
@@ -405,6 +521,32 @@ namespace stemmeApp.Data
             }
 
         }
+
+        public void AdminUpdateElection(string Title, int IdElection, DateTime Startelection, DateTime Endelection)
+        {
+            try
+            {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                string query = @"
+                UPDATE `Election` 
+                SET Title=@Title,Startelection=@Startelection,Endelection=@Endelection
+                WHERE IdElection=1";
+                parameters.Add("@Title", Title);
+                parameters.Add("@IdElection", 1);
+                parameters.Add("@Startelection", Startelection);
+                parameters.Add("@Endelection", Endelection);
+
+                _database.Execute(query, parameters);
+            }
+
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+
         public void AdminDeleteUser(string Username)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@UserName", Username } };
@@ -412,52 +554,13 @@ namespace stemmeApp.Data
             _database.Execute(query, parameters);
         }
 
-        public Boolean CheckIfUserIsCandidate(string Username)
-        {
-            Boolean UserIsCandidate;
-            string query = "SELECT UserName FROM Candidate WHERE username = @username";
-            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
-            String ReturnValue = _database.GetStrValue(query, parameters);
-            if (ReturnValue == null)
-            {
-                UserIsCandidate = false;
-            }
-            else
-            {
-                UserIsCandidate = true;
-            }
-            return UserIsCandidate;
-        }
+        
+        //ELECTION TABLE
 
-        /// <summary>
-        /// Gets all votes
-        /// </summary>
-
-        public List<Votes> getVotes()
-        {
-            List<Votes> ReturnList = new List<Votes>();
-            string commandText = "Select * from Votes";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rows = _database.Query(commandText, parameters);
-            try
-            {
-                for (int i = 0; i < rows.Count(); i++)
-                    ReturnList.Add(new Votes()
-                    {
-                        Voter = rows[i]["Voter"].ToString(),
-                        VotedOn = rows[i]["Votedon"].ToString(),
-                    });
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            return ReturnList;
-        }
 
         /// <summary>
         /// Gets election information
         /// </summary>
-
         public List<ElectionInformation> getElectionInfo()
         {
             List<ElectionInformation> ReturnList = new List<ElectionInformation>();
@@ -484,39 +587,8 @@ namespace stemmeApp.Data
 
 
         /// <summary>
-        /// Gets all candidates and their votes
+        /// Sets the date the election was coontrolled
         /// </summary>
-
-        public List<CandidateVotes> getCandidateVotes() {
-            List<CandidateVotes> ReturnList = new List<CandidateVotes>();
-            string commandText = @"SELECT c.UserName, u.Firstname, u.Lastname, COUNT(v.Votedon) as Votes, p.Loc, p.Text  FROM Candidate c
-                                LEFT JOIN Votes v ON c.UserName = v.Votedon
-                                LEFT JOIN Users u ON c.UserName = u.UserName
-                                LEFT JOIN Picture p ON c.Picture = p.Idpicture
-                                GROUP BY c.UserName 
-                                ORDER BY Votes DESC";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            var rows = _database.Query(commandText, parameters);
-            try
-            {
-                for (int i = 0; i < rows.Count(); i++)
-                    ReturnList.Add(new CandidateVotes()
-                    {
-                        Username = rows[i]["UserName"].ToString(),
-                        Firstname = rows[i]["Firstname"].ToString(),
-                        Lastname = rows[i]["Lastname"].ToString(),
-                        Votes = Int32.Parse(rows[i]["Votes"]),
-                        Picture = rows[i]["Loc"].ToString(),
-                        PictureText = rows[i]["Text"].ToString(),
-                    });
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            return ReturnList;
-        }
-
-
         public void SetControlDate(int id) {
             string commandText = @"Update Election SET controlled=@date WHERE idelection=@id";
             Dictionary<string, object> parameters = new Dictionary<string, object>();        
@@ -526,6 +598,8 @@ namespace stemmeApp.Data
            _database.Query(commandText, parameters);
             
         }
+
+
         public ElectionDateInformation ElectionPanel()
         {
             ElectionDateInformation returnQuery = new ElectionDateInformation();
@@ -547,44 +621,7 @@ namespace stemmeApp.Data
             }
             return returnQuery;
         }
-        public void AdminUpdateElection(string Title, int IdElection, DateTime Startelection, DateTime Endelection)
-        {
-            try
-            {
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                string query = @"
-                UPDATE `Election` 
-                SET Title=@Title,Startelection=@Startelection,Endelection=@Endelection
-                WHERE IdElection=1";
-                parameters.Add("@Title", Title);
-                parameters.Add("@IdElection", 1);
-                parameters.Add("@Startelection", Startelection);
-                parameters.Add("@Endelection", Endelection);
-
-                _database.Execute(query, parameters);
-            }
-
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-
-        public String getUserRole(string UserId)
-        {
-            string role = "";
-            string commandText = @"SELECT name from Roles r, UserRoles u WHERE u.UserId = @id AND r.Id = u.RoleId;";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            DbQuery db = new DbQuery();
-            parameters.Add("@id", UserId);
-            var result = _database.Query(commandText, parameters);
-            if (result.Count != 0){ 
-                role = result[0]["name"];
-            }
-            return role;
-        } 
-
+           
     }
 
 }
