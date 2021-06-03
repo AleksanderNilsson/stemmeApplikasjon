@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace stemmeApp.Controllers
 {
-    //[Authorize(Roles = "Inspector")]
+    [Authorize(Roles = "Inspector")]
     public class InspectorController : Controller
     {
         // GET: Inspector
