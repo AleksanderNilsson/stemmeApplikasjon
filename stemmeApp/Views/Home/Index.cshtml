@@ -11,11 +11,11 @@
     }
     else if (DateTime.Now < @Model[0].ElectionEnd)
     { <!--Runs if the election has started but not ended-->
-        <h2>The election is <strong>open</strong> until @Model[0].ElectionEnd</h2>
+        <h2>The election is <strong style="color: #18bc9c;">open</strong> until @Model[0].ElectionEnd</h2>
         }
         else if (DateTime.Compare(@Model[0].Controlled, DateTime.MinValue) == 0)
     { <!--Runs if the election has ended but results are not published-->
-        <h2>The election has now closed, the results will be published as soon as possible</h2>
+        <h2>The election has now <strong style="color: darkred;">closed</strong>, the results will be published as soon as possible</h2>
     }
     else
     { <!--Runs if the election is done and results are published-->

@@ -275,8 +275,9 @@ namespace stemmeApp.Data
             return PictureId;
         }
 
-
+        //
         //VOTES TABLE
+        //
         public Boolean CheckIfVotedOn(string Voter)
         {
             Boolean VotedOn;
@@ -411,8 +412,9 @@ namespace stemmeApp.Data
             return ReturnList;
         }
 
-
-        //ADMIN
+        /// <summary>
+        //ADMIN PANEL
+        /// </summary>
 
 
         public List<AdminModel> AdminGetUsers()
