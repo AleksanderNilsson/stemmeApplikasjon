@@ -42,7 +42,7 @@ else if (DateTime.Now > @Model.ElectionInformation[0].ElectionEnd)
 else
 {
     <h4>
-        If you don't see anyone you want to vote on, you can nominate anyone candidate here: @Html.ActionLink("here.", "Candidate", "Home")
+        If you don't see anyone you want to vote on, you can nominate anyone candidate here: @Html.ActionLink("here.", "Nominate", "Home")
     </h4>
     if (TempData["VotedOn"] != null)
     {

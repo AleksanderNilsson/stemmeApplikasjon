@@ -65,7 +65,7 @@ namespace stemmeApp.Controllers
 
         
         [Authorize]
-        public ActionResult Candidate()
+        public ActionResult Nominate()
         {
             ViewBag.Message = "Nominate a user!";
 
@@ -74,7 +74,7 @@ namespace stemmeApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Candidate(CandidateModel Model, HttpPostedFileBase file)
+        public ActionResult Nominate(CandidateModel Model, HttpPostedFileBase file)
         {
             DbQuery db = new DbQuery();
 

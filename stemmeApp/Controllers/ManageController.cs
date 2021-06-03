@@ -432,21 +432,33 @@ namespace stemmeApp.Controllers
 
         [HttpPost]
         public ActionResult ChangeCandidateInfo(CandidateModel Model, HttpPostedFileBase file) {
-            DbQuery db = new DbQuery();
-            String DbPath = null;
-            if (Model.Email != User.Identity.GetUserName()) {
-                ModelState.AddModelError("email", "You cannot change your email");           
-            }
-            if (file != null)
+
+            //Checks if file is an image
+            if (!file.ContentType.Contains("image"))
             {
-                var extension = Path.GetExtension(file.FileName);
-                var fileName = Model.Email + extension;
-                var path = Path.Combine(Server.MapPath("~/content/Pictures/"), fileName);
-                file.SaveAs(path);
-                DbPath = "content/Pictures/" + fileName;
+                ModelState.AddModelError("Picture", "File is not an image, you can only upload images");
             }
-            db.UpdateCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info, DbPath, Model.PictureText);
-            return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCandidateInfo });
+
+            if (ModelState.IsValid)
+            {
+                DbQuery db = new DbQuery();
+                String DbPath = null;
+                if (Model.Email != User.Identity.GetUserName())
+                {
+                    ModelState.AddModelError("email", "You cannot change your email");
+                }
+                if (file != null)
+                {
+                    var extension = Path.GetExtension(file.FileName);
+                    var fileName = Model.Email + extension;
+                    var path = Path.Combine(Server.MapPath("~/content/Pictures/"), fileName);
+                    file.SaveAs(path);
+                    DbPath = "content/Pictures/" + fileName;
+                }
+                db.UpdateCandidate(Model.Email, Model.Faculty, Model.Institute, Model.Info, DbPath, Model.PictureText);
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCandidateInfo });
+            }
+            return View(Model);
         }
 
         [HttpPost]

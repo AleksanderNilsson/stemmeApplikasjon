@@ -271,7 +271,7 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Candidate.cshtml" />
+    <Content Include="Views\Home\Nominate.cshtml" />
     <Content Include="Views\Manage\ChangeCandidateInfo.cshtml" />
     <Content Include="Views\Home\Vote.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />

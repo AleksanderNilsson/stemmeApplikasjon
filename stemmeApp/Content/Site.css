@@ -102,3 +102,14 @@ textarea {
 .b5border-top {
     border-top: 3px solid black !important;
 }
+
+p.card-info {
+    text-align: center;
+    height: 110px;
+    overflow: auto;
+    letter-spacing: 1px;
+    margin-top: 0.1rem !important;
+    margin-right: 0.1rem !important;
+    margin-left: 1rem !important;
+    margin-bottom: 2rem !important;
+}
