@@ -48,7 +48,7 @@
     </div>
 </div>
 
-@if ((DateTime.Now > @Model.ElectionInformation[0].ElectionEnd) || (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) != 0)) { //Show this if the election ended but has not been controlled
+@if ((DateTime.Now > @Model.ElectionInformation[0].ElectionEnd) && (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0)) { //Show this if the election ended but has not been controlled
     <div class="b5container">
         <div class="b5row">
             <div class="b5col  text-center">
