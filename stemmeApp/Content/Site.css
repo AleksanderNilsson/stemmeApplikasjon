@@ -124,3 +124,20 @@ p.card-info {
     margin-left: 1rem !important;
     margin-bottom: 2rem !important;
 }
+
+.p-card-style {
+    width: 40rem;
+    border-radius: 5px;
+    margin-left: 6rem !important;
+    margin-top: 2rem !important;
+    margin-right: 2rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.p-card-img-style {
+    width: 400px;
+    height: 250px;
+    object-fit: fill;
+    border-radius: 3px;
+}
