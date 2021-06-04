@@ -18,13 +18,14 @@ namespace stemmeApp.Controllers
             return View(db.getElectionInfo());
         }
 
-
+        //Kode skrevet av Haris Brkic, sist endret 01.06.2021
         [Authorize]
         public ActionResult Vote()
         {
             DbQuery db = new DbQuery();
             var Model = new VoteModel();
             string Voter = User.Identity.GetUserName();
+            //Henter voter fra votes tabellen
             if (db.CheckIfVotedOn(Voter))
             {
                 TempData["VotedOn"] = "true";
@@ -34,14 +35,16 @@ namespace stemmeApp.Controllers
             {
                 TempData["VotedOn"] = null;
             }
+            //Henter Electioninfo, kandidater og stemmer
             Model.ElectionInformation = db.getElectionInfo();
             Model.Candidates = db.GetAllCandidates();
             Model.Votes = db.getVotes();
             return View(Model);
         }
 
-       
 
+        //Kode skrevet av Haris Brkic, sist endret 26.05.2021
+        //Kode for å stemme på den valgte kandidaten
         [HttpPost]
         public ActionResult Vote(string username)
         {
@@ -53,6 +56,8 @@ namespace stemmeApp.Controllers
 
         }
 
+        //Kode skrevet av Haris Brkic, sist endret 30.05.2021
+        //Kode for å trekke stemme
         [HttpPost]
         public ActionResult RemoveVote(string username)
         {

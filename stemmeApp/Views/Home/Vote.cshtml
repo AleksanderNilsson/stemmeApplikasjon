@@ -5,19 +5,8 @@
 @model stemmeApp.Models.VoteModel
 <link rel="stylesheet" href="~/Content/Site.css">
 
-<style>
+<!-- Kode skrevet av Haris Brkic, sist endret 04.06.2021-->
 
-    p.card-info {
-        text-align: center;
-        height: 110px;
-        overflow: auto;
-        letter-spacing: 1px;
-        margin-top: 0.1rem !important;
-        margin-right: 0.1rem !important;
-        margin-left: 1rem !important;
-        margin-bottom: 2rem !important;
-    }
-</style>
 
 @{
     ViewBag.Title = "Vote";
@@ -26,12 +15,15 @@
 <br />
 <h2>Vote for a candidate </h2>
 
+<!-- Viser denne siden dersom valget ikke har startet-->
 @if (DateTime.Now < @Model.ElectionInformation[0].ElectionStart)
 {
     <h3>
         The voting panel for election: @Model.ElectionInformation[0].IdElection. will open at election start: @Model.ElectionInformation[0].ElectionStart
     </h3>
 }
+
+/* Viser denne siden dersom valget har sluttet */
 else if (DateTime.Now > @Model.ElectionInformation[0].ElectionEnd)
 {
     <h3>
@@ -39,6 +31,7 @@ else if (DateTime.Now > @Model.ElectionInformation[0].ElectionEnd)
     </h3>
 }
 
+/* Viser denne siden dersom valget er aktivt */
 else
 {
     <h4>

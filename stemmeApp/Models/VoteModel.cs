@@ -1,6 +1,5 @@
-﻿
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+//Kode skrevet av Haris Brkic, sist endret 04.06.2021
 
 namespace stemmeApp.Models
 {
