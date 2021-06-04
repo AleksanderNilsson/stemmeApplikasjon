@@ -78,10 +78,10 @@ else
 
     foreach (var item in Model.Candidates)
     {
-        <div class="b5card text-center" style="width: 40rem; border-radius: 5px; margin-left: 6rem !important; margin-top: 2rem !important; margin-right: 2rem !important; margin-bottom: 2rem !important; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+        <div class="b5card text-center p-card-style">
 
 
-            <img class="card-img-top" img src="~/@item.picture" width="400" height="250" style=" object-fit: fill; border-radius: 3px;" />
+            <img class="card-img-top p-card-img-style" img src="~/@item.picture"/>
             <div class="card-body">
                 <h3><strong class="card-text">@item.firstname @item.lastname </strong> </h3>
                 <strong><p class="card-text">@item.faculty </p></strong>
