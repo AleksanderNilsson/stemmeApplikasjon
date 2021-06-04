@@ -22,6 +22,7 @@
             }
             else { //Shows if the election has been controlled
                 <h3>The election was controlled on @Model.ElectionInformation[0].Controlled and the results have been published </h3>
+                <h3>The results can be seen <a href="~/Home/Results">here</a></h3>
             }
         </div>
     </div>
@@ -42,7 +43,7 @@
             <h4>Total number of candidates: @Model.Candidates.Count</h4>
             <form method="post" action="@Url.Action("Candidates", "Inspector")">
                 <input type="text" text-center name="Inspector" hidden />
-                <input  class="btn btn-primary" name="submit" type="submit" value="Control Candidates" />
+                <input  class="btn btn-primary" name="submit" type="submit" value="Control Winner" />
             </form>
         </div>
     </div>

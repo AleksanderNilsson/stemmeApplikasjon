@@ -29,13 +29,13 @@
 @if (DateTime.Now < @Model.ElectionInformation[0].ElectionStart)
 {
     <h3>
-        The voting panel for election: @Model.ElectionInformation[0].IdElection. will open at election start: @Model.ElectionInformation[0].ElectionStart
+        The voting panel for election: @Model.ElectionInformation[0].IdElection. will open at: @Model.ElectionInformation[0].ElectionStart
     </h3>
 }
 else if (DateTime.Now > @Model.ElectionInformation[0].ElectionEnd)
 {
     <h3>
-        The voting panel for election: @Model.ElectionInformation[0].IdElection. ended at election end: @Model.ElectionInformation[0].ElectionEnd
+        The voting panel for election: @Model.ElectionInformation[0].IdElection. ended at: @Model.ElectionInformation[0].ElectionEnd
     </h3>
 }
 
