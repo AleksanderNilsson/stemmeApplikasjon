@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+// ALLE ACTION METHODS I CONTROLLER ER SKREVET AV ALEKSANER NILSSON : Sist endret 04.06.2021
 namespace stemmeApp.Controllers
 {
     [Authorize(Roles = "Inspector")]

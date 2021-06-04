@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
+// SKREVET AV ALEKSANDER NILSOON : Sist endret 04.06.2021 
 namespace stemmeApp.Models
 {
     public class Votes {

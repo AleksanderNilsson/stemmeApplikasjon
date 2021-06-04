@@ -69,7 +69,8 @@ namespace stemmeApp.Controllers
                 return RedirectToAction("Vote");
         }
 
-        
+
+        // ALLE ACTION METHODS UNDER ER SKREVET AV ALEKSANER NILSSON : Sist endret 04.06.2021
         [Authorize]
         public ActionResult Nominate()
         {

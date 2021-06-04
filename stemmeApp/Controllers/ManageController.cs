@@ -409,7 +409,7 @@ namespace stemmeApp.Controllers
             AdminSuccess
         }
 
-
+        // ALLE ACTION METHODS UNDER ER SKREVET AV ALEKSANER NILSSON : Sist endret 04.06.2021
         public ActionResult ChangeCandidateInfo()
         {
             string currentUser = User.Identity.GetUserName();

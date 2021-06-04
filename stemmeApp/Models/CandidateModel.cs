@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace stemmeApp.Models
 {
-    
+    // SKREVET AV ALEKSANDER NILSOON : Sist endret 04.06.2021 
     public class CandidateModel
     {
         [Required(ErrorMessage = "The candidate needs to have a username")]
