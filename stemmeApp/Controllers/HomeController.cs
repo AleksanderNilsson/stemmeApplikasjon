@@ -35,7 +35,7 @@ namespace stemmeApp.Controllers
             {
                 TempData["VotedOn"] = null;
             }
-            //Henter Electioninfo, kandidater og stemmer
+            //Henter Electioninfo, kandidater og stemmer med database spørring fra DbQuery
             Model.ElectionInformation = db.getElectionInfo();
             Model.Candidates = db.GetAllCandidates();
             Model.Votes = db.getVotes();
@@ -44,7 +44,7 @@ namespace stemmeApp.Controllers
 
 
         //Kode skrevet av Haris Brkic, sist endret 26.05.2021
-        //Kode for å stemme på den valgte kandidaten
+        //Kode for å stemme på den valgte kandidaten, henter database spørring fra DbQuery
         [HttpPost]
         public ActionResult Vote(string username)
         {
@@ -57,7 +57,7 @@ namespace stemmeApp.Controllers
         }
 
         //Kode skrevet av Haris Brkic, sist endret 30.05.2021
-        //Kode for å trekke stemme
+        //Kode for å trekke stemme, henter database spørring fra DbQuery
         [HttpPost]
         public ActionResult RemoveVote(string username)
         {

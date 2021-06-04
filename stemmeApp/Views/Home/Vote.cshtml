@@ -37,6 +37,7 @@ else
     <h4>
         If you don't see anyone you want to vote on, you can nominate anyone candidate <strong> @Html.ActionLink("here.", "Nominate", "Home") </strong>
     </h4>
+    /* Hvis du har stemt på en kandidat, vil en knapp for å trekke stemme dukke opp*/
     if (TempData["VotedOn"] != null)
     {
         <form method="post" action="@Url.Action("RemoveVote", "home")">
@@ -44,6 +45,7 @@ else
         </form>
     }
 
+    /* Melding som forteller at du har stemt på en kandidat*/
     <br />
     if (TempData["VotedUser"] != null)
     {
@@ -52,6 +54,8 @@ else
             <strong> @TempData["VotedUser"]</strong>
         </div>
     }
+
+    /* Viser kandidaten du har nominert på */
     <br />
     if (TempData["CandidteSuccess"] != null)
     {
@@ -60,6 +64,8 @@ else
             <strong> @TempData["CandidteSuccess"]</strong>
         </div>
     }
+
+    /* Melding som forteller at du har fjernet stemmen din */
     <br />
     if (TempData["RemoveVote"] != null)
     {
