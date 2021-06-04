@@ -49,9 +49,29 @@ namespace stemmeApp.Data
             {
                 UserExists = true;
             }
+            
             return UserExists;
         }
 
+        /// <summary>
+        /// Checks if the user that is being deleted is an admin or not.
+        /// </summary>
+        public Boolean CheckIfUserIsAdmin(string Username)
+        {
+            Boolean AdminExists;
+            string commandText = "SELECT Username FROM `Users` WHERE username = @username";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
+            String ReturnValue = _database.GetStrValue(commandText, parameters);
+            if (ReturnValue == "admin")
+            {
+                AdminExists = true;
+            }
+            else
+            {
+                AdminExists = false;
+            }
+            return AdminExists;
+        }
 
         /// <summary>
         /// Gets the role of a user
@@ -71,9 +91,9 @@ namespace stemmeApp.Data
             return role;
         }
 
-
+        //
         //CANDIDATE TABLE
-
+        //
 
         /// <summary>
         /// Inserts a new candidate into the candidate table
@@ -119,8 +139,9 @@ namespace stemmeApp.Data
             }
             return ReturnList;
         }
-
-
+        /// <summary>
+        /// Selects and prints Info about candidates
+        /// </summary>
         public List<Candidates> GetAllCandidates()
         {
             List<Candidates> ReturnList = new List<Candidates>();
@@ -295,6 +316,9 @@ namespace stemmeApp.Data
             return VotedOn;
         }
 
+        /// <summary>
+        /// Function to check the users current votedon candidate.
+        /// </summary>
         public String GetCurrentVote(string Voter)
         {
             String CurrentVotedOn = "";
@@ -310,6 +334,9 @@ namespace stemmeApp.Data
             }
             return CurrentVotedOn;
         }
+        /// <summary>
+        /// Function to select votes and insert new votedon.
+        /// </summary>
         public void VoteForUser(string votedon, string voter)
         {
             try
@@ -318,8 +345,6 @@ namespace stemmeApp.Data
                 var rows = _database.Query("SELECT * FROM Votes WHERE voter = '" + voter + "';", parameters1);
                 if (rows.Count() == 0 || rows.Count() == null)
                 {
-
-
                     string commandText = @"INSERT INTO Votes (Voter, Votedon) VALUES (@voter, @votedon)";
                     Dictionary<string, object> parameters = new Dictionary<string, object>();
                     parameters.Add("@voter", voter);
@@ -369,7 +394,9 @@ namespace stemmeApp.Data
             }
             return ReturnList;
         }
-
+        /// <summary>
+        /// Removes vote from votedon candidate
+        /// </summary>
         public void RemoveVote(string Username)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@username", Username } };
@@ -412,11 +439,13 @@ namespace stemmeApp.Data
             return ReturnList;
         }
 
-        /// <summary>
+        //
         //ADMIN PANEL
+        //
+
+        /// <summary>
+        /// Listing all users for Admin/Index.cshtml
         /// </summary>
-
-
         public List<AdminModel> AdminGetUsers()
         {
             string query = @"SELECT * FROM Users";
@@ -443,7 +472,11 @@ namespace stemmeApp.Data
             return returnQuery;
         }
 
-
+        /// <summary>
+        /// Function to get all nessecary data about a user.
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <returns></returns>
         public AdminModel AdminGetSingleUser(String Username) {
                AdminModel returnQuery = new AdminModel();
 
@@ -510,7 +543,19 @@ namespace stemmeApp.Data
             return returnQuery;
         }
 
-
+        /// <summary>
+        /// Functio to Update all nessecary data about a single selected user.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Username"></param>
+        /// <param name="Email"></param>
+        /// <param name="Firstname"></param>
+        /// <param name="Lastname"></param>
+        /// <param name="Faculty"></param>
+        /// <param name="Institute"></param>
+        /// <param name="Info"></param>
+        /// <param name="RoleId"></param>
+        /// <param name="Picture"></param>
         public void AdminEditUser(
             string Id, string Username, string Email, string Firstname, string Lastname,
             string Faculty, string Institute, string Info, string RoleId, string Picture)
@@ -554,22 +599,49 @@ namespace stemmeApp.Data
                 throw e;
             }
         }
-
+        /// <summary>
+        /// Function to Update election details
+        /// </summary>
+        /// <param name="Title"></param>
+        /// <param name="IdElection"></param>
+        /// <param name="Startelection"></param>
+        /// <param name="Endelection"></param>
         public void AdminUpdateElection(string Title, int IdElection, DateTime Startelection, DateTime Endelection)
         {
             try
             {
+                string query = "";
+                int checker = 0;
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
-                string query = @"
-                UPDATE `Election` 
-                SET Title=@Title,Startelection=@Startelection,Endelection=@Endelection
-                WHERE IdElection=1";
                 parameters.Add("@Title", Title);
                 parameters.Add("@IdElection", 1);
                 parameters.Add("@Startelection", Startelection);
                 parameters.Add("@Endelection", Endelection);
+                if (Startelection >= DateTime.Now && Endelection == DateTime.MinValue)
+                {
+                query = @"
+                UPDATE `Election` 
+                SET Title=@Title,Startelection=@Startelection
+                WHERE IdElection=1";
 
+                }
+                else if(Endelection >= Startelection)
+                {
+                query = @"
+                UPDATE `Election` 
+                SET Title=@Title,Endelection=@Endelection
+                WHERE IdElection=1";
+                }
+                else if(Startelection >= DateTime.Now && Endelection >= Startelection)
+                {
+                query = @"
+                UPDATE `Election` 
+                SET Title=@Title,Startelection=@Startelection,Endelection=@Endelection
+                WHERE IdElection=1";
+
+                }
                 _database.Execute(query, parameters);
+
             }
 
             catch (Exception e)
@@ -578,7 +650,13 @@ namespace stemmeApp.Data
             }
 
         }
-
+        /// <summary>
+        /// Function to end current Election.
+        /// </summary>
+        /// <param name="Title"></param>
+        /// <param name="IdElection"></param>
+        /// <param name="Startelection"></param>
+        /// <param name="Endelection"></param>
         public void EndElection(string Title, int IdElection, DateTime Startelection, DateTime Endelection)
         {
             try
@@ -602,6 +680,10 @@ namespace stemmeApp.Data
             }
 
         }
+        /// <summary>
+        /// Function to delete selected user
+        /// </summary>
+        /// <param name="Username"></param>
         public void AdminDeleteUser(string Username)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@UserName", Username } };
@@ -609,7 +691,7 @@ namespace stemmeApp.Data
             _database.Execute(query, parameters);
         }
 
-        
+
         //ELECTION TABLE
 
 
@@ -642,7 +724,7 @@ namespace stemmeApp.Data
 
 
         /// <summary>
-        /// Sets the date the election was coontrolled
+        /// Sets the date the election was controlled
         /// </summary>
         public void SetControlDate(int id) {
             string commandText = @"Update Election SET controlled=@date WHERE idelection=@id";
@@ -654,7 +736,10 @@ namespace stemmeApp.Data
             
         }
 
-
+        /// <summary>
+        /// Returns data for election
+        /// </summary>
+        /// <returns></returns>
         public ElectionDateInformation ElectionPanel()
         {
             ElectionDateInformation returnQuery = new ElectionDateInformation();

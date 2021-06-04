@@ -5,6 +5,13 @@ using System.Linq;
 using System.Web.Mvc;
 using static stemmeApp.Controllers.ManageController;
 
+/*
+ * 
+ * SKREVET AV ELIAS W. H-W : Sist endret 04.06.2021
+ * 
+ */
+
+
 namespace stemmeApp.Controllers
 {
     [Authorize(Roles = "Admin")]
@@ -63,6 +70,12 @@ namespace stemmeApp.Controllers
                 TempData["ErrorCandidate"] = "Cannot delete a user that is already a registered Candidate. Please remove user from candidate role first.";
                 return RedirectToAction("Index", new { Message = ManageMessageId.Error });
             }
+            else if (db.CheckIfUserIsAdmin(Model.Username) == true)
+            {
+                ViewBag.StatusMessage = ("Username", "Cannot delete a an admin!");
+                TempData["ErrorCandidate"] = "Cannot delete an admin!";
+                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+            }
             else 
             {
                 db.AdminDeleteUser(Model.Username);
@@ -94,13 +107,33 @@ namespace stemmeApp.Controllers
             try
             {
                 DbQuery db = new DbQuery();
-                db.AdminUpdateElection(Model.Title,
-                                       Model.Idelection,
-                                       Model.Startelection,
-                                       Model.Endelection);
-                TempData["ElectionPanel"] = "Successfully changed election details";
+                if (Model.Startelection > Model.Endelection)
+                {
+                    TempData["ElectionPanelFailed"] = "Failed to update, start date cannot be higher than end date.";
+                }
+                else if (Model.Endelection <= DateTime.Now)
+                {
+                    TempData["ElectionPanelFailed"] = "Failed to update dates, check again..";
+
+                }
+                else if(Model.Title == null && Model.Startelection < DateTime.Now && Model.Endelection < DateTime.Now)
+                {
+                    TempData["ElectionPanelFailed"] = "Failed to update..";
+
+                }
+                else
+                {
+                    db.AdminUpdateElection(
+                        Model.Title,
+                        Model.Idelection,
+                        Model.Startelection,
+                        Model.Endelection);
+                    TempData["ElectionPanel"] = "Successfully changed election details";
+                }
+                
                 return RedirectToAction("ElectionPanel");
             }
+
             catch (Exception e)
             {
                 throw e;

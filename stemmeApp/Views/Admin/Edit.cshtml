@@ -6,16 +6,22 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<!--
+ /*
+ * SKREVET AV ELIAS W. H-W : Sist endret 04.06.2021
+ *
+ */
+-->
 <br />
-   <h2>Admin Panel</h2>
-    <div class="form-group">
-        <div class="col-md-10">
-            <a href="Index" class="btn btn-primary" style="margin-top:15px"> < Go back to list</button></a>
-         </div>
+<h2>Admin Panel</h2>
+<div class="form-group">
+    <div class="col-md-10">
+        <a href="Index" class="btn btn-primary" style="margin-top:15px"> < Go back to list</button></a>
     </div>
-        @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
+</div>
+@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <hr />
@@ -122,18 +128,18 @@
             </div>
         </div>
 
-</div>
-        }
-        @{ DbQuery db2 = new DbQuery();}
-        @if (db2.CheckIfUserIsCandidate(Model.Username))
-        {
-            <br />
-            <form method="post" action="@Url.Action("AdminRemoveAsCandidate", "Admin")">
-                <input type="text" name="username" value="@Model.Username" hidden />
-                <input class="btn btn-danger" name="submit" type="submit" value="Remove as Candidate" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
-            </form>
-        }
+    </div>
+}
+@{ DbQuery db2 = new DbQuery();}
+@if (db2.CheckIfUserIsCandidate(Model.Username))
+{
+    <br />
+    <form method="post" action="@Url.Action("AdminRemoveAsCandidate", "Admin")">
+        <input type="text" name="username" value="@Model.Username" hidden />
+        <input class="btn btn-danger" name="submit" type="submit" value="Remove as Candidate" onclick="return confirm('Are you sure you want to remove user as candidate?')" />
+    </form>
+}
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -4,6 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace stemmeApp.Models
 {
+/*
+ * 
+ * SKREVET AV ELIAS W. H-W : Sist endret 04.06.2021
+ * 
+ */
     public class AdminModel
     {
         /// <summary>
