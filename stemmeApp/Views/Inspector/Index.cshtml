@@ -3,12 +3,14 @@
 @{
     ViewBag.Title = "Index";
 }
+<!-- SKREVET AV ALEKSANDER NILSSON : Sist endret 04.06.2021 -->
 <br />
 <h2>Election inspector</h2>
 <div class="b5container">
     <div class="b5row">
         <div class="b5col">
-            @if (DateTime.Now < @Model.ElectionInformation[0].ElectionEnd)  { //Show this if the election has not ended yet
+            @if (DateTime.Now < @Model.ElectionInformation[0].ElectionEnd)
+            { //Show this if the election has not ended yet
                 <h3>
                     <b>Election:</b> #@Model.ElectionInformation[0].IdElection <br />
                     <b>Starts at:</b> @Model.ElectionInformation[0].ElectionStart <br />
@@ -16,11 +18,13 @@
                     The election can be controlled after the election has ended.
                 </h3>
             }
-            else if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0){ //Show this if the election ended but has not been controlled
+            else if (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0)
+            { //Show this if the election ended but has not been controlled
 
                 <h3>The election ended @Model.ElectionInformation[0].ElectionEnd and now needs to be controlled </h3>
             }
-            else { //Shows if the election has been controlled
+            else
+            { //Shows if the election has been controlled
                 <h3>The election was controlled on @Model.ElectionInformation[0].Controlled and the results have been published </h3>
                 <h3>The results can be seen <a href="~/Home/Results">here</a></h3>
             }
@@ -35,7 +39,7 @@
             <h4>Total number of votes: @Model.Votes.Count</h4>
             <form method="post" action="@Url.Action("Votes", "Inspector")">
                 <input type="text" text-center name="Inspector" hidden />
-                <input  class="btn btn-primary" name="submit" type="submit" value="Control Votes"/>
+                <input class="btn btn-primary" name="submit" type="submit" value="Control Votes" />
             </form>
         </div>
         <div class="b5col text-right">
@@ -43,20 +47,21 @@
             <h4>Total number of candidates: @Model.Candidates.Count</h4>
             <form method="post" action="@Url.Action("Candidates", "Inspector")">
                 <input type="text" text-center name="Inspector" hidden />
-                <input  class="btn btn-primary" name="submit" type="submit" value="Control Winner" />
+                <input class="btn btn-primary" name="submit" type="submit" value="Control Winner" />
             </form>
         </div>
     </div>
 </div>
 
-@if ((DateTime.Now > @Model.ElectionInformation[0].ElectionEnd) && (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0)) { //Show this if the election ended but has not been controlled
+@if ((DateTime.Now > @Model.ElectionInformation[0].ElectionEnd) && (DateTime.Compare(@Model.ElectionInformation[0].Controlled, DateTime.MinValue) == 0))
+{ //Show this if the election ended but has not been controlled
     <div class="b5container">
         <div class="b5row">
             <div class="b5col  text-center">
                 <h3>Approve the election</h3>
                 <h4>After the result has been reviewed, approve the election here</h4>
                 <form method="post">
-                    @Html.HiddenFor(model => model.ElectionInformation[0].IdElection, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.HiddenFor(model => model.ElectionInformation[0].IdElection, new { htmlAttributes = new { @class = "form-control" } })
                     <input type="submit" value="Approve election" class="btn btn-success" />
                 </form>
                 <h5> Once approved the results will be published</h5>

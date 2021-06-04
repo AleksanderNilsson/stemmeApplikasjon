@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Votes";
 }
+<!-- SKREVET AV ALEKSANDER NILSSON : Sist endret 04.06.2021 -->
 
 <a href="Index" class="btn btn-primary" style="margin-top:30px">Go back</button></a>
 <h2>Votes</h2>
@@ -17,10 +18,10 @@
     <tbody>
         @foreach (var item in Model.Votes)
         {
-        <tr>
-            <td>@item.Voter</td>
-            <td>@item.VotedOn</td>
-        </tr>
+            <tr>
+                <td>@item.Voter</td>
+                <td>@item.VotedOn</td>
+            </tr>
         }
     </tbody>
 </table>
